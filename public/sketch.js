@@ -1,3 +1,5 @@
+let socket
+
 //var path = "/home/pi/beerBot/";
 var path = "/home/nicolas/GitHub/beerBot/";
 var test = 0;
@@ -65,6 +67,8 @@ function preload() {
   }
 
 function setup() {
+  socket = socket.io.connect('http://localhost.');
+
   console.log("preloading DONE");
   createCanvas(1200, 900);
   console.log(test);
@@ -137,13 +141,12 @@ function pickString(output) {
 }
 
 function createFile() {
-  // saveStrings("list", 'nouns.txt');
   // creates a file called 'newFile.txt'
-  // let writer = createWriter('newFile.txt');
+  let writer = createWriter('test.txt');
   // write 'Hello world!'' to the file
-  // writer.write(['Hello world!']);
+  writer.write(['Hello world!']);
   // close the PrintWriter and save the file
-  // writer.close();
+  writer.close();
 }
 
 // Scheme:
