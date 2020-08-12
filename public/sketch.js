@@ -1,4 +1,4 @@
-let socket
+let socket;
 
 //var path = "/home/pi/beerBot/";
 var path = "/home/nicolas/GitHub/beerBot/";
@@ -63,23 +63,25 @@ var ferm1;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
-    console.log(test);
+    //console.log(test);
   }
 
 function setup() {
-  socket = socket.io.connect('http://localhost.');
+  socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
+	// if we recieve a message with a label 'status', execute the function readStatus()
+	socket.on('status', readStatus);
 
   console.log("preloading DONE");
   createCanvas(1200, 900);
-  console.log(test);
+  // console.log(test);
 
   // Ferm Objects
   ferm1 = new Fermentador(f1_x, 01);
 
   //Button creation
-  button = createButton('Click me!');
+  button = createButton('Send Data to Server');
   button.position(1005, 650);
-  button.mousePressed(createFile);
+  button.mousePressed(sendData);
 
 // Create Layout GUI
 gui = createGui();
@@ -103,7 +105,7 @@ noLoop();
 
 function draw() {
   background(bImg);
-  console.log(test);
+  // console.log(test);
 
   var temp1 = temps[0];
   var temp2 = temps[1];
@@ -120,7 +122,7 @@ function draw() {
 function keyPressed() {
   switch(key) {
     // type [F1] to hide / show the GUI
-    case 'p':
+    case '+':
       visible = !visible;
       if(visible) gui.show(); else gui.hide();
       break;
@@ -129,24 +131,37 @@ function keyPressed() {
 
 function mousePressed() {
   console.log(mouseX, mouseY);
-  loadStrings('test.txt', pickString);
+  // loadStrings('test.txt', pickString);
   // loadtxt('buttoStatus.txt');
 }
 
-function pickString(output) {
+/*function pickString(output) {
   test = output;
   console.log(test);// background(200);
   text(test, mouseX, mouseY, 80, 80);
   test = 0;
 }
+*/
 
-function createFile() {
-  // creates a file called 'newFile.txt'
-  let writer = createWriter('test.txt');
-  // write 'Hello world!'' to the file
-  writer.write(['Hello world!']);
-  // close the PrintWriter and save the file
-  writer.close();
+function sendData() {
+  let d = new Date();
+  //console.log(d);
+// Creating the data object
+	let data = {
+	date : d,
+	sp1: setpoint1,
+	sp2: setpoint2,
+	sp3: setpoint3,
+	label1: label1,
+	label2: label2,
+	label3: label3
+  }
+	// sending data with a name or label "clickDate'
+  socket.emit('clickDate', data);
+}
+
+function readStatus(data){
+console.log(data);
 }
 
 // Scheme:
