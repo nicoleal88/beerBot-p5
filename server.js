@@ -1,7 +1,10 @@
 let express = require('express');
 let socket = require('socket.io');
+let Datastore = require('nedb');
 
 let app = express();
+let database = new Datastore('database.db');
+database.loadDatabase();
 
 let server = app.listen(3001);
 let io = socket(server);
@@ -20,6 +23,7 @@ function newConnection(socket){
 	function message(data){
 		// Adding the socket.id to the message sended by the client
 		data['userID'] = socket.id;
+		database.insert(data);
 		console.log(data);
 		// Here we should store this data into a db
 	}
