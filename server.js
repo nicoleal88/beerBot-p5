@@ -6,12 +6,14 @@ let app = express();
 let database = new Datastore('database.db');
 database.loadDatabase();
 
-let server = app.listen(3001);
+let server = app.listen(3001, () => {
+	console.log("Server running, listening at 3001...");
+});
+
 let io = socket(server);
 
 app.use(express.static('public'));
 
-console.log("Server running...");
 
 // If there is a new connection, execute newConnection function
 io.sockets.on('connection', newConnection);
