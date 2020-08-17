@@ -38,8 +38,9 @@ function newConnection(socket){
 }
 
 app.post('/data', (req, res) => {
-    console.log(req);
+    let data = req.body;
+    console.log(data);
+    database.insert(data);
     res.json({status: "OK",
-                    data: req.body})
-
+                    data: data})
 });
