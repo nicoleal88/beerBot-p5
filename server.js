@@ -10,6 +10,7 @@ let server = app.listen(3001);
 let io = socket(server);
 
 app.use(express.static('public'));
+app.use(express.json({limit: '100kb'}));
 
 console.log("Server running...");
 
@@ -33,3 +34,10 @@ function newConnection(socket){
 	socket.emit('status',d);
 	}
 }
+
+app.post('/data', (req, res) => {
+    console.log(req);
+    res.json({status: "OK",
+                    data: req.body})
+
+});
