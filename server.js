@@ -6,13 +6,15 @@ let app = express();
 let database = new Datastore('database.db');
 database.loadDatabase();
 
-let server = app.listen(3001);
+let server = app.listen(3001, () => {
+	console.log("Server running, listening at 3001...");
+});
+
 let io = socket(server);
 
 app.use(express.static('public'));
 app.use(express.json({limit: '100kb'}));
 
-console.log("Server running...");
 
 // If there is a new connection, execute newConnection function
 io.sockets.on('connection', newConnection);
@@ -36,8 +38,9 @@ function newConnection(socket){
 }
 
 app.post('/data', (req, res) => {
-    console.log(req);
+    let data = req.body;
+    console.log(data);
+    database.insert(data);
     res.json({status: "OK",
-                    data: req.body})
-
+                    data: data})
 });
