@@ -147,9 +147,9 @@ function mousePressed() {
 }
 */
 
-function sendData() {
+async function sendData() {
   let d = new Date();
-  //console.log(d);
+
 // Creating the data object
 	let data = {
 	date : d,
@@ -160,8 +160,16 @@ function sendData() {
 	label2: label2,
 	label3: label3
   }
-	// sending data with a name or label "clickDate'
-  socket.emit('clickDate', data);
+	const options = {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  }
+  const response = await fetch('/settings', options);
+  const json = await response.json();
+  console.log(json);
 }
 
 function readStatus(data){

@@ -5,8 +5,8 @@ let app = express();
 let database = new Datastore('database.db');
 database.loadDatabase();
 
-let server = app.listen(3001, () => {
-	console.log("Server running, listening at 3001...");
+let server = app.listen(3000, () => {
+	console.log("Server running, listening at 3000...");
 });
 
 app.use(express.static('public'));
@@ -25,6 +25,18 @@ app.post('/data', (req, res) => {
 		data: data
 	})
 });
+
+// We recieve settings from Web via HTTP post request
+app.post('/settings', (req, res) => {
+	let data = req.body;
+	console.log(data);
+	database.insert(data);
+	res.json({
+		status: "OK",
+		data: data
+	})
+});
+
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/tenmin', (req, res) => {
