@@ -1,5 +1,4 @@
-let socket;
-
+// let socket;
 //var path = "/home/pi/beerBot/";
 var path = "/home/nicolas/GitHub/beerBot/";
 var test = 0;
@@ -67,9 +66,9 @@ function preload() {
   }
 
 function setup() {
-  socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
+  // socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
 	// if we recieve a message with a label 'status', execute the function readStatus()
-	socket.on('status', readStatus);
+	// socket.on('status', readStatus);
 
   console.log("preloading DONE");
   createCanvas(1200, 900);
@@ -82,6 +81,11 @@ function setup() {
   button = createButton('Send Data to Server');
   button.position(1005, 650);
   button.mousePressed(sendData);
+
+  tenMinButton = createButton("Plot 10 min");
+  tenMinButton.position(f1_x, 750);
+  tenMinButton.mousePressed(tenmin)
+
 
 // Create Layout GUI
 gui = createGui();
@@ -162,6 +166,10 @@ function sendData() {
 
 function readStatus(data){
 console.log(data);
+}
+
+function tenmin() {
+  window.location.href = "tenmin.html";
 }
 
 // Scheme:

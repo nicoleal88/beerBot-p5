@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Line Chart - 10 minutes</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+	<style type="text/css">
+    #canvas-holder {
+        background-color: #FFFFFF;
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+    }
+</style>
+</head>
+
+<body>
+	<div id="canvas-holder">
+    <canvas id="myChart"></canvas>
+</div>
+	<br>
+	<br>
+	<script>
+
+    // async function getData(){
+    //     const response = await fetch('/tenmin');
+    //     const data = await response.json();
+    //     console.log(data);
+    // }
+
+    // getData();
+        
+        window.onload=function(){
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [1,2,3,4,5,6,7,8,9,10],
+                datasets: [
+                    {
+                        label: "Temperaturas - Últimos 10 minutos",
+                        data: [1,2,3,2,1,2,3,4,5,4]
+                    }
+                ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false
+            }
+        });
+    }
+			</script>
+</body>
+</html>
