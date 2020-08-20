@@ -42,15 +42,48 @@ app.post('/settings', (req, res) => {
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/tenmin', (req, res) => {
-	res.json({
-		1: 123,
-		2: 143,
-		3: 433,
-		4: 343,
-		5: 223,
+	database.find({
+		$and: [{
+			"type": "data"
+		}, {
+			"timestamp": { $gt: 5 }
+		}]
+	}, function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			console.log(docs)
+			res.json(docs);
+		}
 	});
+	// res.json({
+	// 	1: 123,
+	// 	2: 143,
+	// 	3: 433,
+	// 	4: 343,
+	// 	5: 223,
+	// });
 })
 
+// getDataDB();
+
+function getDataDB() {
+	database.find({
+		$and: [{
+			"type": "data"
+		}, {
+			"timestamp": { $gt: 5 }
+		}]
+	}, function (err, docs) {
+		if (err) {
+			console.error(err);
+		} else {
+			console.log(docs)
+			return docs;
+		}
+	});
+}
 // ########################################################## //
 
 // let socket = require('socket.io');

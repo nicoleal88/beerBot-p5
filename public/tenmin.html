@@ -4,6 +4,7 @@
 <head>
     <title>Line Chart - 10 minutes</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <style type="text/css">
         #canvas-holder {
             background-color: #FFFFFF;
@@ -23,28 +24,43 @@
     <br>
     <br>
     <script>
+        var timeFormat = 'MM/DD/YYYY HH:mm';
+
         async function getData() {
             const response = await fetch('/tenmin');
             const data = await response.json();
+            // console.log(data);
             return data;
         }
 
         async function plotIt() {
             const data = await getData();
+            let t1 = []
+            let t2 = []
+            let t3 = []
+            let timestamp = [];
             console.log(data);
+            for (item of data) {
+                t1.push(item.t1);
+                t2.push(item.t2);
+                t3.push(item.t3);
+                timestamp.push(item.timestamp);
+            }
+            console.log(t1);
+            console.log(timestamp);
             var ctx = document.getElementById("myChart").getContext("2d");
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: Object.keys(data),
+                    labels: timestamp,
                     datasets: [{
                             label: "Fermentador 1",
-                            data: Object.values(data),
+                            data: t1,
                             borderColor: 'rgb(255, 99, 132)'
                         },
                         {
                             label: "Fermentador 2",
-                            data: [100, 200, 300, 200, 300],
+                            data: t2,
                             borderColor: 'rgb(255, 255, 132)'
                         }
                     ]
