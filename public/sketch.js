@@ -172,10 +172,6 @@ async function sendData() {
   console.log(json);
 }
 
-function readStatus(data){
-console.log(data);
-}
-
 function tenmin() {
   window.location.href = "tenmin.html";
 }
@@ -208,3 +204,6 @@ function tenmin() {
 // console.log(lista);
 // }
 
+// function readStatus(data){
+// console.log(data);
+// }

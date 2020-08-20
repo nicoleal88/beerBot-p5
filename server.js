@@ -19,6 +19,7 @@ app.use(express.json({
 app.post('/data', (req, res) => {
 	let data = req.body;
 	console.log(data);
+	data.type = "data"
 	database.insert(data);
 	res.json({
 		status: "OK",
@@ -30,6 +31,7 @@ app.post('/data', (req, res) => {
 app.post('/settings', (req, res) => {
 	let data = req.body;
 	console.log(data);
+	data.type = "settings"
 	database.insert(data);
 	res.json({
 		status: "OK",
@@ -41,7 +43,11 @@ app.post('/settings', (req, res) => {
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/tenmin', (req, res) => {
 	res.json({
-		test: 123
+		1: 123,
+		2: 143,
+		3: 433,
+		4: 343,
+		5: 223,
 	});
 })
 

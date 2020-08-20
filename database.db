@@ -9,11 +9,12 @@
 {"date":"2020-08-12T18:53:44.085Z","sp1":20,"sp2":5,"sp3":11,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"bE943ITKR0zVQvhRAAAA","_id":"WdfXSsKSiZ5iZdpe"}
 {"key1":7655,"key2":"value2","timestamp":1597679610.730225,"_id":"bi6puWXLtUDcAJX0"}
 {"date":"2020-08-17T15:49:09.827Z","sp1":7,"sp2":13,"sp3":7,"label1":"asd","label2":"sdf","label3":"zxc","userID":"wF4NRBT6ER1WFM11AAAA","_id":"bn8Z3iqHrGMFXTBM"}
+{"date":"2020-08-19T02:07:19.281Z","sp1":26,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","_id":"df2PU6Ddrp4mMya3"}
 {"date":"2020-08-12T18:53:32.734Z","sp1":20,"sp2":20,"sp3":11,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"bE943ITKR0zVQvhRAAAA","_id":"hM2veuHMhgV8zCGq"}
 {"date":"2020-08-12T19:48:54.169Z","sp1":6,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"VY0JzSWhyJbyLJjPAAAB","_id":"iQLh8NQWpMU1FOyC"}
 {"date":"2020-08-17T15:47:59.564Z","sp1":22,"sp2":25,"sp3":26,"label1":"asd","label2":"sdf","label3":"zxc","userID":"wF4NRBT6ER1WFM11AAAA","_id":"iav1pIeZyXp3vyeC"}
-{"key1":7655,"key2":"value2","timestamp":1597679530.812214,"_id":"nIM6f6mdJC8toBbN"}
-{"date":"2020-08-12T16:01:47.657Z","sp1":6,"sp2":24,"sp3":7,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"GH29FzQGeZTmfkVVAAAA","_id":"r2h4VFxPfo10oPpI"}
 {"date":"2020-08-19T02:07:05.018Z","sp1":20,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","_id":"izGmblBrHN14vMDW"}
-{"date":"2020-08-19T02:07:19.281Z","sp1":26,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","_id":"df2PU6Ddrp4mMya3"}
+{"key1":7655,"key2":"value2","timestamp":1597679530.812214,"_id":"nIM6f6mdJC8toBbN"}
 {"date":"2020-08-19T02:07:33.784Z","sp1":26,"sp2":2,"sp3":30,"label1":"asd","label2":"sd","label3":"dfg","_id":"oUGSX7w6qERjXmrj"}
+{"date":"2020-08-12T16:01:47.657Z","sp1":6,"sp2":24,"sp3":7,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"GH29FzQGeZTmfkVVAAAA","_id":"r2h4VFxPfo10oPpI"}
+{"date":"2020-08-20T19:15:46.810Z","sp1":30,"sp2":30,"sp3":30,"label1":"q","label2":"w","label3":"e","type":"settings","_id":"yudddHeM9je6PVCi"}
