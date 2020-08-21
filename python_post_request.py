@@ -9,7 +9,7 @@ endpoint = "http://localhost:3000/data"
 now = datetime.now()
 timestamp = int(datetime.timestamp(now)*1000)
 
-payload = {'timestamp' : timestamp, 't1': 26.2, 't2': 18.4, 't3': 19.4}
+payload = {'timestamp' : timestamp, 't1': 30.0, 't2': 20.0, 't3': 10.0}
 
 # sending post request and saving response as response object 
 r = requests.post(url = endpoint, json = payload) 

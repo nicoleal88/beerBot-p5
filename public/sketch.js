@@ -173,7 +173,7 @@ async function sendData() {
 }
 
 function tenmin() {
-  window.location.href = "tenmin.html";
+  window.location.href = "JSFiddle.html";
 }
 
 // Scheme:
