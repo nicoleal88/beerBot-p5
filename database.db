@@ -1,25 +1,43 @@
-{"key1":123,"key2":"value2","timestamp":1597679220.654121,"_id":"4MaVw4vxbbddAr4h"}
-{"date":"2020-08-12T16:02:50.794Z","sp1":15,"sp2":9,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"vhrzCk5FsHsGk81-AAAA","_id":"6YfAAK6qWMBVra2g"}
-{"t1":28.2,"t2":27.4,"t3":24.4,"timestamp":1597954786.854682,"type":"data","_id":"CtPPydZYp0Vq1Y1r"}
-{"key1":123,"key2":"value2","timestamp":1597679233.303238,"_id":"CwZVJDy03tQTHA4u"}
-{"date":"2020-08-12T19:30:37.886Z","sp1":20,"sp2":30,"sp3":25,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"bE943ITKR0zVQvhRAAAA","_id":"FKyqzvyhLnpceBVK"}
-{"date":"2020-08-17T15:53:22.100Z","sp1":26,"sp2":30,"sp3":30,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"Xzje-bvttTHjD_C3AAAB","_id":"HbBO4dXQhXJKqm3c"}
-{"date":"2020-08-12T19:30:29.755Z","sp1":20,"sp2":5,"sp3":25,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"bE943ITKR0zVQvhRAAAA","_id":"IiPaaYvP5OCDgr1h"}
-{"date":"2020-08-17T15:51:59.387Z","sp1":17,"sp2":20,"sp3":24,"label1":"asd","label2":"sdf","label3":"zxc","userID":"Xs0Olhq5Uc8mP7RNAAAA","_id":"K0KcFYoGnL2Xlbh3"}
-{"key1":7655,"key2":"value2","timestamp":1597679410.785705,"_id":"LRtFf1UY6HR6oAJ4"}
-{"t1":24.2,"t2":22.4,"t3":24.4,"timestamp":1597954804.051236,"type":"data","_id":"MVlND3k1AoJygohe"}
-{"t1":29.2,"t2":25.4,"t3":26.4,"timestamp":1597954821.0268,"type":"data","_id":"TCCKF1FAPy1h8KQK"}
-{"date":"2020-08-12T18:53:44.085Z","sp1":20,"sp2":5,"sp3":11,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"bE943ITKR0zVQvhRAAAA","_id":"WdfXSsKSiZ5iZdpe"}
-{"key1":7655,"key2":"value2","timestamp":1597679610.730225,"_id":"bi6puWXLtUDcAJX0"}
-{"date":"2020-08-17T15:49:09.827Z","sp1":7,"sp2":13,"sp3":7,"label1":"asd","label2":"sdf","label3":"zxc","userID":"wF4NRBT6ER1WFM11AAAA","_id":"bn8Z3iqHrGMFXTBM"}
-{"date":"2020-08-19T02:07:19.281Z","sp1":26,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","_id":"df2PU6Ddrp4mMya3"}
-{"date":"2020-08-12T18:53:32.734Z","sp1":20,"sp2":20,"sp3":11,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"bE943ITKR0zVQvhRAAAA","_id":"hM2veuHMhgV8zCGq"}
-{"date":"2020-08-12T19:48:54.169Z","sp1":6,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"VY0JzSWhyJbyLJjPAAAB","_id":"iQLh8NQWpMU1FOyC"}
-{"date":"2020-08-17T15:47:59.564Z","sp1":22,"sp2":25,"sp3":26,"label1":"asd","label2":"sdf","label3":"zxc","userID":"wF4NRBT6ER1WFM11AAAA","_id":"iav1pIeZyXp3vyeC"}
-{"date":"2020-08-19T02:07:05.018Z","sp1":20,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","_id":"izGmblBrHN14vMDW"}
-{"key1":7655,"key2":"value2","timestamp":1597679530.812214,"_id":"nIM6f6mdJC8toBbN"}
-{"date":"2020-08-19T02:07:33.784Z","sp1":26,"sp2":2,"sp3":30,"label1":"asd","label2":"sd","label3":"dfg","_id":"oUGSX7w6qERjXmrj"}
-{"date":"2020-08-12T16:01:47.657Z","sp1":6,"sp2":24,"sp3":7,"label1":"label 1","label2":"label 2","label3":"label 3","userID":"GH29FzQGeZTmfkVVAAAA","_id":"r2h4VFxPfo10oPpI"}
-{"t1":28.2,"t2":27.4,"t3":25.4,"timestamp":1597954837.713693,"type":"data","_id":"tLjvdRtdJrJFovUR"}
-{"date":"2020-08-10T19:15:46.810Z","sp1":30,"sp2":30,"sp3":30,"label1":"q","label2":"w","label3":"e","type":"settings","_id":"yudddHeM9je6PVCi"}
-{"date":"2020-08-20T19:15:46.810Z","sp1":12,"sp2":23,"sp3":24,"label1":"qert","label2":"wwer","label3":"eqwe","type":"settings","_id":"yudddHeM9je6sVCi"}
+{"timestamp":1597970194632,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"004L7OQHYu7oSsDr"}
+{"timestamp":1597967368805,"sp1":21,"sp2":22,"sp3":23,"label1":"label 1","label2":"label 2","label3":"label 3","type":"settings","_id":"3upbDKFka3pQY03d"}
+{"timestamp":1597969481650,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"6uIUFqg2H3IWse9m"}
+{"timestamp":1597967332156,"t1":32.2,"t2":19.4,"t3":17.4,"type":"data","_id":"7OdGzW6EKPrsOura"}
+{"timestamp":1597969483076,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"8ChFiRkFopCf2LJJ"}
+{"timestamp":1597968283971,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"92R2vzoTLeW2J4n0"}
+{"timestamp":1597968307600,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"AGcrhwtn5HQ7zpkq"}
+{"timestamp":1597967314322,"t1":28.2,"t2":22.4,"t3":21.4,"type":"data","_id":"ATepL2iZX0ZPRJxR"}
+{"timestamp":1597969579583,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"EGY0MfqFYKvOZcqU"}
+{"timestamp":1597971706382,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"GT1vIsBfjBJzSbQN"}
+{"timestamp":1597967402141,"sp1":6,"sp2":3,"sp3":2,"label1":"aas","label2":"sdff","label3":"asdss","type":"settings","_id":"MB5EyewHD95lGIBS"}
+{"timestamp":1597967278300,"t1":28.2,"t2":27.4,"t3":25.4,"type":"data","_id":"NVXneSRk6flGE32N"}
+{"timestamp":1597971705514,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"NXT0z22bDsQmR2G2"}
+{"timestamp":1597968294295,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"QAdhrs1GTFsQFySf"}
+{"timestamp":1597971818066,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"QgInu8fyp6kvobac"}
+{"timestamp":1597968291673,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"TQ8qttpme9AqvVOV"}
+{"timestamp":1597967353360,"sp1":20,"sp2":20,"sp3":20,"label1":"label 1","label2":"label 2","label3":"label 3","type":"settings","_id":"Whx4cacesbBy6rVH"}
+{"timestamp":1597970195279,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"f03mu2ILaoklWdzC"}
+{"timestamp":1597971707207,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"kXEyvf3WaWUK7kga"}
+{"timestamp":1597967753429,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"lktzEguAeSW3Lj95"}
+{"timestamp":1597969482513,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"q0LOtyK8BudZwvbI"}
+{"timestamp":1597967299772,"t1":23.2,"t2":24.4,"t3":23.4,"type":"data","_id":"sVx1bm940ZCxoUO0"}
+{"timestamp":1597970193866,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"wMwzB1nAyy3rBo9D"}
+{"timestamp":1597971704178,"t1":21.2,"t2":28.4,"t3":29.4,"type":"data","_id":"y9BcDW5W0wFJo6pq"}
+{"timestamp":1597967374957,"sp1":23,"sp2":25,"sp3":28,"label1":"label 1","label2":"label 2","label3":"label 3","type":"settings","_id":"zBxDn39GhVPT5zcV"}
+{"timestamp":1597972355033,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"Sl1DooJSodErAW0R"}
+{"timestamp":1597972355540,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"2CghIkOnApnQKnlV"}
+{"timestamp":1597972356115,"t1":31.2,"t2":18.4,"t3":19.4,"type":"data","_id":"dc3R6xfDTWfpiwXK"}
+{"timestamp":1597972383578,"t1":21.2,"t2":18.4,"t3":19.4,"type":"data","_id":"3ihjbUqEHIFQgL15"}
+{"timestamp":1597972396307,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"nkbfmwRzXk08cZZI"}
+{"timestamp":1597972431201,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"CUTePygSHtgoRTI7"}
+{"timestamp":1597972833323,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"43AwUJBhZxRgCu5R"}
+{"timestamp":1597973252480,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"A5ssmnzRT04aOUTd"}
+{"timestamp":1597973254299,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"spNdfAiXua6VOezW"}
+{"timestamp":1597973255687,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"vBawvvDwDRxT2R5G"}
+{"timestamp":1597973256923,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"vrCUNoZOsSysh4n6"}
+{"timestamp":1597973258146,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"ypHDARWWhIFH0v9Q"}
+{"timestamp":1597973538807,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"lbDJafYocaNMXvar"}
+{"timestamp":1597973539458,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"Ezir7hQcfMWWF5PD"}
+{"timestamp":1597973540006,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"Js5yIPGbZuG1MM3I"}
+{"timestamp":1597973540419,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"OFZIQ8hsccROmqmJ"}
+{"timestamp":1597973540834,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"Kq9Le3PrEOohuf6L"}
+{"timestamp":1597973541154,"t1":26.2,"t2":18.4,"t3":19.4,"type":"data","_id":"EdiWHMVTtyHALYhz"}

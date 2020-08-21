@@ -148,11 +148,11 @@ function mousePressed() {
 */
 
 async function sendData() {
-  let d = new Date();
+  let d = Date.now();
 
 // Creating the data object
 	let data = {
-	date : d,
+	timestamp : d,
 	sp1: setpoint1,
 	sp2: setpoint2,
 	sp3: setpoint3,
