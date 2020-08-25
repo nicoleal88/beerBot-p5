@@ -59,6 +59,8 @@ var gui;
 
 // Ferm objects
 var ferm1;
+var ferm2;
+var ferm3;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
@@ -77,6 +79,8 @@ function setup() {
 
   // Ferm Objects
   ferm1 = new Fermentador(f1_x, 01);
+  ferm2 = new Fermentador(f2_x, 02);
+  ferm3 = new Fermentador(f3_x, 03);
 
   //Button creation
   button = createButton('Send Data to Server');
@@ -114,13 +118,21 @@ function draw() {
 
   // temp1 = temps[0];
 
-  temp2 = temps[1];
-  temp3 = temps[2];
+  // temp2 = temps[1];
+  // temp3 = temps[2];
   tempAmb = temps[3];
   
   ferm1.showLabel(label1);
   ferm1.showTemp(nf(temp1, 0, 2));
   ferm1.showSP(setpoint1);
+  
+  ferm2.showLabel(label2);
+  ferm2.showTemp(nf(temp2, 0, 2));
+  ferm2.showSP(setpoint2);
+  
+  ferm3.showLabel(label3);
+  ferm3.showTemp(nf(temp3, 0, 2));
+  ferm3.showSP(setpoint3);
   // ellipse(mouseX, mouseY, 80, 80);
 }
 
@@ -186,9 +198,13 @@ async function setMyData(){
   if(data){
     console.log(data);
     temp1 = data.t1;
+    temp2 = data.t2;
+    temp3 = data.t3;
   }
   else{
     temp1 = -999;
+    temp2 = -999;
+    temp3 = -999;
   }
 }
 
