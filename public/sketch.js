@@ -63,6 +63,8 @@ var ferm1;
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
     const settings = getData();
+    console.log(settings);
+    if(settings){
     setpoint1 = settings.sp1;
     setpoint2 = settings.sp2;
     setpoint3 = settings.sp3;
@@ -70,7 +72,7 @@ function preload() {
     label1 = settings.label1;
     label2 = settings.label2;
     label3 = settings.label3;
-    //console.log(test);
+    }
   }
 
 function setup() {
