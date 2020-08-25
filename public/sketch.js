@@ -17,16 +17,16 @@ var label_y = 505; // linea en y de las etiquetas
 var temp_y = 590; //Linea en y de las temperaturas
 var sp_y = 680; // Línea en y de los setpoints
 
-let setpoint1;
-let setpoint2;
-let setpoint3;
+var setpoint1;
+var setpoint2;
+var setpoint3;
 
-let spMin = 1;
-let spMax = 30;
+var spMin = 1;
+var spMax = 30;
 
-let label1;
-let label2;
-let label3;
+var label1;
+var label2;
+var label3;
 
 // Fonts
 var labelsSize = 24;
@@ -62,7 +62,7 @@ var ferm1;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
-    setSettings();
+    setMySettings();
   }
 
 function setup() {
@@ -92,18 +92,16 @@ gui = createGui();
 gui.setPosition(gui_x, gui_y);
 
 // set slider range for setpoints
-// sliderRange(spMin, spMax, 1);
-// gui.addGlobals('setpoint1');
-gui.addGlobals('spMax');
-console.log(setpoint1);
+sliderRange(spMin, spMax, 1);
+gui.addGlobals('setpoint1');
 
-// sliderRange(spMin, spMax, 1);
-// gui.addGlobals('setpoint2');
+sliderRange(spMin, spMax, 1);
+gui.addGlobals('setpoint2');
 
-// sliderRange(spMin, spMax, 1);
-// gui.addGlobals('setpoint3');
+sliderRange(spMin, spMax, 1);
+gui.addGlobals('setpoint3');
 
-// gui.addGlobals('label1', 'label2', 'label3',);
+gui.addGlobals('label1', 'label2', 'label3',);
 
 // Don't loop automatically
 noLoop();
@@ -181,7 +179,7 @@ async function getData() {
   return data;
 }
 
-async function setSettings(){
+async function setMySettings(){
   const settings = await getData();
   if(settings){
   console.log(settings);
