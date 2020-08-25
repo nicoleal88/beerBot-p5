@@ -102,7 +102,7 @@
         _hidden: false,
         _collapsed: false,
         _controls: null,
-        _keyCodeArray: new Array(),
+        _keyCode: -1,
         _draggable: true,
         _collapsible: true,
         _globalChangeHandler: null,
@@ -495,25 +495,22 @@
         },
 
         /**
-         * Sets a key that, when pressed, will show and hide the panel. More than one key may be set (allows use of keys on stylus as well as keyboard).
-         * @param key  (accepts a string, e.g. 'a' or integer representing javascript character code)
+         * Sets a key that, when pressed, will show and hide the panel.
+         * @param char
          * @returns {module:QuickSettings}
          */
-                        
-        setKey: function(key) {
-            if(Number.isInteger(key)) { 
-                this._keyCodeArray.push(key);
-            }else{
-                this._keyCodeArray.push(key.toUpperCase().charCodeAt(0));
-            }
-            document.addEventListener("keyup", this._onKeyUp);          
+        setKey: function (char) {
+            this._keyCode = char.toUpperCase().charCodeAt(0);
+            document.addEventListener("keyup", this._onKeyUp);
             return this;
-        },      
-        
-        _onKeyUp: function(event) { 
-            if(this._keyCodeArray.includes(event.keyCode)) {
-                this.toggleVisibility();
-            }           
+        },
+
+        _onKeyUp: function (event) {
+            if (event.keyCode === this._keyCode) {
+                if (["INPUT", "SELECT", "TEXTAREA"].indexOf(event.target.tagName) < 0) {
+                    this.toggleVisibility();
+                }
+            }
         },
 
         _doubleClickTitle: function () {
@@ -858,22 +855,17 @@
          * @returns {*}
          */
         addDate: function (title, date, callback) {
-            function _createDateString(date)
-            {
-                if (date instanceof Date) {
-                    var year = date.getFullYear();
-                    var month = date.getMonth() + 1;
-                    if (month < 10) month = "0" + month;
-                    var day = date.getDate();
-                    if (day < 10) day = "0" + day;
-                    return year + "-" + month + "-" + day;
-                }
-                else {
-                    return date;
-                }
+            var dateStr;
+            if (date instanceof Date) {
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                if (month < 10) month = "0" + month;
+                var day = date.getDate();
+                dateStr = year + "-" + month + "-" + day;
             }
-
-            var dateStr = _createDateString(date);
+            else {
+                dateStr = date;
+            }
 
             if (isIE()) {
                 return this.addText(title, dateStr, callback);
@@ -892,7 +884,18 @@
                     return this.control.value;
                 },
                 setValue: function (date) {
-                    var dateStr = _createDateString(date);
+                    var dateStr;
+                    if (date instanceof Date) {
+                        var year = date.getFullYear();
+                        var month = date.getMonth() + 1;
+                        if (month < 10) month = "0" + month;
+                        var day = date.getDate();
+                        if (day < 10) day = "0" + day;
+                        dateStr = year + "-" + month + "-" + day;
+                    }
+                    else {
+                        dateStr = date;
+                    }
 
                     this.control.value = dateStr || "";
                     if (callback) {
