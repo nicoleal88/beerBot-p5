@@ -95,6 +95,7 @@ gui.setPosition(gui_x, gui_y);
 // sliderRange(spMin, spMax, 1);
 // gui.addGlobals('setpoint1');
 gui.addGlobals('spMax');
+console.log(setpoint1);
 
 // sliderRange(spMin, spMax, 1);
 // gui.addGlobals('setpoint2');
