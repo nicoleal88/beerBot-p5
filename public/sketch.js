@@ -108,12 +108,6 @@ gui.addGlobals('setpoint3');
 
 gui.addGlobals('label1', 'label2', 'label3',);
 
-gui.addButton("update", function() {
-  console.log("updating...")
-  setMyData();
-  console.log("updated!")
-
-});
 // Don't loop automatically
 noLoop();
 }
