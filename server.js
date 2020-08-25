@@ -5,8 +5,8 @@ let app = express();
 let database = new Datastore('database.db');
 database.loadDatabase();
 
-let server = app.listen(3000, () => {
-	console.log("Server running, listening at 3000...");
+let server = app.listen(3001, () => {
+	console.log("Server running, listening at 3001...");
 });
 
 app.use(express.static('public'));
