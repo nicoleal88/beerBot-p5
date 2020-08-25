@@ -62,24 +62,14 @@ var ferm1;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
-    const settings = await getData();
-    console.log(settings);
-    if(settings){
-    setpoint1 = settings.sp1;
-    setpoint2 = settings.sp2;
-    setpoint3 = settings.sp3;
-
-    label1 = settings.label1;
-    label2 = settings.label2;
-    label3 = settings.label3;
-    }
+    
   }
 
 function setup() {
   // socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
 	// if we recieve a message with a label 'status', execute the function readStatus()
 	// socket.on('status', readStatus);
-
+  setSettings();
   console.log("preloading DONE");
   createCanvas(1200, 900);
   // console.log(test);
@@ -187,6 +177,20 @@ async function getData() {
   const data = await response.json();
   // console.log(data);
   return data;
+}
+
+async function setSettings(){
+  const settings = await getData();
+  console.log(settings);
+  if(settings){
+  setpoint1 = settings.sp1;
+  setpoint2 = settings.sp2;
+  setpoint3 = settings.sp3;
+
+  label1 = settings.label1;
+  label2 = settings.label2;
+  label3 = settings.label3;
+  }
 }
 
 function tenmin() {
