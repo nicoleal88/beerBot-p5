@@ -24,9 +24,9 @@ let setpoint3;
 let spMin = 1;
 let spMax = 30;
 
-let label1 = 'label 1';
-let label2 = 'label 2';
-let label3 = 'label 3';
+let label1;
+let label2;
+let label3;
 
 // Fonts
 var labelsSize = 24;
