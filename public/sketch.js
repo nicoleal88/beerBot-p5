@@ -62,6 +62,14 @@ var ferm1;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
+    const settings = getData();
+    setpoint1 = settings.sp1;
+    setpoint2 = settings.sp2;
+    setpoint3 = settings.sp3;
+
+    label1 = settings.label1;
+    label2 = settings.label2;
+    label3 = settings.label3;
     //console.log(test);
   }
 
@@ -170,6 +178,13 @@ async function sendData() {
   const response = await fetch('/settings', options);
   const json = await response.json();
   console.log(json);
+}
+
+async function getData() {
+  const response = await fetch('/settings');
+  const data = await response.json();
+  // console.log(data);
+  return data;
 }
 
 function tenmin() {
