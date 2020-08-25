@@ -17,16 +17,16 @@ var label_y = 505; // linea en y de las etiquetas
 var temp_y = 590; //Linea en y de las temperaturas
 var sp_y = 680; // Línea en y de los setpoints
 
-var setpoint1 = 20;
-var setpoint2 = 20;
-var setpoint3 = 20;
+let setpoint1;
+let setpoint2;
+let setpoint3;
 
-var spMin = 1;
-var spMax = 30;
+let spMin = 1;
+let spMax = 30;
 
-var label1 = 'label 1';
-var label2 = 'label 2';
-var label3 = 'label 3';
+let label1 = 'label 1';
+let label2 = 'label 2';
+let label3 = 'label 3';
 
 // Fonts
 var labelsSize = 24;
@@ -62,14 +62,14 @@ var ferm1;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
-    
+    setSettings();
   }
 
 function setup() {
   // socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
 	// if we recieve a message with a label 'status', execute the function readStatus()
 	// socket.on('status', readStatus);
-  setSettings();
+
   console.log("preloading DONE");
   createCanvas(1200, 900);
   // console.log(test);
@@ -181,8 +181,8 @@ async function getData() {
 
 async function setSettings(){
   const settings = await getData();
-  console.log(settings);
   if(settings){
+  console.log(settings);
   setpoint1 = settings.sp1;
   setpoint2 = settings.sp2;
   setpoint3 = settings.sp3;
@@ -190,6 +190,15 @@ async function setSettings(){
   label1 = settings.label1;
   label2 = settings.label2;
   label3 = settings.label3;
+  }
+  else{
+    setpoint1 = 20;
+    setpoint2 = 20;
+    setpoint3 = 20;
+  
+    label1 = "label 1";
+    label2 = "label 2";
+    label3 = "label 3";
   }
 }
 
