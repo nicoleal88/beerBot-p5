@@ -119,7 +119,7 @@ function draw() {
   tempAmb = temps[3];
   
   ferm1.showLabel(label1);
-  ferm1.showTemp(nf(temp1), 0, 2);
+  ferm1.showTemp(nf(temp1, 0, 2));
   ferm1.showSP(setpoint1);
   // ellipse(mouseX, mouseY, 80, 80);
 }
