@@ -92,13 +92,13 @@ gui = createGui();
 gui.setPosition(gui_x, gui_y);
 
 // set slider range for setpoints
-sliderRange(spMin, spMax, 1);
+// sliderRange(spMin, spMax, 1);
 gui.addGlobals('setpoint1');
 
-sliderRange(spMin, spMax, 1);
+// sliderRange(spMin, spMax, 1);
 gui.addGlobals('setpoint2');
 
-sliderRange(spMin, spMax, 1);
+// sliderRange(spMin, spMax, 1);
 gui.addGlobals('setpoint3');
 
 gui.addGlobals('label1', 'label2', 'label3',);
