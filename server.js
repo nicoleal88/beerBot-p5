@@ -75,6 +75,18 @@ app.get('/settings', (req, res) => {
 	});
 })
 
+// Send the data corresponding to the last ten minutes temperatures
+app.get('/data', (req, res) => { 
+	database.find({"type": "data"}).sort({ timestamp: -1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			console.log(docs)
+			res.json(docs[0]);
+		}
+	});
+})
 
 // getDataDB();
 

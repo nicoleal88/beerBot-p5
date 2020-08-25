@@ -63,6 +63,7 @@ var ferm1;
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
     setMySettings();
+    setMyData();
   }
 
 function setup() {
@@ -111,10 +112,11 @@ function draw() {
   background(bImg);
   // console.log(test);
 
-  var temp1 = temps[0];
-  var temp2 = temps[1];
-  var temp3 = temps[2];
-  var tempAmb = temps[3];
+  temp1 = temps[0];
+
+  temp2 = temps[1];
+  temp3 = temps[2];
+  tempAmb = temps[3];
   
   ferm1.showLabel(label1);
   ferm1.showTemp(nf(temp1), 0, 2);
@@ -172,15 +174,25 @@ async function sendData() {
   console.log(json);
 }
 
-async function getData() {
-  const response = await fetch('/settings');
+async function getData(route) {
+  const response = await fetch(route);
   const data = await response.json();
   // console.log(data);
   return data;
 }
 
+async function setMyData(){
+  const data = await getData('/data');
+  if(data){
+    temp1 = data.t1;
+  }
+  else{
+    temp1 = -999;
+  }
+}
+
 async function setMySettings(){
-  const settings = await getData();
+  const settings = await getData('/settings');
   if(settings){
   console.log(settings);
   setpoint1 = settings.sp1;
