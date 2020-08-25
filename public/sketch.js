@@ -112,7 +112,7 @@ function draw() {
   background(bImg);
   // console.log(test);
 
-  temp1 = temps[0];
+  // temp1 = temps[0];
 
   temp2 = temps[1];
   temp3 = temps[2];
