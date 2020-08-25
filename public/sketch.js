@@ -62,7 +62,7 @@ var ferm1;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
-    const settings = getData();
+    const settings = await getData();
     console.log(settings);
     if(settings){
     setpoint1 = settings.sp1;
