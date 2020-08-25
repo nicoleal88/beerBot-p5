@@ -184,6 +184,7 @@ async function getData(route) {
 async function setMyData(){
   const data = await getData('/data');
   if(data){
+    console.log(data);
     temp1 = data.t1;
   }
   else{
