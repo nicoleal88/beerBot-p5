@@ -62,6 +62,50 @@ app.get('/tenmin', (req, res) => {
 	});
 })
 
+// Send the data corresponding to the last hour temperatures
+app.get('/onehour', (req, res) => {
+	const gap = 60 // One hour in minutes
+	const now = Date.now(); 
+	const last = now - (gap*60*1000) 
+	database.find({
+		$and: [{
+			"type": "data"
+		}, {
+			"timestamp": { $gt: last }
+		}]
+	}).sort({ timestamp: 1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			console.log(docs)
+			res.json(docs);
+		}
+	});
+})
+
+// Send the data corresponding to the last ten minutes temperatures
+app.get('/oneday', (req, res) => {
+	const gap = 1440 // One day in minutes
+	const now = Date.now(); 
+	const last = now - (gap*60*1000) 
+	database.find({
+		$and: [{
+			"type": "data"
+		}, {
+			"timestamp": { $gt: last }
+		}]
+	}).sort({ timestamp: 1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			console.log(docs)
+			res.json(docs);
+		}
+	});
+})
+
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/settings', (req, res) => { 
 	database.find({"type": "settings"}).sort({ timestamp: -1 }).exec(function (err, docs) {

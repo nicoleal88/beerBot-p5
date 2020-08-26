@@ -96,12 +96,12 @@ function setup() {
   hourButton = createButton("Plot 1 hr");
   hourButton.position(966, 645);
   hourButton.class("button");
-  hourButton.mousePressed(tenmin)
+  hourButton.mousePressed(onehour)
 
   dayButton = createButton("Plot 1 day");
   dayButton.position(966, 670);
   dayButton.class("button");
-  dayButton.mousePressed(tenmin)
+  dayButton.mousePressed(oneday)
 
 // Create Layout GUI
 gui = createGui();
@@ -240,6 +240,14 @@ async function setMySettings(){
     label2 = "label 2";
     label3 = "label 3";
   }
+}
+
+function tenmin() {
+  window.location.href = "JSFiddle.html";
+}
+
+function tenmin() {
+  window.location.href = "JSFiddle.html";
 }
 
 function tenmin() {
