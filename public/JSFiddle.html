@@ -373,8 +373,9 @@ new Chart(document.getElementById("hum1"), {
       showLine: true,
       fill: false,
       // borderColor: '#999999',
-      pointRadius: 1,
-      pointHoverRadius: 5,
+      pointRadius: 3,
+      pointHoverRadius: 10,
+      pointHitRadius: 25, 
       data: temp1
     },
     {
@@ -383,8 +384,9 @@ new Chart(document.getElementById("hum1"), {
       showLine: true,
       fill: false,
       // borderColor: '#999999',
-      pointRadius: 0,
-      pointHoverRadius: 5,
+      pointRadius: 3,
+      pointHoverRadius: 10,
+      pointHitRadius: 25,
       data: temp2
     },
     {
@@ -402,8 +404,9 @@ new Chart(document.getElementById("hum1"), {
   },
   options: {
     tooltips: {
-					mode: 'index',
-					intersect: true,
+            position: position,
+						mode: 'index',
+						intersect: false,
 				},
 				hover: {
 					mode: 'nearest',
