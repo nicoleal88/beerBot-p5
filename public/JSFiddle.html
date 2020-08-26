@@ -374,7 +374,7 @@ new Chart(document.getElementById("hum1"), {
       fill: false,
       // borderColor: '#999999',
       pointRadius: 3,
-      pointHoverRadius: 10,
+      pointHoverRadius: 6,
       data: temp1
     },
     {
@@ -384,7 +384,7 @@ new Chart(document.getElementById("hum1"), {
       fill: false,
       // borderColor: '#999999',
       pointRadius: 3,
-      pointHoverRadius: 10,
+      pointHoverRadius: 6,
       data: temp2
     },
     {
@@ -394,7 +394,7 @@ new Chart(document.getElementById("hum1"), {
       fill: false,
       // borderColor: '#999999',
       pointRadius: 3,
-      pointHoverRadius: 10,
+      pointHoverRadius: 6,
       data: temp3
     }
   ]
@@ -406,8 +406,8 @@ new Chart(document.getElementById("hum1"), {
 						intersect: false,
 				},
 				hover: {
-					mode: 'nearest',
-					intersect: true
+					mode: 'index',
+					intersect: false
 				},
     plugins: {
             colorschemes: {
