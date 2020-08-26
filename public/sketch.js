@@ -83,21 +83,24 @@ function setup() {
   ferm3 = new Fermentador(f3_x, 03);
 
   //Button creation
-  button = createButton('Send Data to Server');
+  button = createButton('Send Data');
   button.position(968, 600);
   button.class("button");
   button.mousePressed(sendData);
 
   tenMinButton = createButton("Plot 10 min");
   tenMinButton.position(968, 625);
+  tenMinButton.class("button");
   tenMinButton.mousePressed(tenmin)
 
   hourButton = createButton("Plot 1 hr");
   hourButton.position(968, 650);
+  hourButton.class("button");
   hourButton.mousePressed(tenmin)
 
   dayButton = createButton("Plot 1 day");
   dayButton.position(968, 675);
+  dayButton.class("button");
   dayButton.mousePressed(tenmin)
 
 // Create Layout GUI
