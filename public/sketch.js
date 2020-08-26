@@ -84,22 +84,22 @@ function setup() {
 
   //Button creation
   button = createButton('Send Data');
-  button.position(968, 600);
+  button.position(966, 595);
   button.class("button");
   button.mousePressed(sendData);
 
   tenMinButton = createButton("Plot 10 min");
-  tenMinButton.position(968, 625);
+  tenMinButton.position(966, 620);
   tenMinButton.class("button");
   tenMinButton.mousePressed(tenmin)
 
   hourButton = createButton("Plot 1 hr");
-  hourButton.position(968, 650);
+  hourButton.position(966, 645);
   hourButton.class("button");
   hourButton.mousePressed(tenmin)
 
   dayButton = createButton("Plot 1 day");
-  dayButton.position(968, 675);
+  dayButton.position(966, 670);
   dayButton.class("button");
   dayButton.mousePressed(tenmin)
 
