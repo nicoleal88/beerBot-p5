@@ -5,8 +5,8 @@ let app = express();
 let database = new Datastore('database.db');
 database.loadDatabase();
 
-let server = app.listen(3000, () => {
-	console.log("Server running, listening at 3000...");
+let server = app.listen(3001, () => {
+	console.log("Server running, listening at 3001...");
 });
 
 app.use(express.static('public'));
@@ -60,33 +60,52 @@ app.get('/tenmin', (req, res) => {
 			res.json(docs);
 		}
 	});
-	// res.json({
-	// 	1: 123,
-	// 	2: 143,
-	// 	3: 433,
-	// 	4: 343,
-	// 	5: 223,
-	// });
+})
+
+// Send the data corresponding to the last ten minutes temperatures
+app.get('/settings', (req, res) => { 
+	database.find({"type": "settings"}).sort({ timestamp: -1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			console.log(docs)
+			res.json(docs[0]);
+		}
+	});
+})
+
+// Send the data corresponding to the last ten minutes temperatures
+app.get('/data', (req, res) => { 
+	database.find({"type": "data"}).sort({ timestamp: -1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			console.log(docs)
+			res.json(docs[0]);
+		}
+	});
 })
 
 // getDataDB();
 
-function getDataDB() {
-	database.find({
-		$and: [{
-			"type": "data"
-		}, {
-			"timestamp": { $gt: 5 }
-		}]
-	}, function (err, docs) {
-		if (err) {
-			console.error(err);
-		} else {
-			console.log(docs)
-			return docs;
-		}
-	});
-}
+// function getDataDB() {
+// 	database.find({
+// 		$and: [{
+// 			"type": "data"
+// 		}, {
+// 			"timestamp": { $gt: 5 }
+// 		}]
+// 	}, function (err, docs) {
+// 		if (err) {
+// 			console.error(err);
+// 		} else {
+// 			console.log(docs)
+// 			return docs;
+// 		}
+// 	});
+// }
 // ########################################################## //
 
 // let socket = require('socket.io');

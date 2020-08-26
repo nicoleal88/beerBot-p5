@@ -17,16 +17,16 @@ var label_y = 505; // linea en y de las etiquetas
 var temp_y = 590; //Linea en y de las temperaturas
 var sp_y = 680; // Línea en y de los setpoints
 
-var setpoint1 = 20;
-var setpoint2 = 20;
-var setpoint3 = 20;
+var setpoint1;
+var setpoint2;
+var setpoint3;
 
 var spMin = 1;
 var spMax = 30;
 
-var label1 = 'label 1';
-var label2 = 'label 2';
-var label3 = 'label 3';
+var label1;
+var label2;
+var label3;
 
 // Fonts
 var labelsSize = 24;
@@ -59,10 +59,13 @@ var gui;
 
 // Ferm objects
 var ferm1;
+var ferm2;
+var ferm3;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
-    //console.log(test);
+    setMySettings();
+    setMyData();
   }
 
 function setup() {
@@ -76,6 +79,8 @@ function setup() {
 
   // Ferm Objects
   ferm1 = new Fermentador(f1_x, 01);
+  ferm2 = new Fermentador(f2_x, 02);
+  ferm3 = new Fermentador(f3_x, 03);
 
   //Button creation
   button = createButton('Send Data to Server');
@@ -111,14 +116,23 @@ function draw() {
   background(bImg);
   // console.log(test);
 
-  var temp1 = temps[0];
-  var temp2 = temps[1];
-  var temp3 = temps[2];
-  var tempAmb = temps[3];
+  // temp1 = temps[0];
+
+  // temp2 = temps[1];
+  // temp3 = temps[2];
+  tempAmb = temps[3];
   
   ferm1.showLabel(label1);
-  ferm1.showTemp(nf(temp1), 0, 2);
+  ferm1.showTemp(nf(temp1, 0, 2));
   ferm1.showSP(setpoint1);
+  
+  ferm2.showLabel(label2);
+  ferm2.showTemp(nf(temp2, 0, 2));
+  ferm2.showSP(setpoint2);
+  
+  ferm3.showLabel(label3);
+  ferm3.showTemp(nf(temp3, 0, 2));
+  ferm3.showSP(setpoint3);
   // ellipse(mouseX, mouseY, 80, 80);
 }
 
@@ -170,6 +184,51 @@ async function sendData() {
   const response = await fetch('/settings', options);
   const json = await response.json();
   console.log(json);
+}
+
+async function getData(route) {
+  const response = await fetch(route);
+  const data = await response.json();
+  // console.log(data);
+  return data;
+}
+
+async function setMyData(){
+  const data = await getData('/data');
+  if(data){
+    console.log(data);
+    temp1 = data.t1;
+    temp2 = data.t2;
+    temp3 = data.t3;
+  }
+  else{
+    temp1 = -999;
+    temp2 = -999;
+    temp3 = -999;
+  }
+}
+
+async function setMySettings(){
+  const settings = await getData('/settings');
+  if(settings){
+  console.log(settings);
+  setpoint1 = settings.sp1;
+  setpoint2 = settings.sp2;
+  setpoint3 = settings.sp3;
+
+  label1 = settings.label1;
+  label2 = settings.label2;
+  label3 = settings.label3;
+  }
+  else{
+    setpoint1 = 20;
+    setpoint2 = 20;
+    setpoint3 = 20;
+  
+    label1 = "label 1";
+    label2 = "label 2";
+    label3 = "label 3";
+  }
 }
 
 function tenmin() {
