@@ -247,11 +247,11 @@ function tenmin() {
 }
 
 function onehour() {
-  window.location.href = "onehour.html";
+  window.open = ("onehour.html");
 }
 
 function oneday() {
-  window.location.href = "oneday.html";
+  window.open = ("oneday.html");
 }
 
 // Scheme:
