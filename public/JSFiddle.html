@@ -397,7 +397,14 @@ new Chart(document.getElementById("hum1"), {
   ]
   },
   options: {
-    
+    tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
     plugins: {
             colorschemes: {
                 scheme: 'brewer.PuOr9'
