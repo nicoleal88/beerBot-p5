@@ -79,7 +79,7 @@ app.get('/onehour', (req, res) => {
 			res.end();
 		} else {
 			console.log(docs)
-			res.json(docs);
+			res.json(reduceArray(docs, 100));
 		}
 	});
 })
@@ -101,7 +101,7 @@ app.get('/oneday', (req, res) => {
 			res.end();
 		} else {
 			console.log(docs)
-			res.json(docs);
+			res.json(reduceArray(docs, 100));
 		}
 	});
 })
@@ -131,6 +131,38 @@ app.get('/data', (req, res) => {
 		}
 	});
 })
+
+
+function reduceArray(input, l){
+	let len = input.length
+	let div = Math.floor(len / l);
+	let result = [];
+	if(len > l){
+	for (let i = 0; i < len; i = i + div){
+		  result.push(input[i])
+		}
+	}
+	else{
+		for (let i = 0; i < len; i++){
+			result.push(input[i])
+		  }
+	}
+	return result
+}
+
+// myArray = [];
+// let ind;
+// for (ind = 0; ind < 12120; ind++){
+//   myArray.push(ind)
+// }
+// let div = Math.floor(myArray.length / 50);
+
+// let result = [];
+
+// for (let i = 0; i < myArray.length; i = i + div){
+//   result.push(myArray[i])
+// }
+
 
 // getDataDB();
 
