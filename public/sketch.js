@@ -243,7 +243,7 @@ async function setMySettings(){
 }
 
 function tenmin() {
-  window.location.href = "tenmins.html";
+  window.open("tenmins.html");
 }
 
 function onehour() {
