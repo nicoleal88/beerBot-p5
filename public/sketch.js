@@ -84,13 +84,21 @@ function setup() {
 
   //Button creation
   button = createButton('Send Data to Server');
-  button.position(1005, 650);
+  button.position(968, 600);
+  button.class("button");
   button.mousePressed(sendData);
 
   tenMinButton = createButton("Plot 10 min");
-  tenMinButton.position(f1_x, 750);
+  tenMinButton.position(968, 625);
   tenMinButton.mousePressed(tenmin)
 
+  hourButton = createButton("Plot 1 hr");
+  hourButton.position(968, 650);
+  hourButton.mousePressed(tenmin)
+
+  dayButton = createButton("Plot 1 day");
+  dayButton.position(968, 675);
+  dayButton.mousePressed(tenmin)
 
 // Create Layout GUI
 gui = createGui();
