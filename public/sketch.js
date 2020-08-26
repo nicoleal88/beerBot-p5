@@ -243,15 +243,15 @@ async function setMySettings(){
 }
 
 function tenmin() {
-  window.location.href = "JSFiddle.html";
+  window.location.href = "tenmins.html";
 }
 
-function tenmin() {
-  window.location.href = "JSFiddle.html";
+function onehour() {
+  window.location.href = "onehour.html";
 }
 
-function tenmin() {
-  window.location.href = "JSFiddle.html";
+function oneday() {
+  window.location.href = "oneday.html";
 }
 
 // Scheme:
