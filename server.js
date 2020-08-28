@@ -41,17 +41,18 @@ app.post('/settings', (req, res) => {
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/tenmin', (req, res) => {
-	findAndSend(10, req, res);
+	let response = res;
+	findAndSend(10, response);
 })
 
 // Send the data corresponding to the last hour temperatures
 app.get('/onehour', (req, res) => {
-	findAndSend(60, req, res);
+	findAndSend(60, res);
 })
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/oneday', (req, res) => {
-	findAndSend(1440, req, res);
+	findAndSend(1440, res);
 })
 
 // Send the data corresponding to the last ten minutes temperatures
