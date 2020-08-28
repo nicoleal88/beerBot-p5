@@ -39,78 +39,19 @@ app.post('/settings', (req, res) => {
 	})
 });
 
-
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/tenmin', (req, res) => {
-	findAndSend(10, req, res)
+	findAndSend(10, req, res);
 })
-
-function findAndSend(gap_, res){
-	const gap = gap_
-	const now = Date.now(); 
-	const last = now - (gap*60*1000) 
-	database.find({
-		$and: [{
-			"type": "data"
-		}, {
-			"timestamp": { $gt: last }
-		}]
-	}).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			res.end();
-		} else {
-			let toSend = reduceArray(docs, 100);
-			console.log(toSend)
-			res.json(toSend);
-		}
-	});
-}
 
 // Send the data corresponding to the last hour temperatures
 app.get('/onehour', (req, res) => {
-	const gap = 60 // One hour in minutes
-	const now = Date.now(); 
-	const last = now - (gap*60*1000) 
-	database.find({
-		$and: [{
-			"type": "data"
-		}, {
-			"timestamp": { $gt: last }
-		}]
-	}).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			res.end();
-		} else {
-			let toSend = reduceArray(docs, 100);
-			console.log(toSend)
-			res.json(toSend);
-		}
-	});
+	findAndSend(60, req, res);
 })
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/oneday', (req, res) => {
-	const gap = 1440 // One day in minutes
-	const now = Date.now(); 
-	const last = now - (gap*60*1000) 
-	database.find({
-		$and: [{
-			"type": "data"
-		}, {
-			"timestamp": { $gt: last }
-		}]
-	}).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			res.end();
-		} else {
-			let toSend = reduceArray(docs, 100);
-			console.log(toSend)
-			res.json(toSend);
-		}
-	});
+	findAndSend(1440, req, res);
 })
 
 // Send the data corresponding to the last ten minutes temperatures
@@ -155,7 +96,29 @@ function reduceArray(input, l){
 		  }
 	}
 	return result
-}
+};
+
+function findAndSend(gap_, res){
+	const gap = gap_
+	const now = Date.now(); 
+	const last = now - (gap*60*1000) 
+	database.find({
+		$and: [{
+			"type": "data"
+		}, {
+			"timestamp": { $gt: last }
+		}]
+	}).sort({ timestamp: 1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			let toSend = reduceArray(docs, 100);
+			console.log(toSend)
+			res.json(toSend);
+		}
+	});
+};
 
 // myArray = [];
 // let ind;
