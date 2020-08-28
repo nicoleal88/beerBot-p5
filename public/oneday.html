@@ -108,7 +108,7 @@ new Chart(document.getElementById("hum1"), {
     tooltips: {
    callbacks: {
       label: function(tooltipItem, data) {
-         var label = data.labels[tooltipItem.datasetIndex];
+         var label = data.datasets.labels[tooltipItem.datasetIndex];
          return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
       }
    }
