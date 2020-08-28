@@ -106,13 +106,15 @@ new Chart(document.getElementById("hum1"), {
   },
   options: {
     tooltips: {
-            position: "average",
-						mode: 'index',
-						intersect: false,
-				},
+   callbacks: {
+      label: function(tooltipItem, data) {
+         var label = data.datasets[tooltipItem.datasetIndex].label;
+         return label + ': ' + tooltipItem.xLabel + 'hs' + ', ' + tooltipItem.yLabel + '°C';
+      }
+   }
+},
 				hover: {
-					mode: 'index',
-					intersect: false
+					mode: 'index'
 				},
     plugins: {
             colorschemes: {
