@@ -47,12 +47,14 @@ app.get('/tenmin', (req, res) => {
 
 // Send the data corresponding to the last hour temperatures
 app.get('/onehour', (req, res) => {
-	findAndSend(60, res);
+	let response = res;
+	findAndSend(60, response);
 })
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/oneday', (req, res) => {
-	findAndSend(1440, res);
+	let response = res;
+	findAndSend(1440, response);
 })
 
 // Send the data corresponding to the last ten minutes temperatures
