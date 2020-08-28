@@ -12,9 +12,15 @@ t2 = 20
 t3 = 20
 
 while True:
+
     t1 += random.random()*2-1
     t2 += random.random()*2-1
     t3 += random.random()*2-1
+    
+    t1 = int(t1 * 10)/10
+    t2 = int(t2 * 10)/10
+    t3 = int(t3 * 10)/10
+    
     # current date and time
     now = datetime.now()
     timestamp = int(datetime.timestamp(now)*1000)
