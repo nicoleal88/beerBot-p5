@@ -56,8 +56,9 @@ app.get('/tenmin', (req, res) => {
 			console.error(err);
 			res.end();
 		} else {
-			console.log(docs)
-			res.json(docs);
+			let toSend = reduceArray(docs, 100);
+			console.log(toSend)
+			res.json(toSend);
 		}
 	});
 })
@@ -78,8 +79,9 @@ app.get('/onehour', (req, res) => {
 			console.error(err);
 			res.end();
 		} else {
-			console.log(docs)
-			res.json(reduceArray(docs, 100));
+			let toSend = reduceArray(docs, 100);
+			console.log(toSend)
+			res.json(toSend);
 		}
 	});
 })
@@ -100,8 +102,9 @@ app.get('/oneday', (req, res) => {
 			console.error(err);
 			res.end();
 		} else {
-			console.log(docs)
-			res.json(reduceArray(docs, 100));
+			let toSend = reduceArray(docs, 100);
+			console.log(toSend)
+			res.json(toSend);
 		}
 	});
 })
@@ -113,7 +116,7 @@ app.get('/settings', (req, res) => {
 			console.error(err);
 			res.end();
 		} else {
-			console.log(docs)
+			console.log(docs[0])
 			res.json(docs[0]);
 		}
 	});
@@ -126,7 +129,7 @@ app.get('/data', (req, res) => {
 			console.error(err);
 			res.end();
 		} else {
-			console.log(docs)
+			console.log(docs[0])
 			res.json(docs[0]);
 		}
 	});
