@@ -42,7 +42,11 @@ app.post('/settings', (req, res) => {
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/tenmin', (req, res) => {
-	const gap = 10 // Ten minutes
+	findAndSend(10, req, res)
+})
+
+function findAndSend(gap_, res){
+	const gap = gap_
 	const now = Date.now(); 
 	const last = now - (gap*60*1000) 
 	database.find({
@@ -61,7 +65,7 @@ app.get('/tenmin', (req, res) => {
 			res.json(toSend);
 		}
 	});
-})
+}
 
 // Send the data corresponding to the last hour temperatures
 app.get('/onehour', (req, res) => {
