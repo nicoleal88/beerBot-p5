@@ -1,5 +1,4 @@
-let socket;
-
+// let socket;
 //var path = "/home/pi/beerBot/";
 var path = "/home/nicolas/GitHub/beerBot/";
 var test = 0;
@@ -18,16 +17,16 @@ var label_y = 505; // linea en y de las etiquetas
 var temp_y = 590; //Linea en y de las temperaturas
 var sp_y = 680; // Línea en y de los setpoints
 
-var setpoint1 = 20;
-var setpoint2 = 20;
-var setpoint3 = 20;
+var setpoint1;
+var setpoint2;
+var setpoint3;
 
 var spMin = 1;
 var spMax = 30;
 
-var label1 = 'label 1';
-var label2 = 'label 2';
-var label3 = 'label 3';
+var label1;
+var label2;
+var label3;
 
 // Fonts
 var labelsSize = 24;
@@ -60,16 +59,19 @@ var gui;
 
 // Ferm objects
 var ferm1;
+var ferm2;
+var ferm3;
 
 function preload() {
     bImg = loadImage('images/FERMENTADORES.png');
-    //console.log(test);
+    setMySettings();
+    setMyData();
   }
 
 function setup() {
-  socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
+  // socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
 	// if we recieve a message with a label 'status', execute the function readStatus()
-	socket.on('status', readStatus);
+	// socket.on('status', readStatus);
 
   console.log("preloading DONE");
   createCanvas(1200, 900);
@@ -77,11 +79,29 @@ function setup() {
 
   // Ferm Objects
   ferm1 = new Fermentador(f1_x, 01);
+  ferm2 = new Fermentador(f2_x, 02);
+  ferm3 = new Fermentador(f3_x, 03);
 
   //Button creation
-  button = createButton('Send Data to Server');
-  button.position(1005, 650);
+  button = createButton('Send Data');
+  button.position(966, 595);
+  button.class("button");
   button.mousePressed(sendData);
+
+  tenMinButton = createButton("Plot 10 min");
+  tenMinButton.position(966, 620);
+  tenMinButton.class("button");
+  tenMinButton.mousePressed(tenmin)
+
+  hourButton = createButton("Plot 1 hr");
+  hourButton.position(966, 645);
+  hourButton.class("button");
+  hourButton.mousePressed(onehour)
+
+  dayButton = createButton("Plot 1 day");
+  dayButton.position(966, 670);
+  dayButton.class("button");
+  dayButton.mousePressed(oneday)
 
 // Create Layout GUI
 gui = createGui();
@@ -107,14 +127,23 @@ function draw() {
   background(bImg);
   // console.log(test);
 
-  var temp1 = temps[0];
-  var temp2 = temps[1];
-  var temp3 = temps[2];
-  var tempAmb = temps[3];
+  // temp1 = temps[0];
+
+  // temp2 = temps[1];
+  // temp3 = temps[2];
+  tempAmb = temps[3];
   
   ferm1.showLabel(label1);
-  ferm1.showTemp(nf(temp1), 0, 2);
+  ferm1.showTemp(nf(temp1, 0, 2));
   ferm1.showSP(setpoint1);
+  
+  ferm2.showLabel(label2);
+  ferm2.showTemp(nf(temp2, 0, 2));
+  ferm2.showSP(setpoint2);
+  
+  ferm3.showLabel(label3);
+  ferm3.showTemp(nf(temp3, 0, 2));
+  ferm3.showSP(setpoint3);
   // ellipse(mouseX, mouseY, 80, 80);
 }
 
@@ -143,12 +172,12 @@ function mousePressed() {
 }
 */
 
-function sendData() {
-  let d = new Date();
-  //console.log(d);
+async function sendData() {
+  let d = Date.now();
+
 // Creating the data object
 	let data = {
-	date : d,
+	timestamp : d,
 	sp1: setpoint1,
 	sp2: setpoint2,
 	sp3: setpoint3,
@@ -156,12 +185,73 @@ function sendData() {
 	label2: label2,
 	label3: label3
   }
-	// sending data with a name or label "clickDate'
-  socket.emit('clickDate', data);
+	const options = {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  }
+  const response = await fetch('/settings', options);
+  const json = await response.json();
+  console.log(json);
 }
 
-function readStatus(data){
-console.log(data);
+async function getData(route) {
+  const response = await fetch(route);
+  const data = await response.json();
+  // console.log(data);
+  return data;
+}
+
+async function setMyData(){
+  const data = await getData('/data');
+  if(data){
+    console.log(data);
+    temp1 = data.t1;
+    temp2 = data.t2;
+    temp3 = data.t3;
+  }
+  else{
+    temp1 = -999;
+    temp2 = -999;
+    temp3 = -999;
+  }
+}
+
+async function setMySettings(){
+  const settings = await getData('/settings');
+  if(settings){
+  console.log(settings);
+  setpoint1 = settings.sp1;
+  setpoint2 = settings.sp2;
+  setpoint3 = settings.sp3;
+
+  label1 = settings.label1;
+  label2 = settings.label2;
+  label3 = settings.label3;
+  }
+  else{
+    setpoint1 = 20;
+    setpoint2 = 20;
+    setpoint3 = 20;
+  
+    label1 = "label 1";
+    label2 = "label 2";
+    label3 = "label 3";
+  }
+}
+
+function tenmin() {
+  window.open("tenmins.html");
+}
+
+function onehour() {
+  window.open("onehour.html");
+}
+
+function oneday() {
+  window.open("oneday.html");
 }
 
 // Scheme:
@@ -192,3 +282,6 @@ console.log(data);
 // console.log(lista);
 // }
 
+// function readStatus(data){
+// console.log(data);
+// }
