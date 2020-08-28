@@ -109,7 +109,7 @@ new Chart(document.getElementById("hum1"), {
    callbacks: {
       label: function(tooltipItem, data) {
          var label = data.datasets[tooltipItem.datasetIndex].label;
-         return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+         return label + ': ' + tooltipItem.xLabel + 'hs', ', ' + tooltipItem.yLabel + '°C';
       }
    }
 },
