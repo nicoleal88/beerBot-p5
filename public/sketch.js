@@ -134,15 +134,15 @@ function draw() {
   tempAmb = temps[3];
   
   ferm1.showLabel(label1);
-  ferm1.showTemp(nf(temp1, 0, 2));
+  ferm1.showTemp(nf(temp1, 0, 1));
   ferm1.showSP(setpoint1);
   
   ferm2.showLabel(label2);
-  ferm2.showTemp(nf(temp2, 0, 2));
+  ferm2.showTemp(nf(temp2, 0, 1));
   ferm2.showSP(setpoint2);
   
   ferm3.showLabel(label3);
-  ferm3.showTemp(nf(temp3, 0, 2));
+  ferm3.showTemp(nf(temp3, 0, 1));
   ferm3.showSP(setpoint3);
   // ellipse(mouseX, mouseY, 80, 80);
 }
