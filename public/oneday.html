@@ -105,6 +105,14 @@ new Chart(document.getElementById("hum1"), {
   ]
   },
   options: {
+    tooltips: {
+   callbacks: {
+      label: function(tooltipItem, data) {
+         var label = data.labels[tooltipItem.index];
+         return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+      }
+   }
+},
 				hover: {
 					mode: 'index'
 				},
