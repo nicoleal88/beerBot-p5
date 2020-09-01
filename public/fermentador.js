@@ -12,7 +12,9 @@ class Fermentador{
        this.id = id;
        this.button = 1;
        this.control = 1;
-    //    this.label = label;
+       this.temp = 1;
+       this.sp = 1;
+       this.label = "label";
     }
     
     showLabel(l) {
@@ -61,11 +63,16 @@ class Fermentador{
     }
     
     getColor = function(button, control) {
-      if(this.button == 1 && this.control == 1){
-        return color('green');
+      if(this.button == 1){
+       if( this.control == 0){
+        return color('red');
       }
       else{
-        return color('red');
+        return color('green');
+      }
+    }
+      else{
+        return color('gray');
       }
     }
 }

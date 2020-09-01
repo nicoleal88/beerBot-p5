@@ -118,7 +118,10 @@ sliderRange(spMin, spMax, 1);
 gui.addGlobals('setpoint3');
 
 gui.addGlobals('label1', 'label2', 'label3',);
-gui.addGlobals('ferm1.id');
+var obj = {
+  lala: ferm1.id
+}
+gui.addObject(obj);
 
 // Don't loop automatically
 noLoop();
