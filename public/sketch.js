@@ -1,5 +1,3 @@
-// let socket;
-//var path = "/home/pi/beerBot/";
 var path = "/home/nicolas/GitHub/beerBot/";
 var test = 0;
 // gui params
@@ -16,6 +14,8 @@ var ev_y = 282; // Linea en y de las electrovalvulas
 var label_y = 505; // linea en y de las etiquetas
 var temp_y = 590; //Linea en y de las temperaturas
 var sp_y = 680; // Línea en y de los setpoints
+
+var buttons_x = 966; // Linea en x de los botones
 
 var setpoint1;
 var setpoint2;
@@ -84,22 +84,22 @@ function setup() {
 
   //Button creation
   button = createButton('Send Data');
-  button.position(966, 595);
+  button.position(buttons_x, 595);
   button.class("button");
   button.mousePressed(sendData);
 
   tenMinButton = createButton("Plot 10 min");
-  tenMinButton.position(966, 620);
+  tenMinButton.position(buttons_x, 620);
   tenMinButton.class("button");
   tenMinButton.mousePressed(tenmin)
 
   hourButton = createButton("Plot 1 hr");
-  hourButton.position(966, 645);
+  hourButton.position(buttons_x, 645);
   hourButton.class("button");
   hourButton.mousePressed(onehour)
 
   dayButton = createButton("Plot 1 day");
-  dayButton.position(966, 670);
+  dayButton.position(buttons_x, 670);
   dayButton.class("button");
   dayButton.mousePressed(oneday)
 
@@ -118,6 +118,7 @@ sliderRange(spMin, spMax, 1);
 gui.addGlobals('setpoint3');
 
 gui.addGlobals('label1', 'label2', 'label3',);
+gui.addGlobals('ferm1.id');
 
 // Don't loop automatically
 noLoop();
@@ -136,6 +137,7 @@ function draw() {
   ferm1.showLabel(label1);
   ferm1.showTemp(nf(temp1, 0, 1));
   ferm1.showSP(setpoint1);
+  ferm1.showEV();
   
   ferm2.showLabel(label2);
   ferm2.showTemp(nf(temp2, 0, 1));
