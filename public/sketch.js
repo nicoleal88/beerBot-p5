@@ -143,18 +143,22 @@ function draw() {
   // temp3 = temps[2];
   tempAmb = temps[3];
   
-  ferm1.showLabel(label1);
-  ferm1.showTemp(nf(temp1, 0, 1));
-  ferm1.showSP(setpoint1);
-  ferm1.showEV();
+  ferm1.update();
+  ferm2.update();
+  ferm3.update();
+
+  // ferm1.showLabel(label1);
+  // ferm1.showTemp(nf(temp1, 0, 1));
+  // ferm1.showSP(setpoint1);
+  // ferm1.showEV();
   
-  ferm2.showLabel(label2);
-  ferm2.showTemp(nf(temp2, 0, 1));
-  ferm2.showSP(setpoint2);
+  // ferm2.showLabel(label2);
+  // ferm2.showTemp(nf(temp2, 0, 1));
+  // ferm2.showSP(setpoint2);
   
-  ferm3.showLabel(label3);
-  ferm3.showTemp(nf(temp3, 0, 1));
-  ferm3.showSP(setpoint3);
+  // ferm3.showLabel(label3);
+  // ferm3.showTemp(nf(temp3, 0, 1));
+  // ferm3.showSP(setpoint3);
   // ellipse(mouseX, mouseY, 80, 80);
 }
 

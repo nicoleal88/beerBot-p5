@@ -17,7 +17,14 @@ class Fermentador{
        this.label = "labell";
     }
     
-    showLabel(l) {
+    update(){
+      this.showLabel();
+      this.showTemp();
+      this.showSP();
+      this.showEV();
+    }
+
+    showLabel() {
     // draw a label below the shape
       push();
       noStroke();
@@ -25,11 +32,11 @@ class Fermentador{
       textSize(labelsSize);
       textStyle(BOLD);
       textAlign(CENTER, CENTER);
-      text(l, this.x, label_y);
+      text(this.label, this.x, label_y);
       pop();
     }
 
-    showTemp(t) {
+    showTemp() {
       // draw a label below the shape
       push();
       noStroke();
@@ -37,11 +44,11 @@ class Fermentador{
       textSize(tempsSize);
       textStyle(BOLD);
       textAlign(CENTER, CENTER);
-      text(t + " °C", this.x, temp_y);
+      text(this.temp + " °C", this.x, temp_y);
       pop();
       }
       
-    showSP(sp) {
+    showSP() {
       // draw a label below the shape
       push();
       noStroke();
@@ -49,7 +56,7 @@ class Fermentador{
       textSize(spSize);
       textStyle(ITALIC);
       textAlign(CENTER, CENTER);
-      text(sp + " °C", this.x, sp_y);
+      text(this.sp + " °C", this.x, sp_y);
       pop();
     }
 
