@@ -55,12 +55,12 @@ class Fermentador{
       // draw a label below the shape
       push();
       noStroke();
-      fill(getColor());
+      fill(this.getColor());
       circle(this.x, ev_y, 40);
       pop();
     }
     
-    getColor(button, control) {
+    getColor = function(button, control) {
       if(this.button == 1 && this.control == 1){
         return color('green');
       }
