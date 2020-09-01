@@ -64,6 +64,11 @@ var ferm2;
 var ferm3;
 
 function preload() {
+  // Ferm Objects
+  ferm1 = new Fermentador(f1_x, 01);
+  ferm2 = new Fermentador(f2_x, 02);
+  ferm3 = new Fermentador(f3_x, 03);
+  
     bImg = loadImage('images/FERMENTADORES.png');
     setMySettings();
     setMyData();
@@ -78,10 +83,7 @@ function setup() {
   createCanvas(1200, 900);
   // console.log(test);
 
-  // Ferm Objects
-  ferm1 = new Fermentador(f1_x, 01);
-  ferm2 = new Fermentador(f2_x, 02);
-  ferm3 = new Fermentador(f3_x, 03);
+
 
   //Button creation
   button = createButton('Send Data');
