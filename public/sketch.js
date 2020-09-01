@@ -56,6 +56,7 @@ var SPs = [21, 22, 23, 24];
 // gui
 var visible = true;
 var gui;
+var obj;
 
 // Ferm objects
 var ferm1;
@@ -118,7 +119,7 @@ gui.setPosition(gui_x, gui_y);
 // gui.addGlobals('setpoint3');
 
 // gui.addGlobals('label1', 'label2', 'label3',);
-var obj = {
+obj = {
   setpoint1: ferm1.sp,
   setpoint2: ferm2.sp,
   setpoint3: ferm3.sp,
