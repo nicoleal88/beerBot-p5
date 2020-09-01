@@ -231,14 +231,14 @@ async function setMyData(){
   const data = await getData('/data');
   if(data){
     console.log(data);
-    temp1 = data.t1;
-    temp2 = data.t2;
-    temp3 = data.t3;
+    ferm1.temp = data.t1;
+    ferm2.temp = data.t2;
+    ferm3.temp = data.t3;
   }
   else{
-    temp1 = -999;
-    temp2 = -999;
-    temp3 = -999;
+    ferm1.temp = -999;
+    ferm2.temp = -999;
+    ferm3.temp = -999;
   }
 }
 
@@ -246,22 +246,22 @@ async function setMySettings(){
   const settings = await getData('/settings');
   if(settings){
   console.log(settings);
-  setpoint1 = settings.sp1;
-  setpoint2 = settings.sp2;
-  setpoint3 = settings.sp3;
+  ferm1.sp = settings.sp1;
+  ferm2.sp = settings.sp2;
+  ferm3.sp = settings.sp3;
 
-  label1 = settings.label1;
-  label2 = settings.label2;
-  label3 = settings.label3;
+  ferm1.label = settings.label1;
+  ferm2.label = settings.label2;
+  ferm3.label = settings.label3;
   }
   else{
-    setpoint1 = 20;
-    setpoint2 = 20;
-    setpoint3 = 20;
+    ferm1.sp = 20;
+    ferm2.sp = 20;
+    ferm3.sp = 20;
   
-    label1 = "label 1";
-    label2 = "label 2";
-    label3 = "label 3";
+    ferm1.label = "label 1";
+    ferm2.label = "label 2";
+    ferm3.label = "label 3";
   }
 }
 
