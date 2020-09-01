@@ -144,6 +144,13 @@ function draw() {
   // temp3 = temps[2];
   tempAmb = temps[3];
   
+  ferm1.sp = obj.setpoint1;
+  ferm2.sp = obj.setpoint2;
+  ferm3.sp = obj.setpoint3;
+  ferm1.label = obj.label1;
+  ferm2.label = obj.label2;
+  ferm3.label = obj.label3;
+
   ferm1.update();
   ferm2.update();
   ferm3.update();
