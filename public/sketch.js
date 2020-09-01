@@ -108,19 +108,25 @@ gui = createGui();
 gui.setPosition(gui_x, gui_y);
 
 // set slider range for setpoints
-sliderRange(spMin, spMax, 1);
-gui.addGlobals('setpoint1');
+// sliderRange(spMin, spMax, 1);
+// gui.addGlobals('setpoint1');
 
-sliderRange(spMin, spMax, 1);
-gui.addGlobals('setpoint2');
+// sliderRange(spMin, spMax, 1);
+// gui.addGlobals('setpoint2');
 
-sliderRange(spMin, spMax, 1);
-gui.addGlobals('setpoint3');
+// sliderRange(spMin, spMax, 1);
+// gui.addGlobals('setpoint3');
 
-gui.addGlobals('label1', 'label2', 'label3',);
+// gui.addGlobals('label1', 'label2', 'label3',);
 var obj = {
-  lala: ferm1.id
+  setpoint1: ferm1.sp,
+  setpoint2: ferm2.sp,
+  setpoint3: ferm3.sp,
+  label1: ferm1.label,
+  label2: ferm2.label,
+  label3: ferm3.label,
 }
+sliderRange(spMin, spMax, 1);
 gui.addObject(obj);
 
 // Don't loop automatically

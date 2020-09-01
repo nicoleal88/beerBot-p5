@@ -10,11 +10,11 @@ class Fermentador{
     constructor(x, id){
        this.x = x;
        this.id = id;
-       this.button = 1;
+       this.button = 0;
        this.control = 1;
-       this.temp = 1;
-       this.sp = 1;
-       this.label = "label";
+       this.temp = 2;
+       this.sp = 3;
+       this.label = "labell";
     }
     
     showLabel(l) {
