@@ -68,7 +68,7 @@ function preload() {
   ferm1 = new Fermentador(f1_x, 01);
   ferm2 = new Fermentador(f2_x, 02);
   ferm3 = new Fermentador(f3_x, 03);
-  
+
     bImg = loadImage('images/FERMENTADORES.png');
     setMySettings();
     setMyData();
@@ -82,8 +82,6 @@ function setup() {
   console.log("preloading DONE");
   createCanvas(1200, 900);
   // console.log(test);
-
-
 
   //Button creation
   button = createButton('Send Data');
@@ -203,12 +201,12 @@ async function sendData() {
 // Creating the data object
 	let data = {
 	timestamp : d,
-	sp1: setpoint1,
-	sp2: setpoint2,
-	sp3: setpoint3,
-	label1: label1,
-	label2: label2,
-	label3: label3
+	sp1: ferm1.sp,
+	sp2: ferm2.sp,
+	sp3: ferm3.sp,
+	label1: ferm1.label,
+	label2: ferm2.label,
+	label3: ferm3.label
   }
 	const options = {
     method: 'POST',
