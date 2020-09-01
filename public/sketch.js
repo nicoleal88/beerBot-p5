@@ -69,9 +69,9 @@ function preload() {
   ferm2 = new Fermentador(f2_x, 02);
   ferm3 = new Fermentador(f3_x, 03);
 
-    bImg = loadImage('images/FERMENTADORES.png');
-    setMySettings();
-    setMyData();
+  bImg = loadImage('images/FERMENTADORES.png');
+  setMySettings();
+  setMyData();
   }
 
 function setup() {
@@ -79,6 +79,7 @@ function setup() {
 	// if we recieve a message with a label 'status', execute the function readStatus()
 	// socket.on('status', readStatus);
 
+  frameRate(5);
   console.log("preloading DONE");
   createCanvas(1200, 900);
   // console.log(test);
@@ -131,7 +132,7 @@ sliderRange(spMin, spMax, 1);
 gui.addObject(obj);
 
 // Don't loop automatically
-noLoop();
+// noLoop();
 }
 
 function draw() {
