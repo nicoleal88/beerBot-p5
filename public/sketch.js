@@ -3,12 +3,12 @@ var test = 0;
 // gui params
 
 // gui Position
-var gui_x = 966;
-var gui_y = 236;
+var gui_x = 940;
+var gui_y = 243;
 
-var f1_x = 168; //Linea en x del ferm 1
-var f2_x = 465; //Linea en x del ferm 2
-var f3_x = 762; //Linea en x del ferm 3
+var f1_x = 193; //Linea en x del ferm 1
+var f2_x = 473; //Linea en x del ferm 2
+var f3_x = 753; //Linea en x del ferm 3
 
 var ev_y = 282; // Linea en y de las electrovalvulas
 var label_y = 505; // linea en y de las etiquetas
