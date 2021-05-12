@@ -84,10 +84,10 @@ def readTemps():
     Temps[1] = Temps[0] + 1
     Temps[2] = Temps[0] + 2
     Temps[3] = Temps[0] + 3
-    regTemps("{:2.2f}".format(Temps[0]),
-             "{:2.2f}".format(Temps[1]),
-             "{:2.2f}".format(Temps[2]),
-             "{:2.2f}".format(Temps[3]))
+    # regTemps("{:2.2f}".format(Temps[0]),
+    #          "{:2.2f}".format(Temps[1]),
+    #          "{:2.2f}".format(Temps[2]),
+    #          "{:2.2f}".format(Temps[3]))
 
 t1 = 20
 t2 = 20
