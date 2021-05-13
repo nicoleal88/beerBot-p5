@@ -79,7 +79,7 @@ def read_temp(id):
 
 
 def readTemps():
-    threading.Timer(5, readTemps).start()
+    threading.Timer(30, readTemps).start()
     Temps[0] = read_temp(idSensor1)
     Temps[1] = Temps[0] + 1
     Temps[2] = Temps[0] + 2
@@ -119,4 +119,4 @@ while True:
     status = r.status_code 
     print(payload)
     print(resp, status) 
-    time.sleep(5)
+    time.sleep(30)
