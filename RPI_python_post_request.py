@@ -9,13 +9,13 @@ import json
 import random
 import time
 from datetime import datetime
-endpoint = "http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/data"
+endpoint = "http://3.95.154.68/data"
 # endpoint = "http://localhost:3000/data"
 
-idSensor1 = '28-020291770688'
-
-idSensor2 = '28-222222222222'
-idSensor3 = '28-333333333333'
+idSensorA = '28-020291770688'
+idSensor1 = '28-020592453487'
+idSensor2 = '28-02049245c8d5'
+idSensor3 = '28-020192451d5e'
 
 Temps = [20, 20, 20, 20]
 
@@ -80,10 +80,10 @@ def read_temp(id):
 
 def readTemps():
     threading.Timer(30, readTemps).start()
-    Temps[0] = read_temp(idSensor1)
-    Temps[1] = Temps[0] + 1
-    Temps[2] = Temps[0] + 2
-    Temps[3] = Temps[0] + 3
+    Temps[0] = read_temp(idSensorA)
+    Temps[1] = read_temp(idSensor1)
+    Temps[2] = read_temp(idSensor2)
+    Temps[3] = read_temp(idSensor3)
     # regTemps("{:2.2f}".format(Temps[0]),
     #          "{:2.2f}".format(Temps[1]),
     #          "{:2.2f}".format(Temps[2]),
@@ -109,7 +109,7 @@ while True:
     now = datetime.now()
     timestamp = int(datetime.timestamp(now)*1000)
 
-    payload = {'timestamp' : timestamp, 't1': Temps[0], 't2': Temps[1], 't3': Temps[2]}
+    payload = {'timestamp' : timestamp, 't0': Temps[0], 't1': Temps[1], 't2': Temps[2], 't3': Temps[3]}
 
     # sending post request and saving response as response object 
     r = requests.post(url = endpoint, json = payload) 
