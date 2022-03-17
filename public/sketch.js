@@ -6,9 +6,9 @@ var test = 0;
 var gui_x = 939;
 var gui_y = 243;
 
-var f1_x = 193; //Linea en x del ferm 1
+var f1_x = 753; //Linea en x del ferm 1
 var f2_x = 473; //Linea en x del ferm 2
-var f3_x = 753; //Linea en x del ferm 3
+var f3_x = 193; //Linea en x del ferm 3
 
 var ev_y = 282; // Linea en y de las electrovalvulas
 var label_y = 505; // linea en y de las etiquetas
@@ -143,8 +143,9 @@ function draw() {
 
   // temp2 = temps[1];
   // temp3 = temps[2];
-  tempAmb = temps[3];
-  
+ 
+  text("Temp. amb.: " + tempAmb, 1000, 30);
+
   ferm1.sp = obj.setpoint1;
   ferm2.sp = obj.setpoint2;
   ferm3.sp = obj.setpoint3;
@@ -235,6 +236,7 @@ async function setMyData(){
     ferm1.temp = nf(data.t1, 0, 1);
     ferm2.temp = nf(data.t2, 0, 1);
     ferm3.temp = nf(data.t3, 0, 1);
+    tempAmb =  nf(data.t0, 0, 1);
   }
   else{
     ferm1.temp = -999;
