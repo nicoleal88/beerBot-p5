@@ -232,9 +232,9 @@ async function setMyData(){
   const data = await getData('/data');
   if(data){
     console.log(data);
-    ferm1.temp = data.t1;
-    ferm2.temp = data.t2;
-    ferm3.temp = data.t3;
+    ferm1.temp = nf(data.t1, 0, 1);
+    ferm2.temp = nf(data.t2, 0, 1);
+    ferm3.temp = nf(data.t3, 0, 1);
   }
   else{
     ferm1.temp = -999;
