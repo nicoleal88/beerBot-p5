@@ -69,19 +69,19 @@ function preload() {
   ferm2 = new Fermentador(f2_x, 02);
   ferm3 = new Fermentador(f3_x, 03);
 
-  bImg = loadImage('images/FERMENTADORES.png');
+  bImg = loadImage('images/Ferm_background.png');
   setMySettings();
   setMyData();
-  }
+}
 
 function setup() {
   // socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
-	// if we recieve a message with a label 'status', execute the function readStatus()
-	// socket.on('status', readStatus);
+  // if we recieve a message with a label 'status', execute the function readStatus()
+  // socket.on('status', readStatus);
 
   frameRate(5);
   console.log("preloading DONE");
-  createCanvas(1200, 900);
+  createCanvas(1600, 900);
   // console.log(test);
 
   //Button creation
@@ -105,34 +105,34 @@ function setup() {
   dayButton.class("button");
   dayButton.mousePressed(oneday)
 
-// Create Layout GUI
-gui = createGui();
-gui.setPosition(gui_x, gui_y);
+  // Create Layout GUI
+  gui = createGui();
+  gui.setPosition(gui_x, gui_y);
 
-// set slider range for setpoints
-// sliderRange(spMin, spMax, 1);
-// gui.addGlobals('setpoint1');
+  // set slider range for setpoints
+  // sliderRange(spMin, spMax, 1);
+  // gui.addGlobals('setpoint1');
 
-// sliderRange(spMin, spMax, 1);
-// gui.addGlobals('setpoint2');
+  // sliderRange(spMin, spMax, 1);
+  // gui.addGlobals('setpoint2');
 
-// sliderRange(spMin, spMax, 1);
-// gui.addGlobals('setpoint3');
+  // sliderRange(spMin, spMax, 1);
+  // gui.addGlobals('setpoint3');
 
-// gui.addGlobals('label1', 'label2', 'label3',);
-obj = {
-  setpoint1: ferm1.sp,
-  setpoint2: ferm2.sp,
-  setpoint3: ferm3.sp,
-  label1: ferm1.label,
-  label2: ferm2.label,
-  label3: ferm3.label,
-}
-sliderRange(spMin, spMax, 1);
-gui.addObject(obj);
+  // gui.addGlobals('label1', 'label2', 'label3',);
+  obj = {
+    setpoint1: ferm1.sp,
+    setpoint2: ferm2.sp,
+    setpoint3: ferm3.sp,
+    label1: ferm1.label,
+    label2: ferm2.label,
+    label3: ferm3.label,
+  }
+  sliderRange(spMin, spMax, 1);
+  gui.addObject(obj);
 
-// Don't loop automatically
-// noLoop();
+  // Don't loop automatically
+  // noLoop();
 }
 
 function draw() {
@@ -143,7 +143,7 @@ function draw() {
 
   // temp2 = temps[1];
   // temp3 = temps[2];
- 
+
   text("Temp. amb.: " + tempAmb, 1000, 30);
 
   ferm1.sp = obj.setpoint1;
@@ -161,11 +161,11 @@ function draw() {
   // ferm1.showTemp(nf(temp1, 0, 1));
   // ferm1.showSP(setpoint1);
   // ferm1.showEV();
-  
+
   // ferm2.showLabel(label2);
   // ferm2.showTemp(nf(temp2, 0, 1));
   // ferm2.showSP(setpoint2);
-  
+
   // ferm3.showLabel(label3);
   // ferm3.showTemp(nf(temp3, 0, 1));
   // ferm3.showSP(setpoint3);
@@ -174,11 +174,11 @@ function draw() {
 
 // check for keyboard events
 function keyPressed() {
-  switch(key) {
+  switch (key) {
     // type [F1] to hide / show the GUI
     case '+':
       visible = !visible;
-      if(visible) gui.show(); else gui.hide();
+      if (visible) gui.show(); else gui.hide();
       break;
   }
 }
@@ -200,17 +200,17 @@ function mousePressed() {
 async function sendData() {
   let d = Date.now();
 
-// Creating the data object
-	let data = {
-	timestamp : d,
-	sp1: ferm1.sp,
-	sp2: ferm2.sp,
-	sp3: ferm3.sp,
-	label1: ferm1.label,
-	label2: ferm2.label,
-	label3: ferm3.label
+  // Creating the data object
+  let data = {
+    timestamp: d,
+    sp1: ferm1.sp,
+    sp2: ferm2.sp,
+    sp3: ferm3.sp,
+    label1: ferm1.label,
+    label2: ferm2.label,
+    label3: ferm3.label
   }
-	const options = {
+  const options = {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -229,39 +229,39 @@ async function getData(route) {
   return data;
 }
 
-async function setMyData(){
+async function setMyData() {
   const data = await getData('/data');
-  if(data){
+  if (data) {
     console.log(data);
     ferm1.temp = nf(data.t1, 0, 1);
     ferm2.temp = nf(data.t2, 0, 1);
     ferm3.temp = nf(data.t3, 0, 1);
-    tempAmb =  nf(data.t0, 0, 1);
+    tempAmb = nf(data.t0, 0, 1);
   }
-  else{
+  else {
     ferm1.temp = -999;
     ferm2.temp = -999;
     ferm3.temp = -999;
   }
 }
 
-async function setMySettings(){
+async function setMySettings() {
   const settings = await getData('/settings');
-  if(settings){
-  console.log(settings);
-  ferm1.sp = settings.sp1;
-  ferm2.sp = settings.sp2;
-  ferm3.sp = settings.sp3;
+  if (settings) {
+    console.log(settings);
+    ferm1.sp = settings.sp1;
+    ferm2.sp = settings.sp2;
+    ferm3.sp = settings.sp3;
 
-  ferm1.label = settings.label1;
-  ferm2.label = settings.label2;
-  ferm3.label = settings.label3;
+    ferm1.label = settings.label1;
+    ferm2.label = settings.label2;
+    ferm3.label = settings.label3;
   }
-  else{
+  else {
     ferm1.sp = 20;
     ferm2.sp = 20;
     ferm3.sp = 20;
-  
+
     ferm1.label = "label 1";
     ferm2.label = "label 2";
     ferm3.label = "label 3";
