@@ -3,8 +3,8 @@ var test = 0;
 // gui params
 
 // gui Position
-var gui_x = 1166;
-var gui_y = 243;
+var gui_x = 1188;
+var gui_y = 240;
 
 var f1_x = 960; //Linea en x del ferm 1
 var f2_x = 660; //Linea en x del ferm 2
@@ -15,7 +15,7 @@ var label_y = 505; // linea en y de las etiquetas
 var temp_y = 590; //Linea en y de las temperaturas
 var sp_y = 680; // Línea en y de los setpoints
 
-var buttons_x = 939; // Linea en x de los botones
+var buttons_x = 1188; // Linea en x de los botones
 
 var setpoint1;
 var setpoint2;
@@ -85,22 +85,22 @@ function setup() {
   // console.log(test);
 
   //Button creation
-  button = createButton('Send Data');
+  button = createButton('Enviar datos');
   button.position(buttons_x, 595);
   button.class("button");
   button.mousePressed(sendData);
 
-  tenMinButton = createButton("Plot 10 min");
+  tenMinButton = createButton("Gráfico 1 hora");
   tenMinButton.position(buttons_x, 620);
   tenMinButton.class("button");
-  tenMinButton.mousePressed(tenmin)
+  tenMinButton.mousePressed(onehour)
 
-  hourButton = createButton("Plot 1 hr");
+  hourButton = createButton("Gr;afico 1 día");
   hourButton.position(buttons_x, 645);
   hourButton.class("button");
-  hourButton.mousePressed(onehour)
+  hourButton.mousePressed(oneday)
 
-  dayButton = createButton("Plot 1 day");
+  dayButton = createButton("Gráfico 15 días");
   dayButton.position(buttons_x, 670);
   dayButton.class("button");
   dayButton.mousePressed(oneday)
