@@ -90,20 +90,20 @@ function setup() {
   button.class("button");
   button.mousePressed(sendData);
 
-  tenMinButton = createButton("Gráfico 1 hora");
-  tenMinButton.position(buttons_x, 620);
-  tenMinButton.class("button");
-  tenMinButton.mousePressed(onehour)
-
-  hourButton = createButton("Gr;afico 1 día");
-  hourButton.position(buttons_x, 645);
+  hourButton = createButton("Gráfico 1 hora");
+  hourButton.position(buttons_x, 620);
   hourButton.class("button");
-  hourButton.mousePressed(oneday)
+  hourButton.mousePressed(onehour)
 
-  dayButton = createButton("Gráfico 15 días");
-  dayButton.position(buttons_x, 670);
+  dayButton = createButton("Gráfico 1 día");
+  dayButton.position(buttons_x, 645);
   dayButton.class("button");
   dayButton.mousePressed(oneday)
+
+  fortnightButton = createButton("Gráfico 15 días");
+  fortnightButton.position(buttons_x, 670);
+  fortnightButton.class("button");
+  fortnightButton.mousePressed(fortnight)
 
   // Create Layout GUI
   gui = createGui();
@@ -280,6 +280,9 @@ function oneday() {
   window.open("oneday.html");
 }
 
+function fortnight() {
+  window.open("fortnight.html");
+}
 // Scheme:
 
 // User inputs:
