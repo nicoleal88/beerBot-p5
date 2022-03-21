@@ -81,7 +81,7 @@ function setup() {
 
   frameRate(5);
   console.log("preloading DONE");
-  createCanvas(1600, 900);
+  createCanvas(1280, 720);
   // console.log(test);
 
   //Button creation
