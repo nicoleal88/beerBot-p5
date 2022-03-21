@@ -68,6 +68,8 @@ function preload() {
   ferm1 = new Fermentador(f1_x, 01);
   ferm2 = new Fermentador(f2_x, 02);
   ferm3 = new Fermentador(f3_x, 03);
+  setMySettings();
+  setMyData();
   bImg = loadImage('images/Ferm_background_720.png');
   
 }
