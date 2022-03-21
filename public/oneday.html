@@ -1,182 +1,185 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta http-equiv="refresh" content="60"><!-- Auto-update every x seconds -->
-  <title>Registro de Temperaturas</title>
+  <title>Temperaturas - Último día</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style id="compiled-css" type="text/css">
-       #canvas-holder {
-   background-color: #e2e2e2;
-   position: absolute;
-   top: 12px;
-   left: 12px;
-   right: 12px;
-   bottom: 12px;
- }
+    #canvas-holder {
+      background-color: #e2e2e2;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+    }
 
     /* EOS */
   </style>
 
 </head>
+
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-    <div id="canvas-holder">
-  <canvas id="hum1"></canvas>
-</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
+  <div id="canvas-holder">
+    <canvas id="hum1"></canvas>
+  </div>
 
-    <script type="text/javascript">//<![CDATA[
+  <script type="text/javascript">//<![CDATA[
 
-async function getData() {
-            const response = await fetch('/oneday');
-            const data = await response.json();
-            // console.log(data);
-            return data;
-        };
+    async function getData() {
+      const response = await fetch('/oneday');
+      const data = await response.json();
+      // console.log(data);
+      return data;
+    };
 
-async function plotIt() {
-            const data = await getData();
-            let temp1 = []
-            let temp2 = []
-            let temp3 = []
-            let timestamp = [];
-            // console.log(data);
-            for (item of data) {
-                const t1 = item.t1;
-                const t2 = item.t2;
-                const t3 = item.t3;
-                // const t = new Date(item.timestamp)
-                const t = (item.timestamp)
-                temp1.push({
-                    x: t,
-                    y: t1
-                });
-                temp2.push({
-                    x: t,
-                    y: t2
-                });
-                temp3.push({
-                    x: t,
-                    y: t3
-                });
-                // timestamp.push(t.toLocaleString());
-                timestamp.push(t);
-            }
-            console.log(temp1);
-            console.log(temp2);
-            console.log(temp3);
-
-new Chart(document.getElementById("hum1"), {
-  type: 'scatter',
-  data: {
-    datasets: [{
-      label: "Ferm. 1",
-      // pointStyle: 'line',
-      showLine: true,
-      fill: false,
-      // borderColor: '#999999',
-      pointRadius: 3,
-      pointHoverRadius: 6,
-      data: temp1
-    },
-    {
-      label: "Ferm. 2",
-      // pointStyle: 'line',
-      showLine: true,
-      fill: false,
-      // borderColor: '#999999',
-      pointRadius: 3,
-      pointHoverRadius: 6,
-      data: temp2
-    },
-    {
-      label: "Ferm. 3",
-      // pointStyle: 'line',
-      showLine: true,
-      fill: false,
-      // borderColor: '#999999',
-      pointRadius: 3,
-      pointHoverRadius: 6,
-      data: temp3
-    }
-  ]
-  },
-  options: {
-    tooltips: {
-   callbacks: {
-      label: function(tooltipItem, data) {
-         var label = data.datasets[tooltipItem.datasetIndex].label;
-         return label + ': ' + tooltipItem.xLabel + 'hs' + ', ' + tooltipItem.yLabel + '°C';
+    async function plotIt() {
+      const data = await getData();
+      let temp1 = []
+      let temp2 = []
+      let temp3 = []
+      let timestamp = [];
+      // console.log(data);
+      for (item of data) {
+        const t1 = item.t1;
+        const t2 = item.t2;
+        const t3 = item.t3;
+        // const t = new Date(item.timestamp)
+        const t = (item.timestamp)
+        temp1.push({
+          x: t,
+          y: t1
+        });
+        temp2.push({
+          x: t,
+          y: t2
+        });
+        temp3.push({
+          x: t,
+          y: t3
+        });
+        // timestamp.push(t.toLocaleString());
+        timestamp.push(t);
       }
-   }
-},
-				hover: {
-					mode: 'index'
-				},
-    plugins: {
-            colorschemes: {
-                scheme: 'brewer.PuOr9'
-            }},
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-      position: 'bottom',
-      labels: {
-        usePointStyle: true
-      }
-    },
-    scales: {
-      xAxes: [{
-        ticks: {
-          maxTicksLimit: 10.1,
-          sampleSize: 30
-        },
-        type: 'time',
-        time: {
-          unit: 'minute',
-          displayFormats: {
-            minute: 'DD/MM - HH:mm'
+      console.log(temp1);
+      console.log(temp2);
+      console.log(temp3);
+
+      new Chart(document.getElementById("hum1"), {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: "Ferm. 1",
+            // pointStyle: 'line',
+            showLine: true,
+            fill: false,
+            // borderColor: '#999999',
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            data: temp1
           },
-          tooltipFormat: 'HH:mm'
+          {
+            label: "Ferm. 2",
+            // pointStyle: 'line',
+            showLine: true,
+            fill: false,
+            // borderColor: '#999999',
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            data: temp2
+          },
+          {
+            label: "Ferm. 3",
+            // pointStyle: 'line',
+            showLine: true,
+            fill: false,
+            // borderColor: '#999999',
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            data: temp3
+          }
+          ]
         },
-        scaleLabel: {
-          display: true,
-          labelString: 'Timestamp'
+        options: {
+          tooltips: {
+            callbacks: {
+              label: function (tooltipItem, data) {
+                var label = data.datasets[tooltipItem.datasetIndex].label;
+                return label + ': ' + tooltipItem.xLabel + 'hs' + ', ' + tooltipItem.yLabel + '°C';
+              }
+            }
+          },
+          hover: {
+            mode: 'index'
+          },
+          plugins: {
+            colorschemes: {
+              scheme: 'brewer.PuOr9'
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true
+            }
+          },
+          scales: {
+            xAxes: [{
+              ticks: {
+                maxTicksLimit: 10.1,
+                sampleSize: 30
+              },
+              type: 'time',
+              time: {
+                unit: 'minute',
+                displayFormats: {
+                  minute: 'DD/MM - HH:mm'
+                },
+                tooltipFormat: 'HH:mm'
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Timestamp'
+              }
+            }],
+            yAxes: [{
+              display: true,
+              ticks: {
+                beginAtZero: false,
+                steps: 10,
+                stepValue: 5,
+                //min: -30
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Temp [C]'
+              }
+            }]
+          },
+          title: {
+            display: true,
+            text: 'Registro de Temperaturas - Último día'
+          }
         }
-      }],
-      yAxes: [{
-        display: true,
-        ticks: {
-          beginAtZero: false,
-          steps: 10,
-          stepValue: 5,
-          //min: -30
-        },
-        scaleLabel: {
-          display: true,
-          labelString: 'Temp [C]'
-        }
-      }]
-    },
-    title: {
-      display: true,
-      text: 'Registro de Temperaturas'
+      });
+
     }
-  }
-});
 
-}
-
-plotIt();
+    plotIt();
 
   //]]></script>
 
   <script>
     // tell the embed parent frame the height of the content
-    if (window.parent && window.parent.parent){
+    if (window.parent && window.parent.parent) {
       window.parent.parent.postMessage(["resultsFrame", {
         height: document.body.getBoundingClientRect().height,
         slug: "7zub2fay"
@@ -189,4 +192,5 @@ plotIt();
 
 
 </body>
+
 </html>
