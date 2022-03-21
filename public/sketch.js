@@ -3,7 +3,7 @@ var test = 0;
 // gui params
 
 // gui Position
-var gui_x = 930;
+var gui_x = 933;
 var gui_y = 236;
 
 var f1_x = 768; //Linea en x del ferm 1
@@ -15,7 +15,7 @@ var label_y = 404; // linea en y de las etiquetas
 var temp_y = 472; //Linea en y de las temperaturas
 // var sp_y = 544; // Línea en y de los setpoints
 
-var buttons_x = 930; // Linea en x de los botones
+var buttons_x = gui_x; // Linea en x de los botones
 
 // var setpoint1;
 // var setpoint2;
