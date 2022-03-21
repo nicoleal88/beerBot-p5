@@ -78,15 +78,11 @@ const minutes = 1;
 const interval = minutes * 60 * 1000;
 
 setInterval(function() {
-    // catch all the errors.
-    setMySettings().catch(console.log);
+    // catch all the errors
     setMyData().catch(console.log);
 }, interval);
 
 function setup() {
-  // socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
-  // if we recieve a message with a label 'status', execute the function readStatus()
-  // socket.on('status', readStatus);
 
   frameRate(5);
   console.log("preloading DONE");
