@@ -3,8 +3,8 @@ var test = 0;
 // gui params
 
 // gui Position
-var gui_x = 934;
-var gui_y = 242;
+var gui_x = 930;
+var gui_y = 236;
 
 var f1_x = 768; //Linea en x del ferm 1
 var f2_x = 528; //Linea en x del ferm 2
@@ -15,7 +15,7 @@ var label_y = 404; // linea en y de las etiquetas
 var temp_y = 472; //Linea en y de las temperaturas
 // var sp_y = 544; // Línea en y de los setpoints
 
-var buttons_x = 934; // Linea en x de los botones
+var buttons_x = 930; // Linea en x de los botones
 
 // var setpoint1;
 // var setpoint2;
@@ -86,22 +86,22 @@ function setup() {
 
   //Button creation
   button = createButton('Enviar datos');
-  button.position(buttons_x, 450);
+  button.position(buttons_x, 442);
   button.class("button");
   button.mousePressed(sendData);
 
   hourButton = createButton("Gráfico 1 hora");
-  hourButton.position(buttons_x, 480);
+  hourButton.position(buttons_x, 472);
   hourButton.class("button");
   hourButton.mousePressed(onehour)
 
   dayButton = createButton("Gráfico 1 día");
-  dayButton.position(buttons_x, 510);
+  dayButton.position(buttons_x, 502);
   dayButton.class("button");
   dayButton.mousePressed(oneday)
 
   fortnightButton = createButton("Gráfico 15 días");
-  fortnightButton.position(buttons_x, 540);
+  fortnightButton.position(buttons_x, 532);
   fortnightButton.class("button");
   fortnightButton.mousePressed(fortnight)
 
