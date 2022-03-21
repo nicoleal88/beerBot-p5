@@ -13,16 +13,16 @@ var f3_x = 288; //Linea en x del ferm 3
 var ev_y = 225; // Linea en y de las electrovalvulas
 var label_y = 404; // linea en y de las etiquetas
 var temp_y = 472; //Linea en y de las temperaturas
-var sp_y = 544; // Línea en y de los setpoints
+// var sp_y = 544; // Línea en y de los setpoints
 
 var buttons_x = 950; // Linea en x de los botones
 
-var setpoint1;
-var setpoint2;
-var setpoint3;
+// var setpoint1;
+// var setpoint2;
+// var setpoint3;
 
-var spMin = 1;
-var spMax = 30;
+// var spMin = 1;
+// var spMax = 30;
 
 var label1;
 var label2;
@@ -30,7 +30,7 @@ var label3;
 
 // Fonts
 var labelsSize = 20;
-var spSize = 28;
+// var spSize = 28;
 var tempsSize = 38;
 
 // Data input
@@ -42,7 +42,7 @@ var temp2;
 var temp3;
 var tempAmb;
 
-var SPs = [21, 22, 23, 24];
+// var SPs = [21, 22, 23, 24];
 // float[] temps = {0.0, 0.0, 0.0, 0.0};
 // int[] status = {0, 0, 0, 0};
 // int[] buttons = {0, 0, 0, 0};
@@ -121,14 +121,14 @@ function setup() {
 
   // gui.addGlobals('label1', 'label2', 'label3',);
   obj = {
-    setpoint1: ferm1.sp,
-    setpoint2: ferm2.sp,
-    setpoint3: ferm3.sp,
+    // setpoint1: ferm1.sp,
+    // setpoint2: ferm2.sp,
+    // setpoint3: ferm3.sp,
     label1: ferm1.label,
     label2: ferm2.label,
     label3: ferm3.label,
   }
-  sliderRange(spMin, spMax, 1);
+  // sliderRange(spMin, spMax, 1);
   gui.addObject(obj);
 
   // Don't loop automatically
@@ -150,9 +150,9 @@ function draw() {
   text("T. amb.: " + tempAmb + " C", 1270, 26);
   pop()
 
-  ferm1.sp = obj.setpoint1;
-  ferm2.sp = obj.setpoint2;
-  ferm3.sp = obj.setpoint3;
+  // ferm1.sp = obj.setpoint1;
+  // ferm2.sp = obj.setpoint2;
+  // ferm3.sp = obj.setpoint3;
   ferm1.label = obj.label1;
   ferm2.label = obj.label2;
   ferm3.label = obj.label3;
@@ -207,9 +207,9 @@ async function sendData() {
   // Creating the data object
   let data = {
     timestamp: d,
-    sp1: ferm1.sp,
-    sp2: ferm2.sp,
-    sp3: ferm3.sp,
+    // sp1: ferm1.sp,
+    // sp2: ferm2.sp,
+    // sp3: ferm3.sp,
     label1: ferm1.label,
     label2: ferm2.label,
     label3: ferm3.label
@@ -253,18 +253,18 @@ async function setMySettings() {
   const settings = await getData('/settings');
   if (settings) {
     console.log(settings);
-    ferm1.sp = settings.sp1;
-    ferm2.sp = settings.sp2;
-    ferm3.sp = settings.sp3;
+    // ferm1.sp = settings.sp1;
+    // ferm2.sp = settings.sp2;
+    // ferm3.sp = settings.sp3;
 
     ferm1.label = settings.label1;
     ferm2.label = settings.label2;
     ferm3.label = settings.label3;
   }
   else {
-    ferm1.sp = 20;
-    ferm2.sp = 20;
-    ferm3.sp = 20;
+    // ferm1.sp = 20;
+    // ferm2.sp = 20;
+    // ferm3.sp = 20;
 
     ferm1.label = "label 1";
     ferm2.label = "label 2";
