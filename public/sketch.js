@@ -148,7 +148,7 @@ function draw() {
   textStyle(BOLD);
   fill(230)
   textAlign(CENTER)
-  text("T° amb.: " + tempAmb + " C", 1032, 217);
+  text("T° amb.: " + tempAmb + " °C", 1032, 217);
   pop()
 
   // ferm1.sp = obj.setpoint1;
