@@ -3,19 +3,19 @@ var test = 0;
 // gui params
 
 // gui Position
-var gui_x = 1188;
-var gui_y = 240;
+var gui_x = 950;
+var gui_y = 192;
 
-var f1_x = 960; //Linea en x del ferm 1
-var f2_x = 660; //Linea en x del ferm 2
-var f3_x = 360; //Linea en x del ferm 3
+var f1_x = 768; //Linea en x del ferm 1
+var f2_x = 528; //Linea en x del ferm 2
+var f3_x = 288; //Linea en x del ferm 3
 
-var ev_y = 282; // Linea en y de las electrovalvulas
-var label_y = 505; // linea en y de las etiquetas
-var temp_y = 590; //Linea en y de las temperaturas
-var sp_y = 680; // Línea en y de los setpoints
+var ev_y = 225; // Linea en y de las electrovalvulas
+var label_y = 404; // linea en y de las etiquetas
+var temp_y = 472; //Linea en y de las temperaturas
+var sp_y = 544; // Línea en y de los setpoints
 
-var buttons_x = 1188; // Linea en x de los botones
+var buttons_x = 950; // Linea en x de los botones
 
 var setpoint1;
 var setpoint2;
@@ -29,9 +29,9 @@ var label2;
 var label3;
 
 // Fonts
-var labelsSize = 24;
-var spSize = 36;
-var tempsSize = 48;
+var labelsSize = 20;
+var spSize = 28;
+var tempsSize = 38;
 
 // Data input
 var status = [];
@@ -86,22 +86,22 @@ function setup() {
 
   //Button creation
   button = createButton('Enviar datos');
-  button.position(buttons_x, 595);
+  button.position(buttons_x, 476);
   button.class("button");
   button.mousePressed(sendData);
 
   hourButton = createButton("Gráfico 1 hora");
-  hourButton.position(buttons_x, 620);
+  hourButton.position(buttons_x, 496);
   hourButton.class("button");
   hourButton.mousePressed(onehour)
 
   dayButton = createButton("Gráfico 1 día");
-  dayButton.position(buttons_x, 645);
+  dayButton.position(buttons_x, 516);
   dayButton.class("button");
   dayButton.mousePressed(oneday)
 
   fortnightButton = createButton("Gráfico 15 días");
-  fortnightButton.position(buttons_x, 670);
+  fortnightButton.position(buttons_x, 536);
   fortnightButton.class("button");
   fortnightButton.mousePressed(fortnight)
 
@@ -144,10 +144,10 @@ function draw() {
   // temp2 = temps[1];
   // temp3 = temps[2];
   push()
-  textSize(20)
+  textSize(labelsSize)
   fill(127)
   textAlign(RIGHT)
-  text("T. amb.: " + tempAmb + " C", 1590, 30);
+  text("T. amb.: " + tempAmb + " C", 1270, 26);
   pop()
 
   ferm1.sp = obj.setpoint1;

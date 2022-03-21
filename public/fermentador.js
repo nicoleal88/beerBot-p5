@@ -14,7 +14,7 @@ class Fermentador{
        this.control = 1;
        this.temp = 2;
        this.sp = 3;
-       this.label = "labell";
+       this.label = "label";
     }
     
     update(){
@@ -65,7 +65,7 @@ class Fermentador{
       push();
       noStroke();
       fill(this.getColor());
-      circle(this.x, ev_y, 40);
+      circle(this.x, ev_y, 32);
       pop();
     }
     
