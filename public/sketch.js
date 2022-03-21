@@ -69,7 +69,7 @@ function preload() {
   ferm2 = new Fermentador(f2_x, 02);
   ferm3 = new Fermentador(f3_x, 03);
 
-  bImg = loadImage('images/Ferm_background.png');
+  bImg = loadImage('images/Ferm_background_720.png');
   setMySettings();
   setMyData();
 }
@@ -143,8 +143,12 @@ function draw() {
 
   // temp2 = temps[1];
   // temp3 = temps[2];
-
-  text("Temp. amb.: " + tempAmb, 1000, 30);
+  push()
+  textSize(20)
+  fill(127)
+  textAlign(RIGHT)
+  text("T. amb.: " + tempAmb + " C", 1590, 30);
+  pop()
 
   ferm1.sp = obj.setpoint1;
   ferm2.sp = obj.setpoint2;
