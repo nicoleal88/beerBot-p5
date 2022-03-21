@@ -68,11 +68,18 @@ function preload() {
   ferm1 = new Fermentador(f1_x, 01);
   ferm2 = new Fermentador(f2_x, 02);
   ferm3 = new Fermentador(f3_x, 03);
-
   bImg = loadImage('images/Ferm_background_720.png');
-  setMySettings();
-  setMyData();
+  
 }
+
+const minutes = 1;
+const interval = minutes * 60 * 1000;
+
+setInterval(function() {
+    // catch all the errors.
+    setMySettings().catch(console.log);
+    setMyData().catch(console.log);
+}, interval);
 
 function setup() {
   // socket = io.connect('http://ec2-13-58-79-243.us-east-2.compute.amazonaws.com:3001/');
