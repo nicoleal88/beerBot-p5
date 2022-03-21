@@ -3,8 +3,8 @@ var test = 0;
 // gui params
 
 // gui Position
-var gui_x = 950;
-var gui_y = 192;
+var gui_x = 934;
+var gui_y = 267;
 
 var f1_x = 768; //Linea en x del ferm 1
 var f2_x = 528; //Linea en x del ferm 2
@@ -15,7 +15,7 @@ var label_y = 404; // linea en y de las etiquetas
 var temp_y = 472; //Linea en y de las temperaturas
 // var sp_y = 544; // Línea en y de los setpoints
 
-var buttons_x = 950; // Linea en x de los botones
+var buttons_x = 934; // Linea en x de los botones
 
 // var setpoint1;
 // var setpoint2;
@@ -145,9 +145,9 @@ function draw() {
   // temp3 = temps[2];
   push()
   textSize(labelsSize)
-  fill(127)
+  fill(230)
   textAlign(RIGHT)
-  text("T. amb.: " + tempAmb + " C", 1270, 26);
+  text("T. amb.: " + tempAmb + " C", 1115, 217);
   pop()
 
   // ferm1.sp = obj.setpoint1;
