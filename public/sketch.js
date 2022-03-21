@@ -79,6 +79,7 @@ const interval = minutes * 60 * 1000;
 
 setInterval(function() {
     // catch all the errors
+    setMySettings().catch(console.log);
     setMyData().catch(console.log);
 }, interval);
 
