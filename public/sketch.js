@@ -4,7 +4,7 @@ var test = 0;
 
 // gui Position
 var gui_x = 934;
-var gui_y = 267;
+var gui_y = 242;
 
 var f1_x = 768; //Linea en x del ferm 1
 var f2_x = 528; //Linea en x del ferm 2
@@ -86,22 +86,22 @@ function setup() {
 
   //Button creation
   button = createButton('Enviar datos');
-  button.position(buttons_x, 476);
+  button.position(buttons_x, 450);
   button.class("button");
   button.mousePressed(sendData);
 
   hourButton = createButton("Gráfico 1 hora");
-  hourButton.position(buttons_x, 496);
+  hourButton.position(buttons_x, 480);
   hourButton.class("button");
   hourButton.mousePressed(onehour)
 
   dayButton = createButton("Gráfico 1 día");
-  dayButton.position(buttons_x, 516);
+  dayButton.position(buttons_x, 510);
   dayButton.class("button");
   dayButton.mousePressed(oneday)
 
   fortnightButton = createButton("Gráfico 15 días");
-  fortnightButton.position(buttons_x, 536);
+  fortnightButton.position(buttons_x, 540);
   fortnightButton.class("button");
   fortnightButton.mousePressed(fortnight)
 
@@ -144,10 +144,11 @@ function draw() {
   // temp2 = temps[1];
   // temp3 = temps[2];
   push()
-  textSize(labelsSize)
+  textSize(labelsSize);
+  textStyle(BOLD);
   fill(230)
-  textAlign(RIGHT)
-  text("T. amb.: " + tempAmb + " C", 1115, 217);
+  textAlign(CENTER)
+  text("T° amb.: " + tempAmb + " C", 1032, 217);
   pop()
 
   // ferm1.sp = obj.setpoint1;
