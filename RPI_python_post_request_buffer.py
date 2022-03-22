@@ -122,9 +122,10 @@ while True:
         status = postData(payload)
 
         if status != 200:
-            print("The status was: " + status)
+            print("The status was: " + str(status))
             dataBuffer.append(payload)
-            print("The data in buffer is: " + dataBuffer)
+            print("The data in buffer is: ")
+            print(dataBuffer)
 
         if len(dataBuffer) > 0 and status == 200:
             for i in range(10):
@@ -138,6 +139,7 @@ while True:
     except:
         dataBuffer.append(payload)
         print("An exeption has ocurred! ")
-        print("The data in buffer is: " + dataBuffer)
+        print("The data in buffer is: ")
+        print(dataBuffer)
 
     time.sleep(30)
