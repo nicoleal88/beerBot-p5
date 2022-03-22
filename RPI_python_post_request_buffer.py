@@ -128,9 +128,13 @@ while True:
             print(dataBuffer)
 
         if len(dataBuffer) > 0 and status == 200:
+            time.sleep(2)
+            print("Starting to send data in buffer...")
             for i in range(10):
                 b = dataBuffer.pop()
+                print("Posting data from buffer")
                 postData(b)
+                print("Data remaining in buffer: " + str(len(dataBuffer)))
                 if len(dataBuffer) == 0:
                     break
                 else:
