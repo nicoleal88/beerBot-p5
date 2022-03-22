@@ -3,8 +3,8 @@ import RPi.GPIO as GPIO
 import os
 # import threading
 
-# importing the requests library 
-import requests 
+# importing the requests library
+import requests
 import json
 import random
 import time
@@ -59,6 +59,7 @@ baseDir = '/sys/bus/w1/devices/'
 
 userHome = os.getenv("HOME")
 
+
 def read_temp_raw(id):
     deviceFile = baseDir + id + '/w1_slave'
     f = open(deviceFile, 'r')
@@ -91,15 +92,18 @@ def readTemps():
     #          "{:2.2f}".format(Temps[2]),
     #          "{:2.2f}".format(Temps[3]))
 
+
 def postData(data):
-    r = requests.post(url = endpoint, json = data)
-    # extracting response text 
+    r = requests.post(url=endpoint, json=data)
+    # extracting response text
     resp = r.text
-    status = r.status_code 
-    print(data)
+    status = r.status_code
+    # print(data)
     print(resp, status)
+    return status
 
 # readTemps()
+
 
 while True:
 
@@ -110,23 +114,30 @@ while True:
     timestamp = int(datetime.timestamp(now)*1000)
 
     # Generate payload to be sent
-    payload = {'timestamp' : timestamp, 't0': Temps[0], 't1': Temps[1], 't2': Temps[2], 't3': Temps[3]}
+    payload = {'timestamp': timestamp,
+               't0': Temps[0], 't1': Temps[1], 't2': Temps[2], 't3': Temps[3]}
 
     try:
         # sending post request and saving response as response object
-        postData(payload)
+        status = postData(payload)
 
-        if len(dataBuffer)>0:
+        if status != 200:
+            print("The status was: " + status)
+            dataBuffer.append(payload)
+            print("The data in buffer is: " + dataBuffer)
+
+        if len(dataBuffer) > 0 and status == 200:
             for i in range(10):
                 b = dataBuffer.pop()
                 postData(b)
-                if len(dataBuffer)==0:
+                if len(dataBuffer) == 0:
                     break
                 else:
                     time.sleep(2)
 
     except:
         dataBuffer.append(payload)
-        print(dataBuffer)
-    
+        print("An exeption has ocurred! ")
+        print("The data in buffer is: " + dataBuffer)
+
     time.sleep(30)
