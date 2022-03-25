@@ -322,19 +322,6 @@ function showLastUpdate() {
   // const point = AMIGA_Map.latLngToPixel(elt.lat, elt.lng);
 }
 
-function millisecondsToHuman(ms) {
-  const seconds = Math.floor((ms / 1000) % 60);
-  const minutes = Math.floor((ms / 1000 / 60) % 60);
-  const hours = Math.floor(ms / 1000 / 60 / 60);
-
-  const humanized = [
-    hours.toString(), 2,
-    minutes.toString(), 2,
-    seconds.toString(), 2,
-  ].join(':');
-
-  return humanized;
-}
 // Scheme:
 
 // User inputs:
