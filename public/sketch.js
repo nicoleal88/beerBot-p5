@@ -71,6 +71,7 @@ function preload() {
   ferm3 = new Fermentador(f3_x, 03);
   setMySettings();
   setMyData();
+  showLastUpdate();
   bImg = loadImage('images/Ferm_background_720.png');
   
 }
@@ -82,6 +83,7 @@ setInterval(function() {
     // catch all the errors
     setMySettings().catch(console.log);
     setMyData().catch(console.log);
+    showLastUpdate();
 }, interval);
 
 function setup() {
@@ -91,7 +93,7 @@ function setup() {
   createCanvas(1280, 720);
   // console.log(test);
 
-  lastUpdateDate = new Date(Number(lastTimestamp));
+  // lastUpdateDate = new Date(Number(lastTimestamp));
 
   //Button creation
   button = createButton('Enviar datos');
@@ -312,7 +314,7 @@ function showLastUpdate() {
   var timestamp = lastTimestamp
   var date = new Date(timestamp);
  
-  text("Last update: " + "Date: "+date.getDate()+
+  text("Último dato: "+ date.getDate()+
   "/"+(date.getMonth()+1)+
   "/"+date.getFullYear()+
   " "+date.getHours()+
