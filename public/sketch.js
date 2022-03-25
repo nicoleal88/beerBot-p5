@@ -41,6 +41,7 @@ var temp1;
 var temp2;
 var temp3;
 var tempAmb;
+var lastTimestamp
 
 // var SPs = [21, 22, 23, 24];
 // float[] temps = {0.0, 0.0, 0.0, 0.0};
@@ -89,6 +90,8 @@ function setup() {
   console.log("preloading DONE");
   createCanvas(1280, 720);
   // console.log(test);
+
+  lastUpdateDate = new Date(Number(lastTimestamp));
 
   //Button creation
   button = createButton('Enviar datos');
@@ -157,6 +160,13 @@ function draw() {
   text("T° amb.: " + tempAmb + " °C", 1032, 217);
   pop()
 
+  push()
+  textSize(16);
+  fill(255)
+  textAlign(CENTER)
+  text("Last data: " + lastTimestamp , 650, 730);
+  pop()
+  
   // ferm1.sp = obj.setpoint1;
   // ferm2.sp = obj.setpoint2;
   // ferm3.sp = obj.setpoint3;
@@ -248,6 +258,7 @@ async function setMyData() {
     ferm2.temp = nf(data.t2, 0, 1);
     ferm3.temp = nf(data.t3, 0, 1);
     tempAmb = nf(data.t0, 0, 1);
+    lastTimestamp = data.timestamp
   }
   else {
     ferm1.temp = -999;
