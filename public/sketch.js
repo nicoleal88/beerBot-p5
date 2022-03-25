@@ -309,9 +309,15 @@ function showLastUpdate() {
   textSize(12);
   textAlign(CENTER);
 
-  let date_ = millisecondsToHuman(lastTimestamp)
-
-  text("Last update: " + date_ , width / 2, height - 4);
+  var timestamp = lastTimestamp
+  var date = new Date(timestamp);
+ 
+  text("Last update: " + "Date: "+date.getDate()+
+  "/"+(date.getMonth()+1)+
+  "/"+date.getFullYear()+
+  " "+date.getHours()+
+  ":"+date.getMinutes()+
+  ":"+date.getSeconds() , width / 2, height - 4);
   pop();
   // const point = AMIGA_Map.latLngToPixel(elt.lat, elt.lng);
 }
@@ -322,9 +328,9 @@ function millisecondsToHuman(ms) {
   const hours = Math.floor(ms / 1000 / 60 / 60);
 
   const humanized = [
-    pad(hours.toString(), 2),
-    pad(minutes.toString(), 2),
-    pad(seconds.toString(), 2),
+    hours.toString(), 2,
+    minutes.toString(), 2,
+    seconds.toString(), 2,
   ].join(':');
 
   return humanized;
