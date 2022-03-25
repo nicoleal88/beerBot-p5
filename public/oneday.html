@@ -33,23 +33,36 @@
   <script type="text/javascript">//<![CDATA[
 
     async function getData() {
-      const response = await fetch('/oneday');
+      const response = await fetch('/onehour');
+      const data = await response.json();
+      // console.log(data);
+      return data;
+    };
+
+    async function getSettings() {
+      const response = await fetch('/settings');
       const data = await response.json();
       // console.log(data);
       return data;
     };
 
     async function plotIt() {
+      const settings = await getSettings();
+      let label1 = settings.label1;
+      let label2 = settings.label2;
+      let label3 = settings.label3;
       const data = await getData();
       let temp1 = []
       let temp2 = []
       let temp3 = []
+      let tempA = []
       let timestamp = [];
       // console.log(data);
       for (item of data) {
         const t1 = item.t1;
         const t2 = item.t2;
         const t3 = item.t3;
+        const tA = item.t0;
         // const t = new Date(item.timestamp)
         const t = (item.timestamp)
         temp1.push({
@@ -64,18 +77,22 @@
           x: t,
           y: t3
         });
+        tempA.push({
+          x: t,
+          y: tA
+        });
         // timestamp.push(t.toLocaleString());
         timestamp.push(t);
       }
-      console.log(temp1);
-      console.log(temp2);
-      console.log(temp3);
+      // console.log(temp1);
+      // console.log(temp2);
+      // console.log(temp3);
 
       new Chart(document.getElementById("hum1"), {
         type: 'scatter',
         data: {
           datasets: [{
-            label: "Ferm. 1",
+            label: "Ferm. 1: " + label1,
             // pointStyle: 'line',
             showLine: true,
             fill: false,
@@ -85,7 +102,7 @@
             data: temp1
           },
           {
-            label: "Ferm. 2",
+            label: "Ferm. 2: " + label2,
             // pointStyle: 'line',
             showLine: true,
             fill: false,
@@ -95,7 +112,7 @@
             data: temp2
           },
           {
-            label: "Ferm. 3",
+            label: "Ferm. 3: " + label3,
             // pointStyle: 'line',
             showLine: true,
             fill: false,
@@ -103,6 +120,16 @@
             pointRadius: 3,
             pointHoverRadius: 6,
             data: temp3
+          },
+          {
+            label: "T° amb.",
+            // pointStyle: 'line',
+            showLine: true,
+            fill: false,
+            borderColor: '#FFFFFF',
+            pointRadius: 1,
+            pointHoverRadius: 3,
+            data: tempA
           }
           ]
         },
