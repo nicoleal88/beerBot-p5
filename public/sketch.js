@@ -71,7 +71,7 @@ function preload() {
   ferm3 = new Fermentador(f3_x, 03);
   setMySettings();
   setMyData();
-  showLastUpdate();
+  
   bImg = loadImage('images/Ferm_background_720.png');
   
 }
@@ -94,7 +94,9 @@ function setup() {
   // console.log(test);
 
   // lastUpdateDate = new Date(Number(lastTimestamp));
-
+  
+  showLastUpdate();
+  
   //Button creation
   button = createButton('Enviar datos');
   button.position(buttons_x, 442);
