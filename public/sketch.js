@@ -164,9 +164,9 @@ function draw() {
   textSize(16);
   fill(255)
   textAlign(CENTER)
-  text("Last data: " + lastTimestamp , 650, 730);
+  text("Last data: " + lastTimestamp , 650, 704);
   pop()
-  
+
   // ferm1.sp = obj.setpoint1;
   // ferm2.sp = obj.setpoint2;
   // ferm3.sp = obj.setpoint3;
