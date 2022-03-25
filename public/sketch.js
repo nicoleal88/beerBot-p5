@@ -160,12 +160,7 @@ function draw() {
   text("T° amb.: " + tempAmb + " °C", 1032, 217);
   pop()
 
-  push()
-  textSize(16);
-  fill(255)
-  textAlign(CENTER)
-  text("Last data: " + lastTimestamp , 650, 704);
-  pop()
+  showLastUpdate()
 
   // ferm1.sp = obj.setpoint1;
   // ferm2.sp = obj.setpoint2;
@@ -305,6 +300,43 @@ function oneday() {
 function fortnight() {
   window.open("fortnight.html");
 }
+
+function getDateInString() {
+  let res = new Map()
+
+  // current year
+  res['year'] = lastTimestamp.getUTCFullYear();
+
+  // current month. Using slice() deletes extraneous 0 in double-digit days, working as a poor man's zero pad.
+  res['month'] = ("0" + (lastTimestamp.getUTCMonth() + 1)).slice(-2);
+
+  // current day
+  res['day'] = ("0" + lastTimestamp.getUTCDate()).slice(-2);
+
+  // current hour
+  res['hour'] = ("0" + lastTimestamp.getUTCHours()).slice(-2);
+
+  // current minute
+  res['minute'] = ("0" + lastTimestamp.getUTCMinutes()).slice(-2);
+
+  return res
+}
+
+function showLastUpdate() {
+  push();
+  fill(200);
+  noStroke();
+  textSize(12);
+  textAlign(CENTER);
+
+  let unformattedDate = getDateInString();
+
+  text("Last update: " + unformattedDate['year'] + "/" + unformattedDate['month'] + "/" + unformattedDate['day'] + " " + unformattedDate['hour'] + ":" + unformattedDate['minute'] + " UTC", width / 2, height - 4);
+  pop();
+  // const point = AMIGA_Map.latLngToPixel(elt.lat, elt.lng);
+}
+
+
 // Scheme:
 
 // User inputs:
