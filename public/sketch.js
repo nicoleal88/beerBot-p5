@@ -301,26 +301,6 @@ function fortnight() {
   window.open("fortnight.html");
 }
 
-function getDateInString() {
-  let res = new Map()
-
-  // current year
-  res['year'] = lastTimestamp.getUTCFullYear();
-
-  // current month. Using slice() deletes extraneous 0 in double-digit days, working as a poor man's zero pad.
-  res['month'] = ("0" + (lastTimestamp.getUTCMonth() + 1)).slice(-2);
-
-  // current day
-  res['day'] = ("0" + lastTimestamp.getUTCDate()).slice(-2);
-
-  // current hour
-  res['hour'] = ("0" + lastTimestamp.getUTCHours()).slice(-2);
-
-  // current minute
-  res['minute'] = ("0" + lastTimestamp.getUTCMinutes()).slice(-2);
-
-  return res
-}
 
 function showLastUpdate() {
   push();
@@ -329,14 +309,26 @@ function showLastUpdate() {
   textSize(12);
   textAlign(CENTER);
 
-  let unformattedDate = getDateInString();
+  let date_ = millisecondsToHuman(lastTimestamp)
 
-  text("Last update: " + unformattedDate['year'] + "/" + unformattedDate['month'] + "/" + unformattedDate['day'] + " " + unformattedDate['hour'] + ":" + unformattedDate['minute'] + " UTC", width / 2, height - 4);
+  text("Last update: " + date_ , width / 2, height - 4);
   pop();
   // const point = AMIGA_Map.latLngToPixel(elt.lat, elt.lng);
 }
 
+function millisecondsToHuman(ms) {
+  const seconds = Math.floor((ms / 1000) % 60);
+  const minutes = Math.floor((ms / 1000 / 60) % 60);
+  const hours = Math.floor(ms / 1000 / 60 / 60);
 
+  const humanized = [
+    pad(hours.toString(), 2),
+    pad(minutes.toString(), 2),
+    pad(seconds.toString(), 2),
+  ].join(':');
+
+  return humanized;
+}
 // Scheme:
 
 // User inputs:
