@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json
+from turtle import home
 import requests
 from requests import ConnectionError
 import time
@@ -115,6 +116,15 @@ luser = config['LUSER']
 # A mean value is got every minute, so 10 lines of data are returned.
 # -----------------------------------------------------------------------------
 
+
+def get_10mReport():
+    f = "/home/ubuntu/beerBot-p5/database.db"
+    process = Popen(['tail', '-n', '1', f], stdout=PIPE,
+                    stderr=PIPE, universal_newlines=True)
+    stdout, stderr = process.communicate()
+    out = stdout
+
+    return out
 
 # def get_10mReport():
 #     filesJoin()
@@ -357,9 +367,9 @@ def processCommand(command, chat_id):
     if (words[0] == "/blabla"):
         send_message("balinazo", chat_id)
         log("Test response")
-    # elif (words[0] == "/reporte_10m"):
-    #     send_message(get_10mReport(), str(chat_id))
-    #     log("Sending 10-minute report", "to: " + str(chat_id))
+    elif (words[0] == "/reporte_10m"):
+        send_message(get_10mReport(), str(chat_id))
+        log("Sending 10-minute report", "to: " + str(chat_id))
     # elif (words[0] == "/reporte_1h"):
     #     send_message(get_1hReport(), str(chat_id))
     #     log("Sending 1-hour report", "to: " + str(chat_id))
