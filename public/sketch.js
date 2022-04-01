@@ -4,7 +4,7 @@ var test = 0;
 
 // gui Position
 var gui_x = 933;
-var gui_y = 206;
+var gui_y = 200;
 
 var f1_x = 768; //Linea en x del ferm 1
 var f2_x = 528; //Linea en x del ferm 2
