@@ -121,6 +121,7 @@ def get_10mReport():
     f = "/home/ubuntu/beerBot-p5/database.db"
     process = Popen(['tail', '-n', '1', f], stdout=PIPE,
                     stderr=PIPE, universal_newlines=True)
+                    
     stdout, stderr = process.communicate()
     out = stdout
 
