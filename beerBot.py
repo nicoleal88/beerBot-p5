@@ -13,7 +13,7 @@ import sys
 connection_timeout = 30  # seconds
 
 userHome = os.getenv("HOME")
-dirPath = userHome + '/beerBot'
+dirPath = userHome + '/beerBot-p5'
 
 config = {}
 with open(dirPath + '/config', 'r') as f:
@@ -28,39 +28,39 @@ token = config['TOKEN']
 botURL = "https://api.telegram.org/bot{}/".format(token)
 logName = config['LOG']
 logFile = dirPath + '/' + logName
-plotDir = config['PLOT_DIR']
-imgPath = dirPath + '/' + plotDir + '/output.png'
+# plotDir = config['PLOT_DIR']
+# imgPath = dirPath + '/' + plotDir + '/output.png'
 luser = config['LUSER']
-regDir = config['REG_DIR']
-regPath = dirPath + '/' + regDir
-tmpFile = dirPath + '/.tmp'
+# regDir = config['REG_DIR']
+# regPath = dirPath + '/' + regDir
+# tmpFile = dirPath + '/.tmp'
 
 
-def removeTempFile():
-    try:
-        os.remove(tmpFile)
-        print("Removing old tempFile...")
-    except:
-        print("Old tempFile not found")
+# def removeTempFile():
+#     try:
+#         os.remove(tmpFile)
+#         print("Removing old tempFile...")
+#     except:
+#         print("Old tempFile not found")
 
 
-def removePlot(when):
-    try:
-        os.remove(imgPath)
-        print("Removing old plot {}...".format(when))
-    except:
-        print("Old plot not found")
+# def removePlot(when):
+#     try:
+#         os.remove(imgPath)
+#         print("Removing old plot {}...".format(when))
+#     except:
+#         print("Old plot not found")
 
 
-def trySendImage(chat, times, text):
-    for i in range(times):
-        try:
-            sendImage(chat)
-            log("Sent {} plot".format(text), "to: " + str(chat))
-            break
-        except:
-            print('Plot not found ({}), retrying...'.format(i))
-            time.sleep(1)
+# def trySendImage(chat, times, text):
+#     for i in range(times):
+#         try:
+#             sendImage(chat)
+#             log("Sent {} plot".format(text), "to: " + str(chat))
+#             break
+#         except:
+#             print('Plot not found ({}), retrying...'.format(i))
+#             time.sleep(1)
 
 
 # -----------------------------------------------------------------------------
@@ -74,37 +74,37 @@ def trySendImage(chat, times, text):
 # -----------------------------------------------------------------------------
 
 
-def filesJoin():
-    removeTempFile()
-    today = datetime.date.today()
-    yesterday = today - datetime.timedelta(1)
-    todayFile = regPath + \
-        today.strftime('/%Y/%m/') + \
-        today.strftime('%Y-%m-%d.dat')
-    yesterdayFile = regPath + \
-        yesterday.strftime('/%Y/%m/') + \
-        yesterday.strftime('%Y-%m-%d.dat')
-    lines = [yesterdayFile, todayFile]
-    print (lines)
-    with open(tmpFile, 'w') as outfile:
-        for fname in lines:
-            print ("Trying to open {}".format(fname))
-            try:
-                with open(fname, 'r') as infile:
-                    a = infile.readlines()
-                    for lines in a:
-                        thisLine = lines.rstrip()
-                        words = thisLine.split('\t')
-                        timeStamp = words[0]
-                        if (len(timeStamp) == 19) and (len(words) == 5):
-                            if ((float(words[1]) >= -30) and
-                                    (float(words[2]) >= -30) and
-                                    (float(words[3]) >= -30) and
-                                    (float(words[4]) >= -30)):
-                                outfile.write(lines)
-            except:
-                log('Error while reading file: ' + fname)
-    print("Done joining")
+# def filesJoin():
+#     removeTempFile()
+#     today = datetime.date.today()
+#     yesterday = today - datetime.timedelta(1)
+#     todayFile = regPath + \
+#         today.strftime('/%Y/%m/') + \
+#         today.strftime('%Y-%m-%d.dat')
+#     yesterdayFile = regPath + \
+#         yesterday.strftime('/%Y/%m/') + \
+#         yesterday.strftime('%Y-%m-%d.dat')
+#     lines = [yesterdayFile, todayFile]
+#     print (lines)
+#     with open(tmpFile, 'w') as outfile:
+#         for fname in lines:
+#             print ("Trying to open {}".format(fname))
+#             try:
+#                 with open(fname, 'r') as infile:
+#                     a = infile.readlines()
+#                     for lines in a:
+#                         thisLine = lines.rstrip()
+#                         words = thisLine.split('\t')
+#                         timeStamp = words[0]
+#                         if (len(timeStamp) == 19) and (len(words) == 5):
+#                             if ((float(words[1]) >= -30) and
+#                                     (float(words[2]) >= -30) and
+#                                     (float(words[3]) >= -30) and
+#                                     (float(words[4]) >= -30)):
+#                                 outfile.write(lines)
+#             except:
+#                 log('Error while reading file: ' + fname)
+#     print("Done joining")
 
 # -----------------------------------------------------------------------------
 # Method that returns a report containg the data of the last 10 minutes
@@ -116,45 +116,45 @@ def filesJoin():
 # -----------------------------------------------------------------------------
 
 
-def get_10mReport():
-    filesJoin()
-    process = Popen(['tail', '-n', '120', tmpFile], stdout=PIPE,
-                    stderr=PIPE, universal_newlines=True)
-    stdout, stderr = process.communicate()
-    out = stdout
-    lines = out.split("\n")
-    previousMinute = lines[0].split("\t")[0][:-3]
-    count = 0
-    t1_m = 0
-    t2_m = 0
-    t3_m = 0
-    lt = ""
-    for ls in lines:
-        words = ls.split("\t")
-        thisMinute = words[0][:-3]
-        if (thisMinute == previousMinute):
-            count = count + 1
-            t1_m = t1_m + float(words[1])
-            t2_m = t2_m + float(words[2])
-            t3_m = t3_m + float(words[3])
-        else:
-            tws = previousMinute.split(" ")
-            t1_m = t1_m/count
-            t2_m = t2_m/count
-            t3_m = t3_m/count
-            lt += "{}/{} {}   {:.1f}   {:.1f}   {:.1f}\n".format(tws[0].split("/")[2],
-                                                                 tws[0].split("/")[1],
-                                                                 tws[1],
-                                                                 t1_m,
-                                                                 t2_m,
-                                                                 t3_m)
-            previousMinute = thisMinute
-            count = 1
-            if (words[0] != ""):
-                t1_m = float(words[1])
-                t2_m = float(words[2])
-                t3_m = float(words[3])
-    return lt
+# def get_10mReport():
+#     filesJoin()
+#     process = Popen(['tail', '-n', '120', tmpFile], stdout=PIPE,
+#                     stderr=PIPE, universal_newlines=True)
+#     stdout, stderr = process.communicate()
+#     out = stdout
+#     lines = out.split("\n")
+#     previousMinute = lines[0].split("\t")[0][:-3]
+#     count = 0
+#     t1_m = 0
+#     t2_m = 0
+#     t3_m = 0
+#     lt = ""
+#     for ls in lines:
+#         words = ls.split("\t")
+#         thisMinute = words[0][:-3]
+#         if (thisMinute == previousMinute):
+#             count = count + 1
+#             t1_m = t1_m + float(words[1])
+#             t2_m = t2_m + float(words[2])
+#             t3_m = t3_m + float(words[3])
+#         else:
+#             tws = previousMinute.split(" ")
+#             t1_m = t1_m/count
+#             t2_m = t2_m/count
+#             t3_m = t3_m/count
+#             lt += "{}/{} {}   {:.1f}   {:.1f}   {:.1f}\n".format(tws[0].split("/")[2],
+#                                                                  tws[0].split("/")[1],
+#                                                                  tws[1],
+#                                                                  t1_m,
+#                                                                  t2_m,
+#                                                                  t3_m)
+#             previousMinute = thisMinute
+#             count = 1
+#             if (words[0] != ""):
+#                 t1_m = float(words[1])
+#                 t2_m = float(words[2])
+#                 t3_m = float(words[3])
+#     return lt
 
 
 # -----------------------------------------------------------------------------
@@ -167,54 +167,54 @@ def get_10mReport():
 # -----------------------------------------------------------------------------
 
 
-def get_1hReport():
-    filesJoin()
-    process = Popen(['tail', '-n', '720', tmpFile], stdout=PIPE,
-                    stderr=PIPE, universal_newlines=True)
-    stdout, stderr = process.communicate()
-    out = stdout
-    lines = out.split("\n")
-    if (int(lines[0].split("\t")[0][-4:-3]) < 5):
-        previous5mBin = lines[0].split("\t")[0][:-4] + '0'
-    else:
-        previous5mBin = lines[0].split("\t")[0][:-4] + '5'
-    count = 0
-    t1_m = 0
-    t2_m = 0
-    t3_m = 0
-    lt = ""
-    for ls in lines:
-        words = ls.split("\t")
-        if (len(words[0]) > 2):
-            if (int(words[0][-4:-3]) < 5):
-                this5mBin = words[0][:-4] + '0'
-            else:
-                this5mBin = words[0][:-4] + '5'
-        else:
-            this5mBin = previous5mBin[:-1] + '6'
-        if (this5mBin == previous5mBin):
-            count = count + 1
-            t1_m = t1_m + float(words[1])
-            t2_m = t2_m + float(words[2])
-            t3_m = t3_m + float(words[3])
-        else:
-            tws = previous5mBin.split(" ")
-            t1_m = t1_m/count
-            t2_m = t2_m/count
-            t3_m = t3_m/count
-            lt += "{}/{} {}   {:.1f}   {:.1f}   {:.1f}\n".format(tws[0].split("/")[2],
-                                                                 tws[0].split("/")[1],
-                                                                 tws[1],
-                                                                 t1_m,
-                                                                 t2_m,
-                                                                 t3_m)
-            previous5mBin = this5mBin
-            count = 1
-            if (words[0] != ""):
-                t1_m = float(words[1])
-                t2_m = float(words[2])
-                t3_m = float(words[3])
-    return lt
+# def get_1hReport():
+#     filesJoin()
+#     process = Popen(['tail', '-n', '720', tmpFile], stdout=PIPE,
+#                     stderr=PIPE, universal_newlines=True)
+#     stdout, stderr = process.communicate()
+#     out = stdout
+#     lines = out.split("\n")
+#     if (int(lines[0].split("\t")[0][-4:-3]) < 5):
+#         previous5mBin = lines[0].split("\t")[0][:-4] + '0'
+#     else:
+#         previous5mBin = lines[0].split("\t")[0][:-4] + '5'
+#     count = 0
+#     t1_m = 0
+#     t2_m = 0
+#     t3_m = 0
+#     lt = ""
+#     for ls in lines:
+#         words = ls.split("\t")
+#         if (len(words[0]) > 2):
+#             if (int(words[0][-4:-3]) < 5):
+#                 this5mBin = words[0][:-4] + '0'
+#             else:
+#                 this5mBin = words[0][:-4] + '5'
+#         else:
+#             this5mBin = previous5mBin[:-1] + '6'
+#         if (this5mBin == previous5mBin):
+#             count = count + 1
+#             t1_m = t1_m + float(words[1])
+#             t2_m = t2_m + float(words[2])
+#             t3_m = t3_m + float(words[3])
+#         else:
+#             tws = previous5mBin.split(" ")
+#             t1_m = t1_m/count
+#             t2_m = t2_m/count
+#             t3_m = t3_m/count
+#             lt += "{}/{} {}   {:.1f}   {:.1f}   {:.1f}\n".format(tws[0].split("/")[2],
+#                                                                  tws[0].split("/")[1],
+#                                                                  tws[1],
+#                                                                  t1_m,
+#                                                                  t2_m,
+#                                                                  t3_m)
+#             previous5mBin = this5mBin
+#             count = 1
+#             if (words[0] != ""):
+#                 t1_m = float(words[1])
+#                 t2_m = float(words[2])
+#                 t3_m = float(words[3])
+#     return lt
 
 # -----------------------------------------------------------------------------
 # Method that returns a report containg the data of the last day.
@@ -227,54 +227,54 @@ def get_1hReport():
 # -----------------------------------------------------------------------------
 
 
-def get_1dReport():
-    filesJoin()
-    process = Popen(['tail', '-n', '17280', tmpFile], stdout=PIPE,
-                    stderr=PIPE, universal_newlines=True)
-    stdout, stderr = process.communicate()
-    out = stdout
-    lines = out.split("\n")
-    if (int(lines[0].split("\t")[0][-5:-3]) < 30):
-        previous30mBin = lines[0].split("\t")[0][:-5] + '00:00'
-    else:
-        previous30mBin = lines[0].split("\t")[0][:-5] + '30:00'
-    count = 0
-    t1_m = 0
-    t2_m = 0
-    t3_m = 0
-    lt = ""
-    for ls in lines:
-        words = ls.split("\t")
-        if (len(words[0]) > 2):
-            if (int(words[0].split("\t")[0][-5:-3]) < 30):
-                this30mBin = words[0].split("\t")[0][:-5] + '00:00'
-            else:
-                this30mBin = words[0].split("\t")[0][:-5] + '30:00'
-        else:
-            this30mBin = previous30mBin[:-1] + '1'
-        if (this30mBin == previous30mBin):
-            count = count + 1
-            t1_m = t1_m + float(words[1])
-            t2_m = t2_m + float(words[2])
-            t3_m = t3_m + float(words[3])
-        else:
-            tws = previous30mBin.split(" ")
-            t1_m = t1_m/count
-            t2_m = t2_m/count
-            t3_m = t3_m/count
-            lt += "{}/{} {}   {:.1f}   {:.1f}   {:.1f}\n".format(tws[0].split("/")[2],
-                                                                 tws[0].split("/")[1],
-                                                                 tws[1][:-3],
-                                                                 t1_m,
-                                                                 t2_m,
-                                                                 t3_m)
-            previous30mBin = this30mBin
-            count = 1
-            if (words[0] != ""):
-                t1_m = float(words[1])
-                t2_m = float(words[2])
-                t3_m = float(words[3])
-    return lt
+# def get_1dReport():
+#     filesJoin()
+#     process = Popen(['tail', '-n', '17280', tmpFile], stdout=PIPE,
+#                     stderr=PIPE, universal_newlines=True)
+#     stdout, stderr = process.communicate()
+#     out = stdout
+#     lines = out.split("\n")
+#     if (int(lines[0].split("\t")[0][-5:-3]) < 30):
+#         previous30mBin = lines[0].split("\t")[0][:-5] + '00:00'
+#     else:
+#         previous30mBin = lines[0].split("\t")[0][:-5] + '30:00'
+#     count = 0
+#     t1_m = 0
+#     t2_m = 0
+#     t3_m = 0
+#     lt = ""
+#     for ls in lines:
+#         words = ls.split("\t")
+#         if (len(words[0]) > 2):
+#             if (int(words[0].split("\t")[0][-5:-3]) < 30):
+#                 this30mBin = words[0].split("\t")[0][:-5] + '00:00'
+#             else:
+#                 this30mBin = words[0].split("\t")[0][:-5] + '30:00'
+#         else:
+#             this30mBin = previous30mBin[:-1] + '1'
+#         if (this30mBin == previous30mBin):
+#             count = count + 1
+#             t1_m = t1_m + float(words[1])
+#             t2_m = t2_m + float(words[2])
+#             t3_m = t3_m + float(words[3])
+#         else:
+#             tws = previous30mBin.split(" ")
+#             t1_m = t1_m/count
+#             t2_m = t2_m/count
+#             t3_m = t3_m/count
+#             lt += "{}/{} {}   {:.1f}   {:.1f}   {:.1f}\n".format(tws[0].split("/")[2],
+#                                                                  tws[0].split("/")[1],
+#                                                                  tws[1][:-3],
+#                                                                  t1_m,
+#                                                                  t2_m,
+#                                                                  t3_m)
+#             previous30mBin = this30mBin
+#             count = 1
+#             if (words[0] != ""):
+#                 t1_m = float(words[1])
+#                 t2_m = float(words[2])
+#                 t3_m = float(words[3])
+#     return lt
 
 
 # -----------------------------------------------------------------------------
@@ -357,72 +357,72 @@ def processCommand(command, chat_id):
     if (words[0] == "/blabla"):
         send_message("balinazo", chat_id)
         log("Test response")
-    elif (words[0] == "/reporte_10m"):
-        send_message(get_10mReport(), str(chat_id))
-        log("Sending 10-minute report", "to: " + str(chat_id))
-    elif (words[0] == "/reporte_1h"):
-        send_message(get_1hReport(), str(chat_id))
-        log("Sending 1-hour report", "to: " + str(chat_id))
-    elif (words[0] == "/reporte_1d"):
-        send_message(get_1dReport(), str(chat_id))
-        log("Sending 1-day report", "to: " + str(chat_id))
-    elif (words[0] == "/grafico_10m"):
-        filesJoin()
-        run_cmd = dirPath + '/plot.py'
-        process = Popen([run_cmd, '120'], stdout=PIPE,
-                        stderr=PIPE, universal_newlines=True)
-        stdout, stderr = process.communicate()
-        out = stdout
-        lines = out.split("\n")
-        try:
-            done = lines[1].split(" ")
-            doneSt = done[0] + ' ' + done[1]
-            if (doneSt == 'Plot done'):
-                log(done[0] + ' ' + done[1])
-                trySendImage(chat_id, 10, '10-min')
-                removePlot('after sending 10-min plot')
-        except:
-            log('plot.py error output')
-    elif (words[0] == "/grafico_1h"):
-        filesJoin()
-        run_cmd = dirPath + '/plot.py'
-        process = Popen([run_cmd, '720'], stdout=PIPE,
-                        stderr=PIPE, universal_newlines=True)
-        stdout, stderr = process.communicate()
-        out = stdout
-        lines = out.split("\n")
-        try:
-            done = lines[1].split(" ")
-            doneSt = done[0] + ' ' + done[1]
-            if (doneSt == 'Plot done'):
-                log(done[0] + ' ' +  done[1])
-                trySendImage(chat_id, 10, '1-hour')
-                removePlot('after sending 1-hour plot')
-        except:
-            log('plot.py error output')
-    elif (words[0] == "/grafico_1d"):
-        filesJoin()
-        run_cmd = dirPath + '/plot.py'
-        process = Popen([run_cmd, '17280'], stdout=PIPE,
-                        stderr=PIPE, universal_newlines=True)
-        stdout, stderr = process.communicate()
-        out = stdout
-        lines = out.split("\n")
-        try:
-            done = lines[1].split(" ")
-            doneSt = done[0] + ' ' + done[1]
-            if (doneSt == 'Plot done'):
-                log(done[0] + ' ' + done[1])
-                trySendImage(chat_id, 10, '1-day')
-                removePlot('after sending 1-day plot')
-        except:
-            log('plot.py error output')
+    # elif (words[0] == "/reporte_10m"):
+    #     send_message(get_10mReport(), str(chat_id))
+    #     log("Sending 10-minute report", "to: " + str(chat_id))
+    # elif (words[0] == "/reporte_1h"):
+    #     send_message(get_1hReport(), str(chat_id))
+    #     log("Sending 1-hour report", "to: " + str(chat_id))
+    # elif (words[0] == "/reporte_1d"):
+    #     send_message(get_1dReport(), str(chat_id))
+    #     log("Sending 1-day report", "to: " + str(chat_id))
+    # elif (words[0] == "/grafico_10m"):
+    #     filesJoin()
+    #     run_cmd = dirPath + '/plot.py'
+    #     process = Popen([run_cmd, '120'], stdout=PIPE,
+    #                     stderr=PIPE, universal_newlines=True)
+    #     stdout, stderr = process.communicate()
+    #     out = stdout
+    #     lines = out.split("\n")
+    #     try:
+    #         done = lines[1].split(" ")
+    #         doneSt = done[0] + ' ' + done[1]
+    #         if (doneSt == 'Plot done'):
+    #             log(done[0] + ' ' + done[1])
+    #             trySendImage(chat_id, 10, '10-min')
+    #             removePlot('after sending 10-min plot')
+    #     except:
+    #         log('plot.py error output')
+    # elif (words[0] == "/grafico_1h"):
+    #     filesJoin()
+    #     run_cmd = dirPath + '/plot.py'
+    #     process = Popen([run_cmd, '720'], stdout=PIPE,
+    #                     stderr=PIPE, universal_newlines=True)
+    #     stdout, stderr = process.communicate()
+    #     out = stdout
+    #     lines = out.split("\n")
+    #     try:
+    #         done = lines[1].split(" ")
+    #         doneSt = done[0] + ' ' + done[1]
+    #         if (doneSt == 'Plot done'):
+    #             log(done[0] + ' ' +  done[1])
+    #             trySendImage(chat_id, 10, '1-hour')
+    #             removePlot('after sending 1-hour plot')
+    #     except:
+    #         log('plot.py error output')
+    # elif (words[0] == "/grafico_1d"):
+    #     filesJoin()
+    #     run_cmd = dirPath + '/plot.py'
+    #     process = Popen([run_cmd, '17280'], stdout=PIPE,
+    #                     stderr=PIPE, universal_newlines=True)
+    #     stdout, stderr = process.communicate()
+    #     out = stdout
+    #     lines = out.split("\n")
+    #     try:
+    #         done = lines[1].split(" ")
+    #         doneSt = done[0] + ' ' + done[1]
+    #         if (doneSt == 'Plot done'):
+    #             log(done[0] + ' ' + done[1])
+    #             trySendImage(chat_id, 10, '1-day')
+    #             removePlot('after sending 1-day plot')
+    #     except:
+    #         log('plot.py error output')
     elif (words[0] == '/kill'):
         send_message('Hasta la vista...' + luser, str(chat_id))
         killBot(str(chat_id))
-    elif (words[0][:1] == '/'):
-        if words[0][1].isnumeric() and words[0][2] == ' ':
-            send_message(historyLog(words[0]), chat_id)
+    # elif (words[0][:1] == '/'):
+    #     if words[0][1].isnumeric() and words[0][2] == ' ':
+    #         send_message(historyLog(words[0]), chat_id)
     else:
         send_message("nosee", chat_id)
         log("Invalid command")
@@ -450,60 +450,60 @@ def log(text, data=''):
 # -----------------------------------------------------------------------------
 
 
-def historyLog(hLog):
-    ferNum = hLog[1]
-    fase = ''
-    name = hLog[3:].split(' ')
-    fermList = ['fermentacion',
-                'ferment',
-                'ferme',
-                'ferm',
-                'fer',
-                'fe',
-                'f']
-    maduList = ['maduracion',
-                'madurac',
-                'madura',
-                'madu',
-                'mad',
-                'ma',
-                'm']
-    if (name[-1].lower() in fermList):
-        name.pop()
-        fase = 'Fermentacion'
-    if (name[-1].lower() in maduList):
-        name.pop()
-        fase = 'Maduracion'
-    ts = time.time()
-    timeTag = datetime.datetime.fromtimestamp(ts).strftime("%Y/%m/%d %H:%M:%S\t")
-    regTag = timeTag
-    for words in name:
-        regTag += words + '_'
-    regTag = regTag[:-1] + '\t' + fase + '\n'
-    historyLogFile = dirPath + '/' + ferNum + '.txt'
-    file = open(historyLogFile, 'a')
-    process = Popen(['tail', '-n', '1', historyLogFile], stdout=PIPE,
-                    stderr=PIPE, universal_newlines=True)
-    stdout, stderr = process.communicate()
-    out = stdout
-    lines = out.split("\n")
-    if (len(lines) > 1):
-        idNum = int(lines[0].split('\t')[0])
-        idNum = str(idNum + 1)
-    else:
-        idNum = ferNum + '001'
-    print(idNum)
-    file.write(idNum + '\t' + regTag)
-    file.close()
-    retStr = '______________________________\n'
-    retStr += 'Nuevo registro historico\n'
-    retStr += 'Fecha: ' + timeTag[:-1] + '\n'
-    retStr += 'Fermentador: ' + ferNum + '\n'
-    retStr += 'Tipo: ' + ' '.join(map(str, name)) + '\n'
-    retStr += 'Fase: ' + fase + '\n'
-    retStr += '______________________________\n'
-    print(retStr)
-    return retStr
+# def historyLog(hLog):
+#     ferNum = hLog[1]
+#     fase = ''
+#     name = hLog[3:].split(' ')
+#     fermList = ['fermentacion',
+#                 'ferment',
+#                 'ferme',
+#                 'ferm',
+#                 'fer',
+#                 'fe',
+#                 'f']
+#     maduList = ['maduracion',
+#                 'madurac',
+#                 'madura',
+#                 'madu',
+#                 'mad',
+#                 'ma',
+#                 'm']
+#     if (name[-1].lower() in fermList):
+#         name.pop()
+#         fase = 'Fermentacion'
+#     if (name[-1].lower() in maduList):
+#         name.pop()
+#         fase = 'Maduracion'
+#     ts = time.time()
+#     timeTag = datetime.datetime.fromtimestamp(ts).strftime("%Y/%m/%d %H:%M:%S\t")
+#     regTag = timeTag
+#     for words in name:
+#         regTag += words + '_'
+#     regTag = regTag[:-1] + '\t' + fase + '\n'
+#     historyLogFile = dirPath + '/' + ferNum + '.txt'
+#     file = open(historyLogFile, 'a')
+#     process = Popen(['tail', '-n', '1', historyLogFile], stdout=PIPE,
+#                     stderr=PIPE, universal_newlines=True)
+#     stdout, stderr = process.communicate()
+#     out = stdout
+#     lines = out.split("\n")
+#     if (len(lines) > 1):
+#         idNum = int(lines[0].split('\t')[0])
+#         idNum = str(idNum + 1)
+#     else:
+#         idNum = ferNum + '001'
+#     print(idNum)
+#     file.write(idNum + '\t' + regTag)
+#     file.close()
+#     retStr = '______________________________\n'
+#     retStr += 'Nuevo registro historico\n'
+#     retStr += 'Fecha: ' + timeTag[:-1] + '\n'
+#     retStr += 'Fermentador: ' + ferNum + '\n'
+#     retStr += 'Tipo: ' + ' '.join(map(str, name)) + '\n'
+#     retStr += 'Fase: ' + fase + '\n'
+#     retStr += '______________________________\n'
+#     print(retStr)
+#     return retStr
 
 
 # -----------------------------------------------------------------------------
@@ -528,16 +528,19 @@ def killBot(chat_id):
 
 
 def main():
-    removeTempFile()
-    removePlot('for the first time')
+    # removeTempFile()
+    # removePlot('for the first time')
     last_text, last_chat = get_last_chat_id_and_text(get_updates())
     beerBotPath = dirPath + '/beerBot.py'
     if os.path.isfile(beerBotPath):
-        last_modified_date = datetime.datetime.fromtimestamp(os.path.getmtime(beerBotPath))
+        last_modified_date = datetime.datetime.fromtimestamp(
+            os.path.getmtime(beerBotPath))
     else:
         last_modified_date = datetime.datetime.fromtimestamp(0)
-    send_message("Hola mundo...\nArchivo modificado el " + last_modified_date.strftime("%Y/%m/%d %H:%M:%S"), last_chat)
-    log("Bot relanzado. Version del " + last_modified_date.strftime("%Y/%m/%d %H:%M:%S"))
+    send_message("Hola mundo...\nArchivo modificado el " +
+                 last_modified_date.strftime("%Y/%m/%d %H:%M:%S"), last_chat)
+    log("Bot relanzado. Version del " +
+        last_modified_date.strftime("%Y/%m/%d %H:%M:%S"))
     while True:
         # pidCheck()
         try:
@@ -556,7 +559,8 @@ def main():
                 pass
             time.sleep(3)
         except ConnectionError:
-            print ("--> ", datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"), "Sin conexion - Esperando red...")
+            print("--> ", datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
+                  "Sin conexion - Esperando red...")
             log("Waiting for network...")
             time.sleep(30)
 
