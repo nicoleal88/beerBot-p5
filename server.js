@@ -57,6 +57,12 @@ app.get('/oneday', (req, res) => {
 	findAndSend(1440, response);
 })
 
+// Send the data corresponding to the last ten minutes temperatures
+app.get('/week', (req, res) => {
+	let response = res;
+	findAndSend(10080, response);
+})
+
 app.get('/fortnight', (req, res) => {
 	let response = res;
 	findAndSend(21600, response);

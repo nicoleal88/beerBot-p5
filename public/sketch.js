@@ -4,7 +4,7 @@ var test = 0;
 
 // gui Position
 var gui_x = 933;
-var gui_y = 236;
+var gui_y = 206;
 
 var f1_x = 768; //Linea en x del ferm 1
 var f2_x = 528; //Linea en x del ferm 2
@@ -99,19 +99,24 @@ function setup() {
   
   //Button creation
   button = createButton('Enviar datos');
-  button.position(buttons_x, 442);
+  button.position(buttons_x, 412);
   button.class("button");
   button.mousePressed(sendData);
 
   hourButton = createButton("Gráfico 1 hora");
-  hourButton.position(buttons_x, 472);
+  hourButton.position(buttons_x, 442);
   hourButton.class("button");
   hourButton.mousePressed(onehour)
 
   dayButton = createButton("Gráfico 1 día");
-  dayButton.position(buttons_x, 502);
+  dayButton.position(buttons_x, 472);
   dayButton.class("button");
   dayButton.mousePressed(oneday)
+
+  dayButton = createButton("Gráfico 7 días");
+  dayButton.position(buttons_x, 502);
+  dayButton.class("button");
+  dayButton.mousePressed(week)
 
   fortnightButton = createButton("Gráfico 15 días");
   fortnightButton.position(buttons_x, 532);
@@ -161,7 +166,7 @@ function draw() {
   textStyle(BOLD);
   fill(230)
   textAlign(CENTER)
-  text("T° amb.: " + tempAmb + " °C", 1032, 217);
+  text("T° amb.: " + tempAmb + " °C", 1032, 175);
   pop()
 
   showLastUpdate()
@@ -299,6 +304,10 @@ function onehour() {
 
 function oneday() {
   window.open("oneday.html");
+}
+
+function week() {
+  window.open("week.html");
 }
 
 function fortnight() {
