@@ -12,6 +12,10 @@ database.loadDatabase();
 let lastData = getLastData();
 let lastSettings = getLastSettings();
 
+console.log(lastData)
+console.log(lastSettings)
+
+
 let f1 = {
 	temp: lastData.t1,
 	label: lastSettings.label1,
