@@ -9,24 +9,24 @@ tmax_critical = 24
 
 f1 = {
     "name": "Ferm. 1",
-            "temp": -999,
-            "label": "label1",
-            "status": 999,
-            "alarm": 999
+    "temp": -999,
+    "label": "label1",
+    "status": 999,
+    "alarm": 999
 }
 f2 = {
     "name": "Ferm. 2",
-            "temp": -999,
-            "label": "label2",
-            "status": 999,
-            "alarm": 999
+    "temp": -999,
+    "label": "label2",
+    "status": 999,
+    "alarm": 999
 }
 f3 = {
     "name": "Ferm. 3",
-            "temp": -999,
-            "label": "label3",
-            "status": 999,
-            "alarm": 999
+    "temp": -999,
+    "label": "label3",
+    "status": 999,
+    "alarm": 999
 }
 
 print(f1)
@@ -44,18 +44,14 @@ while True:
     settings_json = lastSettings.json()
 
     # Assign the data to each ferm.
-    f1 = {
-        "temp": data_json['t1'],
-        "label": settings_json['label1']
-    }
-    f2 = {
-        "temp": data_json['t2'],
-        "label": settings_json['label2']
-    }
-    f3 = {
-        "temp": data_json['t3'],
-        "label": settings_json['label3']
-    }
+    f1["temp"] = data_json['t1']
+    f1["label"] = settings_json['label1']
+
+    f2["temp"] = data_json['t2']
+    f2["label"] = settings_json['label2']
+
+    f3["temp"] = data_json['t3']
+    f3["label"] = settings_json['label3']
 
     print(f1)
     print(f2)
