@@ -31,15 +31,43 @@ def telegram_bot_sendtext(bot_message):
         '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
     response = requests.get(send_text)
-    # 👍👌🥶🥵👀❄️⚠️🚩📟🍺🍻
+    # 👍👌🥶🥵👀❄️🔥⚠️🚩📟🍺🍻
     return response.json()
 
 
-telegram_bot_sendtext("📟 Iniciando DragerBot 🍻")
+# Messages
+welcome_msg = "📟 Iniciando DragerBot 🍻"
+status0_msg = "👍 {} en estado normal"
+status1_msg = """
+Alerta! ⚠️🔥 \n
+🥵 👀 {} llegando al límite superior \n
+Temp: \t {} \n
+Contenido:\t {} 
+"""
+status2_msg = """
+Alerta! 🚩🔥 \n
+{} llegando al límite superior \n
+Temp: \t {} \n
+Contenido:\t {} 
+"""
+status_1_msg = """
+Alerta! ⚠️❄️ \n
+🥵 👀 {} llegando al límite inferior \n
+Temp: \t {} \n
+Contenido:\t {} 
+"""
+status_2_msg = """
+Alerta! 🚩❄️ \n
+{} llegando al límite inferior \n
+Temp: \t {} \n
+Contenido:\t {} 
+"""
+
+telegram_bot_sendtext()
 
 tmin_critical = 15
 tmin_warning = 16
-
+# 17, 18, 19, 20, 21, 22
 tmax_warning = 23
 tmax_critical = 24
 
@@ -83,41 +111,46 @@ while True:
 
     if (f1["temp"] > tmin_warning and f1["temp"] < tmax_warning):
         f1["status"] = 0
-        f1["alarm"] = 0
-        if f1["alarm"] == 2:
-            telegram_bot_sendtext("👍 Temp en estado normal")
+        if(f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1)):
+            f1["alarm"] = 0
+        if (f1["alarm"] == 2 and (f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1))):
+            telegram_bot_sendtext(status0_msg.format(f1["name"]))
             print("Temp en estado normal")
             f1["alarm"] = 0
-        if f1["alarm"] == -2:
-            telegram_bot_sendtext("👍 Temp en estado normal")
+        if (f1["alarm"] == -2 and (f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1))):
+            telegram_bot_sendtext(status0_msg.format(f1["name"]))
             print("Temp en estado normal")
             f1["alarm"] = 0
 
     elif (f1["temp"] > tmax_warning and f1["temp"] < tmax_critical):
         f1["status"] = 1
         if f1["alarm"] == 0:
-            telegram_bot_sendtext("⚠️ 🥵👀 Temp llegando al límite superior")
+            telegram_bot_sendtext(status1_msg.format(
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp llegando al límite superior")
             f1["alarm"] = 1
 
     elif (f1["temp"] > tmax_critical):
         f1["status"] = 2
         if f1["alarm"] == 1:
-            telegram_bot_sendtext("🚩 🔥🔥 Temp sobre el límite superior!!")
+            telegram_bot_sendtext(status2_msg.format(
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp sobre el límite superior!!")
             f1["alarm"] = 2
 
     elif (f1["temp"] < tmin_warning and f1["temp"] > tmin_critical):
         f1["status"] = -1
         if f1["alarm"] == 0:
-            telegram_bot_sendtext("⚠️ 🥶👀 Temp llegando al límite inferior")
+            telegram_bot_sendtext(status_1_msg.format(
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp llegando al límite inferior")
             f1["alarm"] = -1
 
     elif (f1["temp"] < tmin_critical):
         f1["status"] = -2
         if f1["alarm"] == -1:
-            telegram_bot_sendtext("🚩 ❄️❄️ Temp debajo del límite inferior!!")
+            telegram_bot_sendtext(status_2_msg.format(
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp debajo del límite inferior!!")
             f1["alarm"] = -2
 
