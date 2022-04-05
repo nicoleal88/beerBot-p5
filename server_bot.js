@@ -148,14 +148,15 @@ database.loadDatabase();
 // 	});
 // };
 
-function getLastData(){
+async function getLastData(){
     database.find({ "type": "data" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
 		} else {
+            const data = await docs[0]
             console.log("getLastData: ")
-			console.log(docs[0])
-			return docs[0];
+			console.log(data)
+			return data;
 		}
 	});
 }
