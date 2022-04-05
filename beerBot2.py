@@ -44,25 +44,25 @@ status0_msg = "👍 {} en estado normal"
 status1_msg = """
 Alerta! ⚠️🔥 \n
 🥵 👀 {} llegando al límite superior \n
-Temp: \t {} \n
+Temp: \t {:.1f} °C \n \n
 Contenido:\t {} 
 """
 status2_msg = """
 Alerta! 🚩🔥 \n
 {} llegando al límite superior \n
-Temp: \t {:.1f} C \n
+Temp: \t {:.1f} °C \n
 Contenido:\t {} 
 """
 status_1_msg = """
 Alerta! ⚠️❄️ \n
 🥵 👀 {} llegando al límite inferior \n
-Temp: \t {} \n
+Temp: \t {:.1f} °C \n
 Contenido:\t {} 
 """
 status_2_msg = """
 Alerta! 🚩❄️ \n
 {} llegando al límite inferior \n
-Temp: \t {} \n
+Temp: \t {:.1f} °C \n
 Contenido:\t {} 
 """
 
