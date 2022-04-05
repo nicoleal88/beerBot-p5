@@ -259,9 +259,9 @@ while True:
             print("Temp debajo del límite inferior!!")
             f3["alarm"] = -2
 
-    # print(f1)
-    # print(f2)
-    # print(f3)
+    print(f1)
+    print(f2)
+    print(f3)
 
     time.sleep(30)
 
