@@ -1,5 +1,41 @@
 import requests
 import time
+import os
+
+connection_timeout = 30  # seconds
+
+userHome = os.getenv("HOME")
+dirPath = userHome + '/beerBot-p5'
+
+config = {}
+with open(dirPath + '/config', 'r') as f:
+    File = f.readlines()
+    for lines in File:
+        splittedLine = lines.split('=')
+        if len(splittedLine) == 2:
+            config[splittedLine[0]] = splittedLine[1][:-1]
+
+token = config['TOKEN']
+chat_id = config['CHAT_ID']
+botURL = "https://api.telegram.org/bot{}/".format(token)
+logName = config['LOG']
+logFile = dirPath + '/' + logName
+luser = config['LUSER']
+
+
+def telegram_bot_sendtext(bot_message):
+
+    bot_token = token
+    bot_chatID = chat_id
+    send_text = 'https://api.telegram.org/bot' + bot_token + \
+        '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+
+    response = requests.get(send_text)
+
+    return response.json()
+
+
+telegram_bot_sendtext("Testing Telegram bot")
 
 tmin_critical = 15
 tmin_warning = 16
