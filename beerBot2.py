@@ -36,7 +36,10 @@ def telegram_bot_sendtext(bot_message):
 
 
 # Messages
-welcome_msg = "📟 Iniciando DragerBot 🍻"
+welcome_msg = """
+📟 Iniciando DragerBot 🍻 \n
+@pichedron 
+"""
 status0_msg = "👍 {} en estado normal"
 status1_msg = """
 Alerta! ⚠️🔥 \n
@@ -63,7 +66,7 @@ Temp: \t {} \n
 Contenido:\t {} 
 """
 
-telegram_bot_sendtext()
+telegram_bot_sendtext(welcome_msg)
 
 tmin_critical = 15
 tmin_warning = 16
