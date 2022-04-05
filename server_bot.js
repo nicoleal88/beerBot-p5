@@ -23,7 +23,7 @@ console.log(lastSettings)
 // 	alarm: 0
 // }
 
-console.log(f1)
+// console.log(f1)
 
 // app.use(express.static('public'));
 // app.use(express.json({
