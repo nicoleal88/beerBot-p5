@@ -9,7 +9,7 @@ database.loadDatabase();
 // 	console.log("Server running, listening at 3001...");
 // });
 
-let lastData = getLastData();
+let lastData = await getLastData();
 let lastSettings = getLastSettings();
 
 console.log(lastData)
@@ -152,7 +152,7 @@ console.log(lastSettings)
 // 	});
 // };
 
-function getLastData(){
+async function getLastData(){
     database.find({ "type": "data" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
