@@ -1,8 +1,8 @@
 import requests
 import time
 
-tmin_warning = 16
 tmin_critical = 15
+tmin_warning = 16
 
 tmax_warning = 23
 tmax_critical = 24
@@ -40,6 +40,8 @@ while True:
     settings_json = lastSettings.json()
 
     # Assign the data to each ferm.
+
+    # Ferm 1:
     f1["temp"] = data_json['t1']
     f1["label"] = settings_json['label1']
 
@@ -77,15 +79,17 @@ while True:
             print("Temp debajo del límite inferior!!")
             f1["alarm"] = -2
 
+    # Ferm 2:
     f2["temp"] = data_json['t2']
     f2["label"] = settings_json['label2']
 
+    # Ferm 3:
     f3["temp"] = data_json['t3']
     f3["label"] = settings_json['label3']
 
-    print(f1)
-    print(f2)
-    print(f3)
+    # print(f1)
+    # print(f2)
+    # print(f3)
 
     time.sleep(30)
 
