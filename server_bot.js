@@ -153,6 +153,7 @@ function getLastData(){
 		if (err) {
 			console.error(err);
 		} else {
+            console.log("getLastData: ")
 			console.log(docs[0])
 			return docs[0];
 		}
@@ -164,16 +165,19 @@ function getLastSettings(){
 		if (err) {
 			console.error(err);
 		} else {
+            console.log("getLastSettings: ")
 			console.log(docs[0])
 			return docs[0];
 		}
 	});
 }
 
-let lastData = getLastData();
-let lastSettings = getLastSettings();
+var lastData = getLastData();
+var lastSettings = getLastSettings();
 
+console.log("lastData: ")
 console.log(lastData)
+console.log("lastSettings: ")
 console.log(lastSettings)
 
 // function checkAlarms(){
