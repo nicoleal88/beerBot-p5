@@ -50,7 +50,7 @@ Contenido:\t {}
 status2_msg = """
 Alerta! 🚩🔥 \n
 {} llegando al límite superior \n
-Temp: \t {} \n
+Temp: \t {:.1f} C \n
 Contenido:\t {} 
 """
 status_1_msg = """
@@ -66,7 +66,7 @@ Temp: \t {} \n
 Contenido:\t {} 
 """
 
-telegram_bot_sendtext(welcome_msg)
+# telegram_bot_sendtext(welcome_msg)
 
 tmin_critical = 15
 tmin_warning = 16
@@ -165,9 +165,9 @@ while True:
     f3["temp"] = data_json['t3']
     f3["label"] = settings_json['label3']
 
-    # print(f1)
-    # print(f2)
-    # print(f3)
+    print(f1)
+    print(f2)
+    print(f3)
 
     time.sleep(30)
 
