@@ -16,12 +16,12 @@ console.log(lastData)
 console.log(lastSettings)
 
 
-let f1 = {
-	temp: lastData.t1,
-	label: lastSettings.label1,
-	status: 0,
-	alarm: 0
-}
+// let f1 = {
+// 	temp: lastData.t1,
+// 	label: lastSettings.label1,
+// 	status: 0,
+// 	alarm: 0
+// }
 
 console.log(f1)
 
