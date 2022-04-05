@@ -63,5 +63,6 @@ while True:
 
     time.sleep(30)
 
+
 # print (data_json)
 # print(settings_json)
