@@ -1,8 +1,17 @@
-import requests
-import time
 import os
+import time
+import requests
 
-connection_timeout = 30  # seconds
+from telegram.ext.updater import Updater
+from telegram.update import Update
+from telegram.ext.callbackcontext import CallbackContext
+from telegram.ext.commandhandler import CommandHandler
+from telegram.ext.messagehandler import MessageHandler
+from telegram.ext.filters import Filters
+
+import logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 userHome = os.getenv("HOME")
 dirPath = userHome + '/beerBot-p5'
@@ -15,34 +24,61 @@ with open(dirPath + '/config', 'r') as f:
         if len(splittedLine) == 2:
             config[splittedLine[0]] = splittedLine[1][:-1]
 
-token = config['TOKEN']
+# token = config['TOKEN']
 chat_id = config['CHAT_ID']
 botURL = "https://api.telegram.org/bot{}/".format(token)
 logName = config['LOG']
 logFile = dirPath + '/' + logName
 luser = config['LUSER']
 
-
-def sendAlert(text):
-    blacklist = ["vacio", "vacío"]
-    if text.lower() in blacklist:
-        return False
-    else:
-        return True
+# The API Key we received for our bot
+API_KEY = config['TOKEN']
+# Create an updater object with our API Key
+updater = Updater(API_KEY,
+                  use_context=True)
 
 
-def telegram_bot_sendtext(bot_message, label):
-    if sendAlert(label):
-        bot_token = token
-        bot_chatID = chat_id
-        send_text = 'https://api.telegram.org/bot' + bot_token + \
-            '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text(welcome_msg)
 
-        response = requests.get(send_text)
-        # 👍👌🥶🥵👀❄️🔥⚠️🚩📟🍺🍻
-        return response.json()
-    else:
-        print("Alerta en fermentador vacío")
+
+def help(update: Update, context: CallbackContext):
+    update.message.reply_text("""Available Commands :-
+    /status - Blabla
+    /help - Lala""")
+
+
+def ver_url(update: Update, context: CallbackContext):
+    update.message.reply_text(
+        "Drager URL => http://34.227.26.80//")
+
+
+def status(update: Update, context: CallbackContext):
+    update.message.reply_text(
+        "Status de los fermentadores: lalala")
+
+
+def unknown(update: Update, context: CallbackContext):
+    update.message.reply_text(
+        "Sorry '%s' is not a valid command" % update.message.text)
+
+
+def unknown_text(update: Update, context: CallbackContext):
+    update.message.reply_text(
+        "Sorry I can't recognize you , you said '%s'" % update.message.text)
+
+
+updater.dispatcher.add_handler(CommandHandler('start', start))
+updater.dispatcher.add_handler(CommandHandler('help', help))
+updater.dispatcher.add_handler(CommandHandler('geeks', geeks_url))
+updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown))
+updater.dispatcher.add_handler(MessageHandler(
+    Filters.command, unknown))  # Filters out unknown commands
+
+# Filters out unknown messages.
+updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown_text))
+
+updater.start_polling()
 
 
 # Messages
@@ -79,6 +115,20 @@ Alerta! 🚩❄️ \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {} 
 """
+status_msg = """
+Estado general: \n
+---
+{} ({})\n
+T actual: \t {:.1f} °C \n
+---
+{} ({})\n
+T actual: \t {:.1f} °C \n
+---
+{} ({})\n
+T actual: \t {:.1f} °C \n
+---
+"""
+
 
 # telegram_bot_sendtext(welcome_msg)
 
@@ -126,16 +176,18 @@ while True:
     f1["temp"] = data_json['t1']
     f1["label"] = settings_json['label1']
 
+    update.message.reply_text("F1 = {}".format(f1["temp"]))
+
     if (f1["temp"] > tmin_warning and f1["temp"] < tmax_warning):
         f1["status"] = 0
         if(f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1)):
             f1["alarm"] = 0
         if (f1["alarm"] == 2 and (f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f1["name"]), f1["label"])
+            telegram_bot_sendtext(status0_msg.format(f1["name"]))
             print("Temp en estado normal")
             f1["alarm"] = 0
         if (f1["alarm"] == -2 and (f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f1["name"]), f1["label"])
+            telegram_bot_sendtext(status0_msg.format(f1["name"]))
             print("Temp en estado normal")
             f1["alarm"] = 0
 
@@ -143,7 +195,7 @@ while True:
         f1["status"] = 1
         if f1["alarm"] == 0:
             telegram_bot_sendtext(status1_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp llegando al límite superior")
             f1["alarm"] = 1
 
@@ -151,7 +203,7 @@ while True:
         f1["status"] = 2
         if f1["alarm"] == 1:
             telegram_bot_sendtext(status2_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp sobre el límite superior!!")
             f1["alarm"] = 2
 
@@ -159,7 +211,7 @@ while True:
         f1["status"] = -1
         if f1["alarm"] == 0:
             telegram_bot_sendtext(status_1_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp llegando al límite inferior")
             f1["alarm"] = -1
 
@@ -167,7 +219,7 @@ while True:
         f1["status"] = -2
         if f1["alarm"] == -1:
             telegram_bot_sendtext(status_2_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                f1["name"], f1["temp"], f1["label"]))
             print("Temp debajo del límite inferior!!")
             f1["alarm"] = -2
 
@@ -180,11 +232,11 @@ while True:
         if(f2["temp"] > (tmin_warning + 1) and f2["temp"] < (tmax_warning - 1)):
             f2["alarm"] = 0
         if (f2["alarm"] == 2 and (f2["temp"] > (tmin_warning + 1) and f2["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f2["name"]), f2["label"])
+            telegram_bot_sendtext(status0_msg.format(f2["name"]))
             print("Temp en estado normal")
             f2["alarm"] = 0
         if (f2["alarm"] == -2 and (f2["temp"] > (tmin_warning + 1) and f2["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f2["name"]), f2["label"])
+            telegram_bot_sendtext(status0_msg.format(f2["name"]))
             print("Temp en estado normal")
             f2["alarm"] = 0
 
@@ -192,7 +244,7 @@ while True:
         f2["status"] = 1
         if f2["alarm"] == 0:
             telegram_bot_sendtext(status1_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
+                f2["name"], f2["temp"], f2["label"]))
             print("Temp llegando al límite superior")
             f2["alarm"] = 1
 
@@ -200,7 +252,7 @@ while True:
         f2["status"] = 2
         if f2["alarm"] == 1:
             telegram_bot_sendtext(status2_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
+                f2["name"], f2["temp"], f2["label"]))
             print("Temp sobre el límite superior!!")
             f2["alarm"] = 2
 
@@ -208,7 +260,7 @@ while True:
         f2["status"] = -1
         if f2["alarm"] == 0:
             telegram_bot_sendtext(status_1_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
+                f2["name"], f2["temp"], f2["label"]))
             print("Temp llegando al límite inferior")
             f2["alarm"] = -1
 
@@ -216,7 +268,7 @@ while True:
         f2["status"] = -2
         if f2["alarm"] == -1:
             telegram_bot_sendtext(status_2_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
+                f2["name"], f2["temp"], f2["label"]))
             print("Temp debajo del límite inferior!!")
             f2["alarm"] = -2
 
@@ -229,11 +281,11 @@ while True:
         if(f3["temp"] > (tmin_warning + 1) and f3["temp"] < (tmax_warning - 1)):
             f3["alarm"] = 0
         if (f3["alarm"] == 2 and (f3["temp"] > (tmin_warning + 1) and f3["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f3["name"]), f3["label"])
+            telegram_bot_sendtext(status0_msg.format(f3["name"]))
             print("Temp en estado normal")
             f3["alarm"] = 0
         if (f3["alarm"] == -2 and (f3["temp"] > (tmin_warning + 1) and f3["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f3["name"]), f3["label"])
+            telegram_bot_sendtext(status0_msg.format(f3["name"]))
             print("Temp en estado normal")
             f3["alarm"] = 0
 
@@ -241,7 +293,7 @@ while True:
         f3["status"] = 1
         if f3["alarm"] == 0:
             telegram_bot_sendtext(status1_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
+                f3["name"], f3["temp"], f3["label"]))
             print("Temp llegando al límite superior")
             f3["alarm"] = 1
 
@@ -249,7 +301,7 @@ while True:
         f3["status"] = 2
         if f3["alarm"] == 1:
             telegram_bot_sendtext(status2_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
+                f3["name"], f3["temp"], f3["label"]))
             print("Temp sobre el límite superior!!")
             f3["alarm"] = 2
 
@@ -257,7 +309,7 @@ while True:
         f3["status"] = -1
         if f3["alarm"] == 0:
             telegram_bot_sendtext(status_1_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
+                f3["name"], f3["temp"], f3["label"]))
             print("Temp llegando al límite inferior")
             f3["alarm"] = -1
 
@@ -265,13 +317,13 @@ while True:
         f3["status"] = -2
         if f3["alarm"] == -1:
             telegram_bot_sendtext(status_2_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
+                f3["name"], f3["temp"], f3["label"]))
             print("Temp debajo del límite inferior!!")
             f3["alarm"] = -2
 
-    # print(f1)
-    # print(f2)
-    # print(f3)
+    print(f1)
+    print(f2)
+    print(f3)
 
     time.sleep(30)
 
