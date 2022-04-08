@@ -2,6 +2,7 @@
 '''
 Bot para telegram
 '''
+
 import logging
 import threading
 import requests
@@ -31,6 +32,7 @@ with open(dirPath + '/config', 'r') as f:
             config[splittedLine[0]] = splittedLine[1][:-1]
 
 TOKEN = config['TOKEN']
+chat_id = config['CHAT_ID']
 
 # Messages
 welcome_msg = """
@@ -68,28 +70,23 @@ Contenido:\t {}
 """
 status_msg = """
 Status: \n
+--------------------- \n
 {}: \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {} \n
+--------------------- \n
 {}: \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {} \n
+--------------------- \n
 {}: \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {} \n
+--------------------- \n
 """
 info_msg = """
 Link a la web => http://34.227.26.80//
 """
-
-
-def sendAlert(text):
-    blacklist = ["vacio", "vacío"]
-    if text.lower() in blacklist:
-        return False
-    else:
-        return True
-
 
 tmin_critical = 15
 tmin_warning = 16
@@ -148,6 +145,30 @@ Envía el link a la web
     msg = info_msg
     # Responde directametne en el canal donde se le ha hablado.
     update.message.reply_text(msg)
+
+
+def checkBlacklist(text):
+    # blacklist = ["vacio", "vacío"]
+    blacklist = []
+
+    if text.lower() in blacklist:
+        return False
+    else:
+        return True
+
+
+def telegram_bot_sendtext(bot_message, label):
+    if checkBlacklist(label):
+        bot_token = TOKEN
+        bot_chatID = chat_id
+        send_text = 'https://api.telegram.org/bot' + bot_token + \
+            '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+
+        response = requests.get(send_text)
+        # 👍👌🥶🥵👀❄️🔥⚠️🚩📟🍺🍻
+        return response.json()
+    else:
+        print("Alerta en fermentador vacío")
 
 
 def checkTemps():
@@ -329,8 +350,6 @@ def main():
     # Lo deja a la escucha. Evita que se detenga.
     updater.idle()
 
-
-print("i")
 
 if __name__ == '__main__':
     print(('[Nombre del bot] Start...'))
