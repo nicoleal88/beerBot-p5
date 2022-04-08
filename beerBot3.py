@@ -24,7 +24,7 @@ with open(dirPath + '/config', 'r') as f:
         if len(splittedLine) == 2:
             config[splittedLine[0]] = splittedLine[1][:-1]
 
-# token = config['TOKEN']
+token = config['TOKEN']
 chat_id = config['CHAT_ID']
 botURL = "https://api.telegram.org/bot{}/".format(token)
 logName = config['LOG']
@@ -70,7 +70,8 @@ def unknown_text(update: Update, context: CallbackContext):
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('help', help))
-updater.dispatcher.add_handler(CommandHandler('geeks', geeks_url))
+updater.dispatcher.add_handler(CommandHandler('ver_url', ver_url))
+updater.dispatcher.add_handler(CommandHandler('status', status))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown))
 updater.dispatcher.add_handler(MessageHandler(
     Filters.command, unknown))  # Filters out unknown commands
