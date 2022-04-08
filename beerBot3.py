@@ -83,6 +83,43 @@ Link a la web => http://34.227.26.80//
 """
 
 
+def sendAlert(text):
+    blacklist = ["vacio", "vacío"]
+    if text.lower() in blacklist:
+        return False
+    else:
+        return True
+
+
+tmin_critical = 15
+tmin_warning = 16
+# 17, 18, 19, 20, 21, 22
+tmax_warning = 23
+tmax_critical = 24
+
+f1 = {
+    "name": "Ferm. 1",
+    "temp": -999,
+    "label": "label1",
+    "status": 999,
+    "alarm": 2
+}
+f2 = {
+    "name": "Ferm. 2",
+    "temp": -999,
+    "label": "label2",
+    "status": 999,
+    "alarm": 2
+}
+f3 = {
+    "name": "Ferm. 3",
+    "temp": -999,
+    "label": "label3",
+    "status": 999,
+    "alarm": 2
+}
+
+
 def start(update, context):
     ''' START '''
     # Enviar un mensaje a un ID determinado.
@@ -281,6 +318,7 @@ def main():
     # /comandos
     dp.add_handler(CommandHandler('start',	start))
     dp.add_handler(CommandHandler('status',	status))
+    dp.add_handler(CommandHandler('info',	info))
 
     dp.add_error_handler(error_callback)
     # Comienza el bot
