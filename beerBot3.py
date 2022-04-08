@@ -4,6 +4,7 @@ Bot para telegram
 '''
 import logging
 import threading
+import requests
 from telegram.ext import (Updater, CommandHandler)
 from telegram import (ParseMode)
 import os
