@@ -70,13 +70,13 @@ status_msg = """
 Status: \n
 {}: \n
 Temp: \t {:.1f} °C \n
-Contenido:\t {}
+Contenido:\t {} \n
 {}: \n
 Temp: \t {:.1f} °C \n
-Contenido:\t {}
+Contenido:\t {} \n
 {}: \n
 Temp: \t {:.1f} °C \n
-Contenido:\t {}
+Contenido:\t {} \n
 """
 info_msg = """
 Link a la web => http://34.227.26.80//
@@ -132,7 +132,10 @@ def status(update, context):
 Envía el estado de los fermentadores
     '''
     cid = update.message.chat_id
-    msg = status_msg
+    msg = status_msg.format(
+        f1["name"], f1["temp"], f1["label"],
+        f2["name"], f2["temp"], f2["label"],
+        f3["name"], f3["temp"], f3["label"])
     # Responde directametne en el canal donde se le ha hablado.
     update.message.reply_text(msg)
 
