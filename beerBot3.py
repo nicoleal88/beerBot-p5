@@ -148,8 +148,8 @@ Envía el link a la web
 
 
 def checkBlacklist(text):
-    # blacklist = ["vacio", "vacío"]
-    blacklist = []
+    blacklist = ["vacio", "vacío"]
+    # blacklist = []
 
     if text.lower() in blacklist:
         return False
