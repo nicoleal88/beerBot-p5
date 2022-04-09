@@ -373,6 +373,7 @@ def main():
     # /comandos
     dp.add_handler(CommandHandler('start',	start))
     dp.add_handler(CommandHandler('status',	status))
+    dp.add_handler(CommandHandler('status2', status2))
     dp.add_handler(CommandHandler('info', info))
 
     dp.add_error_handler(error_callback)
