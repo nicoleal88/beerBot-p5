@@ -6,6 +6,7 @@ Bot para telegram
 import logging
 import threading
 import requests
+import prettytable as pt
 from telegram.ext import (Updater, CommandHandler)
 from telegram import (ParseMode)
 import os
@@ -39,35 +40,41 @@ welcome_msg = """
 📟 Iniciando DragerBot 🍻 \n
 @pichedron
 """
+
 status0_msg = """
 👍 {} en estado normal
 Temp: \t {:.1f} °C \n
 Contenido:\t {}
 """
+
 status1_msg = """
 Alerta! ⚠️🔥 \n
 {} llegando al límite superior \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {}
 """
+
 status2_msg = """
 Alerta! 🚩🔥 \n
 {} sobre el límite superior! \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {}
 """
+
 status_1_msg = """
 Alerta! ⚠️❄️ \n
 {} llegando al límite inferior \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {}
 """
+
 status_2_msg = """
 Alerta! 🚩❄️ \n
 {} bajo el límite inferior! \n
 Temp: \t {:.1f} °C \n
 Contenido:\t {}
 """
+
 status_msg = """
 Status: \n
 --------------------- \n
@@ -135,6 +142,30 @@ Envía el estado de los fermentadores
         f3["name"], f3["temp"], f3["label"])
     # Responde directametne en el canal donde se le ha hablado.
     update.message.reply_text(msg)
+
+
+def status2(update, context):
+    '''
+    Envía el estado de los fermentadores
+    '''
+    table = pt.PrettyTable(['Symbol', 'Price', 'Change'])
+    table.align['Symbol'] = 'l'
+    table.align['Price'] = 'r'
+    table.align['Change'] = 'r'
+
+    data = [
+        ('ABC', 20.85, 1.626),
+        ('DEF', 78.95, 0.099),
+        ('GHI', 23.45, 0.192),
+        ('JKL', 98.85, 0.292),
+    ]
+    for symbol, price, change in data:
+        table.add_row([symbol, f'{price:.2f}', f'{change:.3f}'])
+
+    update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
+    # or use markdown
+    update.message.reply_text(
+        f'```{table}```', parse_mode=ParseMode.MARKDOWN_V2)
 
 
 def info(update, context):
