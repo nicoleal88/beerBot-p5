@@ -80,5 +80,5 @@ function findAndSend(gap_, res) {
 
 // getData()
 // getSettings()
-let t = "lala"
+let t = "Vacio"
 getStatus(t)
