@@ -165,8 +165,8 @@ def status2(update, context):
 
     update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
     # or use markdown
-    # update.message.reply_text(
-    #     f'```{table}```', parse_mode=ParseMode.MARKDOWN_V2)
+    update.message.reply_text(
+        '`Lalala`', parse_mode=ParseMode.MARKDOWN_V2)
 
 
 def info(update, context):
