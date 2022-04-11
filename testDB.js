@@ -78,6 +78,6 @@ function findAndSend(gap_, res) {
 	});
 };
 
-console.log(getData())
-console.log(getSettings())
-console.log(getStatus())
+getData()
+getSettings()
+getStatus()
