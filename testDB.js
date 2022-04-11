@@ -82,7 +82,6 @@ function findAndSend(gap_, res) {
 };
 
 function getAverage(text) {
-	let timestamp
 	database.find({ "type": "settings", "label1": text }).sort({ timestamp: 1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
