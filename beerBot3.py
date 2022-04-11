@@ -155,10 +155,9 @@ def status2(update, context):
     table.align['Tiempo'] = 'l'
 
     data = [
-        ('ABC', 20.85, 1.626, '1.626'),
-        ('DEF', 78.95, 0.099, '1.626'),
-        ('GHI', 23.45, 0.192, '1.626'),
-        ('JKL', 98.85, 0.292, '1.626'),
+        ('F1', 20.85, 1.626, '1.626'),
+        ('F2', 78.95, 0.099, '1.626'),
+        ('F3', 23.45, 0.192, '1.626'),
     ]
     for cont, temp, promedio, tiempo in data:
         table.add_row(
