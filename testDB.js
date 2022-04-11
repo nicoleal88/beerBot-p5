@@ -92,6 +92,8 @@ function getAverage(text) {
 		}
 	})
 	const first = timestamp
+	console.log(first)
+	console.log(Date.now())
 	database.find({
 		$and: [{
 			"type": "data"
