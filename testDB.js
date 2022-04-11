@@ -87,35 +87,36 @@ function getAverage(text) {
 			console.error(err);
 			// res.end();
 		} else {
-			timestamp = docs[0].timestamp
+			let ts = docs[0].timestamp
+			const first = ts
+			console.log(first)
+			console.log(Date.now())
+			database.find({
+				$and: [{
+					"type": "data"
+				}, {
+					"timestamp": { $gt: first }
+				}]
+			}).sort({ timestamp: 1 }).exec(function (err, docs) {
+				if (err) {
+					console.error(err);
+				} else {
+					console.log(docs)
+					let toSend = reduceArray(docs, 100);
+					console.log(toSend)
+					var total = 0;
+					for(var i = 0; i < toSend.length; i++) {
+					total += toSend[i];
+					}
+					var avg = total / toSend.length;
+					console.log(avg)
+		
+					// res.json(toSend);
+				}
+			})
 		}
 	})
-	const first = timestamp
-	console.log(first)
-	console.log(Date.now())
-	database.find({
-		$and: [{
-			"type": "data"
-		}, {
-			"timestamp": { $gt: first }
-		}]
-	}).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-		} else {
-			console.log(docs)
-			let toSend = reduceArray(docs, 100);
-			console.log(toSend)
-			var total = 0;
-			for(var i = 0; i < toSend.length; i++) {
-    		total += toSend[i];
-			}
-			var avg = total / toSend.length;
-			console.log(avg)
-
-			// res.json(toSend);
-		}
-	})}
+}
 
 
 // getData()
