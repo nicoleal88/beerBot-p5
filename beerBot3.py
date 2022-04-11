@@ -169,7 +169,7 @@ def status2(update, context):
     for ferm, cont, temp, promedio, tiempo in data:
         table.add_row(
             [ferm,
-             '{0:.1f}'.format(cont), 
+             '{0:.6s}'.format(cont), 
              '{0:.1f}'.format(temp), 
              '{0:.1f}'.format(promedio), 
              tiempo+"d"])
