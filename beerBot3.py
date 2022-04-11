@@ -148,13 +148,9 @@ def status2(update, context):
     '''
     Envía el estado de los fermentadores
     '''
-    lastSettings = requests.get('http://localhost:3001/settings')
-    lastData = requests.get('http://localhost:3001/data')
     lastStatus = requests.get('http://localhost:3001/status')
 
     # Convert the data into json
-    data_json = lastData.json()
-    settings_json = lastSettings.json()
     status_json = lastStatus.json()
     # f1["label"] = status_json['label1']
 
@@ -166,9 +162,9 @@ def status2(update, context):
     table.align['Dias'] = 'l'
 
     data = [
-        ('F1', 'Session', 20.85, 1.626, '5d'),
-        ('F2', 'Brown', 78.95, 0.099, '4d'),
-        ('F3', 'Vacio', 23.45, 0.192, '14d'),
+        ('F1', f1["label"], f1["temp"], 1.626, '5d'),
+        ('F2', f2["label"], f2["temp"], 0.099, '4d'),
+        ('F3', f3["label"], f3["temp"], 0.192, '14d'),
     ]
     for ferm, cont, temp, promedio, tiempo in data:
         table.add_row(
