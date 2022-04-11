@@ -94,6 +94,19 @@ app.get('/data', (req, res) => {
 	});
 })
 
+// Send the data corresponding to the last ten minutes temperatures
+app.get('/status', (req, res) => {
+	// 
+	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			res.end();
+		} else {
+			console.log(docs[0])
+			res.json(docs[0]);
+		}
+	});
+})
 
 function reduceArray(input, l) {
 	let len = input.length

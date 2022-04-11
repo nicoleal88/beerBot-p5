@@ -148,8 +148,18 @@ def status2(update, context):
     '''
     Envía el estado de los fermentadores
     '''
-    table = pt.PrettyTable(['Ferm', 'Cont', 'Temp', 'Prom', 'Dias'])
-    table.align['Ferm'] = 'l'
+    lastSettings = requests.get('http://localhost:3001/settings')
+    lastData = requests.get('http://localhost:3001/data')
+    lastStatus = requests.get('http://localhost:3001/status')
+
+    # Convert the data into json
+    data_json = lastData.json()
+    settings_json = lastSettings.json()
+    status_json = lastStatus.json()
+    # f1["label"] = status_json['label1']
+
+    table = pt.PrettyTable(['N', 'Cont', 'Temp', 'Prom', 'Dias'])
+    table.align['N'] = 'l'
     table.align['Cont'] = 'l'
     table.align['Temp'] = 'r'
     table.align['Prom'] = 'r'
@@ -172,7 +182,7 @@ def status2(update, context):
 
 def info(update, context):
     '''
-Envía el link a la web
+    Envía el link a la web
     '''
     cid = update.message.chat_id
     msg = info_msg
