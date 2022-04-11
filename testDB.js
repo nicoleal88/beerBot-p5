@@ -22,7 +22,9 @@ function getSettings(ferm) {
 		} else {
 			ferm = ferm
 			let label = docs[0].label2
+			let label2 = docs[0][ferm]
 			console.log(label)
+			console.log(label2)
 		}
 	})}
 
