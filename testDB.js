@@ -3,16 +3,16 @@ let database = new Datastore('database_copy.db');
 database.loadDatabase();
 
 let fullStatus = {
-	t1: 0,
-	label1: 0,
-	avg1: 0,
-	days1: 0,
+	avg: 0,
+	days: 0,
 	}
 
-function getStatus () {
-	fullStatus.label1 = getSettings("label1")
-	fullStatus.days1 = getDays1(fullStatus.label1)
-	}
+ferm = "label2"
+
+// function getStatus () {
+// 	fullStatus.label1 = getSettings("label1")
+// 	fullStatus.days1 = getDays1(fullStatus.label1)
+// 	}
 
 function getSettings(ferm) {
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
@@ -21,9 +21,8 @@ function getSettings(ferm) {
 			// res.end();
 		} else {
 			ferm = ferm
-			console.log(docs[0].ferm)
-			return docs[0].ferm
-			// res.json(docs[0]);
+			let label = docs[0].ferm
+			console.log(label)
 		}
 	})}
 
@@ -42,37 +41,6 @@ function getDays1(label) {
 		}
 	})
 }
-
-function getDays2(label) {
-	database.find({ "type": "settings", "label2": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			// res.end();
-		} else {
-			var timestamp = docs[0].timestamp
-			var date = new Date(timestamp);
-			var now = Date.now()
-			var days = now - date
-			return days
-		}
-	})
-}
-
-function getDays3(label) {
-	database.find({ "type": "settings", "label3": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			// res.end();
-		} else {
-			var timestamp = docs[0].timestamp
-			var date = new Date(timestamp);
-			var now = Date.now()
-			var days = now - date
-			return days
-		}
-	})
-}
-
 
 // Send the data corresponding to the last ten minutes temperatures
 function getData () {
@@ -166,19 +134,16 @@ function getAverage(text) {
 
 
 // getData()
-// getSettings()
+getSettings(ferm)
 // let t = "label"
 // getStatus(t)
 // getAverage(t)
-getStatus()
-console.log(fullStatus)
+// getStatus()
+// console.log(fullStatus)
 /*
 F1
 - Buscar data (ultima temp)
 - Buscar label
 	- Buscar primer dato con ese label = calcular dias en fermentación
 	- Buscar datos desde el primer día  (type=data, timestamp > primer dato), reducirlos (?) y promediarlos (dato.t1)
-
-
-
 */
