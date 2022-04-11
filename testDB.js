@@ -38,10 +38,7 @@ function getStatus (text) {
 
 			console.log("Date: "+date.getDate()+
 					"/"+(date.getMonth()+1)+
-					"/"+date.getFullYear()+
-					" "+date.getHours()+
-					":"+date.getMinutes()+
-					":"+date.getSeconds());
+					"/"+date.getFullYear())
 						// res.json(docs[0]);
 		}
 	})}
@@ -85,7 +82,43 @@ function findAndSend(gap_, res) {
 	});
 };
 
+function getAverage(text) {
+	let timestamp
+	database.find({ "type": "settings", "label1": text }).sort({ timestamp: 1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+			// res.end();
+		} else {
+			timestamp = docs[0].timestamp
+		}
+	})
+	const first = timestamp
+	database.find({
+		$and: [{
+			"type": "data"
+		}, {
+			"timestamp": { $gt: first }
+		}]
+	}).sort({ timestamp: 1 }).exec(function (err, docs) {
+		if (err) {
+			console.error(err);
+		} else {
+			let toSend = reduceArray(docs, 100);
+			console.log(toSend)
+			var total = 0;
+			for(var i = 0; i < toSend.length; i++) {
+    		total += toSend[i];
+			}
+			var avg = total / toSend.length;
+			console.log(avg)
+
+			// res.json(toSend);
+		}
+	})}
+
+
 // getData()
 // getSettings()
 let t = "label"
 getStatus(t)
+getAverage(t)
