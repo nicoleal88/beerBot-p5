@@ -3,39 +3,39 @@ let Datastore = require('nedb');
 let database = new Datastore('database_copy.db');
 database.loadDatabase();
 
-function getSettings(req, res) {
+function getSettings() {
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
-			res.end();
+			// res.end();
 		} else {
 			console.log(docs[0])
-			res.json(docs[0]);
+			// res.json(docs[0]);
 		}
 	})}
 
 // Send the data corresponding to the last ten minutes temperatures
-function getData (req, res) {
+function getData () {
 	database.find({ "type": "data" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
-			res.end();
+			// res.end();
 		} else {
 			console.log(docs[0])
-			res.json(docs[0]);
+			// res.json(docs[0]);
 		}
 	})}
 
 // Send the data corresponding to the last ten minutes temperatures
-function getStatus (req, res) {
+function getStatus () {
 	// 
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
-			res.end();
+			// res.end();
 		} else {
 			console.log(docs[0])
-			res.json(docs[0]);
+			// res.json(docs[0]);
 		}
 	})}
 
