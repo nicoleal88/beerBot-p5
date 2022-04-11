@@ -152,22 +152,22 @@ def status2(update, context):
     table.align['Cont'] = 'l'
     table.align['Temp'] = 'r'
     table.align['Promedio'] = 'r'
-    table.align['Tiempo'] = 'r'
+    table.align['Tiempo'] = 'l'
 
     data = [
-        ('ABC', 20.85, 1.626, 1.626),
-        ('DEF', 78.95, 0.099, 1.626),
-        ('GHI', 23.45, 0.192, 1.626),
-        ('JKL', 98.85, 0.292, 1.626),
+        ('ABC', 20.85, 1.626, '1.626'),
+        ('DEF', 78.95, 0.099, '1.626'),
+        ('GHI', 23.45, 0.192, '1.626'),
+        ('JKL', 98.85, 0.292, '1.626'),
     ]
     for cont, temp, promedio, tiempo in data:
         table.add_row(
-            [cont, f'{temp:.2f}', f'{promedio:.3f}', f'{tiempo:.3f}'])
+            [cont, f'{temp:.1f}', f'{promedio:.1f}', tiempo])
 
     update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
     # or use markdown
-    update.message.reply_text(
-        f'```{table}```', parse_mode=ParseMode.MARKDOWN_V2)
+    # update.message.reply_text(
+    #     f'```{table}```', parse_mode=ParseMode.MARKDOWN_V2)
 
 
 def info(update, context):
