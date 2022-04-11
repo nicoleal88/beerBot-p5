@@ -21,7 +21,7 @@ function getSettings(ferm) {
 			// res.end();
 		} else {
 			ferm = ferm
-			let label = docs[0]
+			let label = docs[0].label2
 			console.log(label)
 		}
 	})}
