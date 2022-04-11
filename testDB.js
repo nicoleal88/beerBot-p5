@@ -78,7 +78,7 @@ function findAndSend(gap_, res) {
 	});
 };
 
-getData()
-getSettings()
-let t = "Vacio"
+// getData()
+// getSettings()
+let t = "lala"
 getStatus(t)
