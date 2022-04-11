@@ -29,11 +29,12 @@ function getSettings(ferm) {
 					console.error(err);
 					// res.end();
 				} else {
-					var timestamp = docs[0].timestamp
-					var date = new Date(timestamp);
+					console.log(docs[0])
+					var ts = docs[0].timestamp
+					var date = new Date(ts);
 					var now = Date.now()
 					var days = now - date
-					return days
+					console.log(days)
 				}
 			})
 		}
