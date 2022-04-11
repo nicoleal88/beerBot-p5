@@ -148,25 +148,26 @@ def status2(update, context):
     '''
     Envía el estado de los fermentadores
     '''
-    table = pt.PrettyTable(['Cont', 'Temp', 'Promedio', 'Tiempo'])
+    table = pt.PrettyTable(['Ferm', 'Cont', 'Temp', 'Promedio', 'Tiempo'])
+    table.align['Ferm'] = 'l'
     table.align['Cont'] = 'l'
     table.align['Temp'] = 'r'
     table.align['Promedio'] = 'r'
     table.align['Tiempo'] = 'l'
 
     data = [
-        ('F1', 20.85, 1.626, '1.626'),
-        ('F2', 78.95, 0.099, '1.626'),
-        ('F3', 23.45, 0.192, '1.626'),
+        ('F1', 'F1', 20.85, 1.626, '1.626'),
+        ('F2', 'F1', 78.95, 0.099, '1.626'),
+        ('F3', 'F1', 23.45, 0.192, '1.626'),
     ]
-    for cont, temp, promedio, tiempo in data:
+    for ferm, cont, temp, promedio, tiempo in data:
         table.add_row(
-            [cont, f'{temp:.1f}', f'{promedio:.1f}', tiempo])
+            [ferm, cont, f'{temp:.1f}', f'{promedio:.1f}', tiempo])
 
     update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
     # or use markdown
-    update.message.reply_text(
-        '`Lalala`', parse_mode=ParseMode.MARKDOWN_V2)
+    # update.message.reply_text(
+    #     '`Lalala`', parse_mode=ParseMode.MARKDOWN_V2)
 
 
 def info(update, context):
