@@ -27,9 +27,9 @@ function getData () {
 	})}
 
 // Send the data corresponding to the last ten minutes temperatures
-function getStatus () {
+function getStatus (text) {
 	// 
-	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
+	database.find({ "type": "settings", "label1": text }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
 			// res.end();
@@ -80,4 +80,5 @@ function findAndSend(gap_, res) {
 
 getData()
 getSettings()
-getStatus()
+let t = "Vacio"
+getStatus(t)
