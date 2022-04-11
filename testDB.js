@@ -21,15 +21,26 @@ function getSettings(ferm) {
 			// res.end();
 		} else {
 			ferm = ferm
-			let label = docs[0].label2
-			let label2 = docs[0][ferm]
+			let label = docs[0][ferm]
 			console.log(label)
-			console.log(label2)
+
+			database.find({ "type": "settings", ferm: label }).sort({ timestamp: 1 }).exec(function (err, docs) {
+				if (err) {
+					console.error(err);
+					// res.end();
+				} else {
+					var timestamp = docs[0].timestamp
+					var date = new Date(timestamp);
+					var now = Date.now()
+					var days = now - date
+					return days
+				}
+			})
 		}
 	})}
 
 
-function getDays1(label) {
+function getDays(label) {
 	database.find({ "type": "settings", "label1": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
