@@ -162,13 +162,17 @@ def status2(update, context):
     table.align['Dias'] = 'l'
 
     data = [
-        ('F1', f1["label"], f1["temp"], f1["temp"], '5d'),
-        ('F2', f2["label"], f2["temp"], f2["temp"], '4d'),
-        ('F3', f3["label"], f3["temp"], f3["temp"], '14d'),
+        ('F1', f1["label"], f1["temp"], f1["temp"], '5'),
+        ('F2', f2["label"], f2["temp"], f2["temp"], '4'),
+        ('F3', f3["label"], f3["temp"], f3["temp"], '14'),
     ]
     for ferm, cont, temp, promedio, tiempo in data:
         table.add_row(
-            [ferm, cont, '{0:.1f}'.format(temp), promedio, tiempo])
+            [ferm,
+             '{0:.1f}'.format(cont), 
+             '{0:.1f}'.format(temp), 
+             '{0:.1f}'.format(promedio), 
+             tiempo+"d"])
 
     update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
     # or use markdown
