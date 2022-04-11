@@ -4,27 +4,15 @@ database.loadDatabase();
 
 let fullStatus = {
 	t1: 0,
-	t2: 0,
-	t3: 0,
 	label1: 0,
-	label2: 0,
-	label3: 0,
 	avg1: 0,
-	avg2: 0,
-	avg3: 0,
 	days1: 0,
-	days2: 0,
-	days3: 0
-}
+	}
 
 function getStatus () {
 	fullStatus.label1 = getSettings("label1")
-	fullStatus.label2 = getSettings("label2")
-	fullStatus.label3 = getSettings("label3")
 	fullStatus.days1 = getDays1(fullStatus.label1)
-	fullStatus.days2 = getDays2(fullStatus.label2)
-	fullStatus.days3 = getDays3(fullStatus.label3)
-}
+	}
 
 function getSettings(ferm) {
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {

@@ -148,10 +148,10 @@ def status2(update, context):
     '''
     Envía el estado de los fermentadores
     '''
-    lastStatus = requests.get('http://localhost:3001/status')
+    # lastStatus = requests.get('http://localhost:3001/status')
 
     # Convert the data into json
-    status_json = lastStatus.json()
+    # status_json = lastStatus.json()
     # f1["label"] = status_json['label1']
 
     table = pt.PrettyTable(['N', 'Cont', 'Temp', 'Prom', 'Dias'])
@@ -162,13 +162,13 @@ def status2(update, context):
     table.align['Dias'] = 'l'
 
     data = [
-        ('F1', f1["label"], f1["temp"], 1.626, '5d'),
-        ('F2', f2["label"], f2["temp"], 0.099, '4d'),
-        ('F3', f3["label"], f3["temp"], 0.192, '14d'),
+        ('F1', f1["label"], f1["temp"],  f1["temp"], '5d'),
+        ('F2', f2["label"], f2["temp"], f2["temp"], '4d'),
+        ('F3', f3["label"], f3["temp"], f3["temp"], '14d'),
     ]
     for ferm, cont, temp, promedio, tiempo in data:
         table.add_row(
-            [ferm, cont, f'{temp:.1f}', f'{promedio:.1f}', tiempo])
+            [ferm, cont, temp, promedio, tiempo])
 
     update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
     # or use markdown
@@ -392,5 +392,5 @@ def main():
 
 
 if __name__ == '__main__':
-    print(('[Nombre del bot] Start...'))
+    print(('DragerBot Starting...'))
     main()
