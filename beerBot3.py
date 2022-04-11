@@ -149,9 +149,10 @@ def status2(update, context):
     Envía el estado de los fermentadores
     '''
     table = pt.PrettyTable(['Cont.', 'Temp.', 'Promedio', 'Tiempo'])
-    table.align['Symbol'] = 'l'
-    table.align['Price'] = 'r'
-    table.align['Change'] = 'r'
+    table.align['Cont.'] = 'l'
+    table.align['Temp.'] = 'r'
+    table.align['Promedio'] = 'r'
+    table.align['Tiempo'] = 'l'
 
     data = [
         ('F1', 'Vacío', 19.2, 19.2, '5 d'),
