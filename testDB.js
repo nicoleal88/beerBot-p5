@@ -1,5 +1,4 @@
 let Datastore = require('nedb');
-
 let database = new Datastore('database_copy.db');
 database.loadDatabase();
 
@@ -103,6 +102,7 @@ function getAverage(text) {
 		if (err) {
 			console.error(err);
 		} else {
+			console.log(docs)
 			let toSend = reduceArray(docs, 100);
 			console.log(toSend)
 			var total = 0;
