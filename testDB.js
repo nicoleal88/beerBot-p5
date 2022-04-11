@@ -101,12 +101,12 @@ function getAverage(text) {
 				if (err) {
 					console.error(err);
 				} else {
-					console.log(docs)
+					// console.log(docs)
 					let toSend = reduceArray(docs, 100);
 					console.log(toSend)
 					var total = 0;
 					for(var i = 0; i < toSend.length; i++) {
-					total += toSend[i];
+					total += toSend[i].t1;
 					}
 					var avg = total / toSend.length;
 					console.log(avg)
