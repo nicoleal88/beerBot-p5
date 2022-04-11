@@ -148,17 +148,17 @@ def status2(update, context):
     '''
     Envía el estado de los fermentadores
     '''
-    table = pt.PrettyTable(['Ferm', 'Cont', 'Temp', 'Promedio', 'Tiempo'])
+    table = pt.PrettyTable(['Ferm', 'Cont', 'Temp', 'Prom', 'Dias'])
     table.align['Ferm'] = 'l'
     table.align['Cont'] = 'l'
     table.align['Temp'] = 'r'
-    table.align['Promedio'] = 'r'
-    table.align['Tiempo'] = 'l'
+    table.align['Prom'] = 'r'
+    table.align['Dias'] = 'l'
 
     data = [
-        ('F1', 'F1', 20.85, 1.626, '1.626'),
-        ('F2', 'F1', 78.95, 0.099, '1.626'),
-        ('F3', 'F1', 23.45, 0.192, '1.626'),
+        ('F1', 'Session', 20.85, 1.626, '5d'),
+        ('F2', 'Brown', 78.95, 0.099, '4d'),
+        ('F3', 'Vacio', 23.45, 0.192, '14d'),
     ]
     for ferm, cont, temp, promedio, tiempo in data:
         table.add_row(
