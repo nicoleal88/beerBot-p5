@@ -29,32 +29,37 @@ function getSettings(ferm) {
 					console.error(err);
 					// res.end();
 				} else {
-					console.log(docs[0])
+					// console.log(docs[0])
 					var ts = docs[0].timestamp
 					var date = new Date(ts);
 					var now = Date.now()
 					var days = Math.ceil(Math.abs(now - date) / (1000 * 60 * 60 * 24));
 					console.log(days)
+					database.find({
+						$and: [{
+							"type": "data"
+						}, {
+							"timestamp": { $gt: date }
+						}]
+					}).sort({ timestamp: 1 }).exec(function (err, docs) {
+						if (err) {
+							console.error(err);
+						} else {
+							// console.log(docs)
+							let toSend = reduceArray(docs, 100);
+							// console.log(toSend)
+							var total = 0;
+							for(var i = 0; i < toSend.length; i++) {
+							total += toSend[i].t1;
+							}
+							var avg = total / toSend.length;
+							console.log(avg)
+
 				}
 			})
 		}
 	})}
 
-
-function getDays(label) {
-	database.find({ "type": "settings", "label1": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			// res.end();
-		} else {
-			var timestamp = docs[0].timestamp
-			var date = new Date(timestamp);
-			var now = Date.now()
-			var days = now - date
-			return days
-		}
-	})
-}
 
 // Send the data corresponding to the last ten minutes temperatures
 function getData () {
