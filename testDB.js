@@ -17,7 +17,7 @@ function getSettings(num) {
 			// res.end();
 		} else {
 			// ferm = ferm
-			let lab = "label{0}".format(num)
+			let lab = `label${num}`
 			let label = docs[0][lab]
 			console.log(lab)
 			console.log(label)
