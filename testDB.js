@@ -148,7 +148,7 @@ function findAndSend(gap_, res) {
 
 
 // getData()
-getSettings(ferm)
+getSettings(num)
 // let t = "label"
 // getStatus(t)
 // getAverage(t)
