@@ -21,12 +21,12 @@ function getSettings(num) {
 			let label = docs[0][ferm]
 			console.log(ferm)
 			console.log(label)
-			database.find({ "type": "settings", "label${num}": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
+			database.find({ "type": "settings", "label2": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
 				if (err) {
 					console.error(err);
 					// res.end();
 				} else {
-					// console.log(docs[0])
+					console.log(docs[0])
 					var ts = docs[0].timestamp
 					var date = new Date(ts);
 					var now = Date.now()
