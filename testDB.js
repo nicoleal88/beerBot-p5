@@ -29,7 +29,8 @@ function getSettings(ferm) {
 					var now = Date.now()
 					var days = Math.ceil(Math.abs(now - date) / (1000 * 60 * 60 * 24));
 					console.log(days)
-					database.find({ $and: [{ "type": "data"	}, { "timestamp": { $gt: date } }] }).sort({ timestamp: 1 }).exec(function (err, docs) {
+
+					database.find({ $and: [{ "type": "data"	}, { "timestamp": { $gt: ts } }] }).sort({ timestamp: 1 }).exec(function (err, docs) {
 						if (err) {
 							console.error(err);
 						} else {
