@@ -9,11 +9,6 @@ let fullStatus = {
 
 ferm = "label2"
 
-// function getStatus () {
-// 	fullStatus.label1 = getSettings("label1")
-// 	fullStatus.days1 = getDays1(fullStatus.label1)
-// 	}
-
 function getSettings(ferm) {
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
@@ -23,7 +18,6 @@ function getSettings(ferm) {
 			ferm = ferm
 			let label = docs[0][ferm]
 			console.log(label)
-
 			database.find({ "type": "settings", "label2": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
 				if (err) {
 					console.error(err);
@@ -35,13 +29,7 @@ function getSettings(ferm) {
 					var now = Date.now()
 					var days = Math.ceil(Math.abs(now - date) / (1000 * 60 * 60 * 24));
 					console.log(days)
-					database.find({
-						$and: [{
-							"type": "data"
-						}, {
-							"timestamp": { $gt: date }
-						}]
-					}).sort({ timestamp: 1 }).exec(function (err, docs) {
+					database.find({ $and: [{ "type": "data"	}, { "timestamp": { $gt: date } }] }).sort({ timestamp: 1 }).exec(function (err, docs) {
 						if (err) {
 							console.error(err);
 						} else {
@@ -50,8 +38,8 @@ function getSettings(ferm) {
 							// console.log(toSend)
 							var total = 0;
 							for(var i = 0; i < toSend.length; i++) {
-							total += toSend[i].t1;
-							}
+								total += toSend[i].t1;
+								}
 							var avg = total / toSend.length;
 							console.log(avg)
 
@@ -59,6 +47,7 @@ function getSettings(ferm) {
 			})
 		}
 	})}
+})}
 
 
 // Send the data corresponding to the last ten minutes temperatures
@@ -114,42 +103,42 @@ function findAndSend(gap_, res) {
 	});
 };
 
-function getAverage(text) {
-	database.find({ "type": "settings", "label1": text }).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			// res.end();
-		} else {
-			let ts = docs[0].timestamp
-			const first = ts
-			console.log(first)
-			console.log(Date.now())
-			database.find({
-				$and: [{
-					"type": "data"
-				}, {
-					"timestamp": { $gt: first }
-				}]
-			}).sort({ timestamp: 1 }).exec(function (err, docs) {
-				if (err) {
-					console.error(err);
-				} else {
-					// console.log(docs)
-					let toSend = reduceArray(docs, 100);
-					console.log(toSend)
-					var total = 0;
-					for(var i = 0; i < toSend.length; i++) {
-					total += toSend[i].t1;
-					}
-					var avg = total / toSend.length;
-					console.log(avg)
+// function getAverage(text) {
+// 	database.find({ "type": "settings", "label1": text }).sort({ timestamp: 1 }).exec(function (err, docs) {
+// 		if (err) {
+// 			console.error(err);
+// 			// res.end();
+// 		} else {
+// 			let ts = docs[0].timestamp
+// 			const first = ts
+// 			console.log(first)
+// 			console.log(Date.now())
+// 			database.find({
+// 				$and: [{
+// 					"type": "data"
+// 				}, {
+// 					"timestamp": { $gt: first }
+// 				}]
+// 			}).sort({ timestamp: 1 }).exec(function (err, docs) {
+// 				if (err) {
+// 					console.error(err);
+// 				} else {
+// 					// console.log(docs)
+// 					let toSend = reduceArray(docs, 100);
+// 					console.log(toSend)
+// 					var total = 0;
+// 					for(var i = 0; i < toSend.length; i++) {
+// 					total += toSend[i].t1;
+// 					}
+// 					var avg = total / toSend.length;
+// 					console.log(avg)
 		
-					// res.json(toSend);
-				}
-			})
-		}
-	})
-}
+// 					// res.json(toSend);
+// 				}
+// 			})
+// 		}
+// 	})
+// }
 
 
 // getData()
@@ -159,6 +148,7 @@ getSettings(ferm)
 // getAverage(t)
 // getStatus()
 // console.log(fullStatus)
+
 /*
 F1
 - Buscar data (ultima temp)
