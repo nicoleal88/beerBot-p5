@@ -7,18 +7,21 @@ let fullStatus = {
 	days: 0,
 	}
 
-ferm = "label2"
+let num = '1'
 
-function getSettings(ferm) {
+function getSettings(num) {
+	
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
 			// res.end();
 		} else {
-			ferm = ferm
-			let label = docs[0][ferm]
+			// ferm = ferm
+			let lab = "label{0}".format(num)
+			let label = docs[0][lab]
+			console.log(lab)
 			console.log(label)
-			database.find({ "type": "settings", "label2": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
+			database.find({ "type": "settings", lab : label }).sort({ timestamp: 1 }).exec(function (err, docs) {
 				if (err) {
 					console.error(err);
 					// res.end();
