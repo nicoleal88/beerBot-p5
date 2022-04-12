@@ -33,7 +33,7 @@ function getSettings(ferm) {
 					var ts = docs[0].timestamp
 					var date = new Date(ts);
 					var now = Date.now()
-					var days = now - date
+					var days = Math.ceil(Math.abs(now - date) / (1000 * 60 * 60 * 24));
 					console.log(days)
 				}
 			})
