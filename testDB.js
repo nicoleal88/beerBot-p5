@@ -7,7 +7,7 @@ let fullStatus = {
 	days: 0,
 	}
 
-let num = '1'
+let num = '2'
 
 function getSettings(num) {
 	
