@@ -28,7 +28,7 @@ function getSettings(ferm) {
 					var date = new Date(ts);
 					var now = Date.now()
 					var days = Math.ceil(Math.abs(now - date) / (1000 * 60 * 60 * 24));
-					console.log(days)
+					// console.log(days)
 
 					database.find({ $and: [{ "type": "data"	}, { "timestamp": { $gt: ts } }] }).sort({ timestamp: 1 }).exec(function (err, docs) {
 						if (err) {
@@ -36,13 +36,15 @@ function getSettings(ferm) {
 						} else {
 							// console.log(docs)
 							let toSend = reduceArray(docs, 100);
-							console.log(toSend[5])
 							var total = 0;
 							for(var i = 0; i < toSend.length; i++) {
 								total += toSend[i].t2;
 								}
 							var avg = total / toSend.length;
-							console.log(avg)
+							// console.log(avg)
+							fullStatus.avg = avg
+							fullStatus.days = days
+							console.log(fullStatus)
 
 				}
 			})
