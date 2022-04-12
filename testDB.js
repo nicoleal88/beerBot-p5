@@ -21,7 +21,7 @@ function getSettings(num) {
 			let label = docs[0][ferm]
 			console.log(ferm)
 			console.log(label)
-			database.find({ "type": "settings", "label2": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
+			database.find({ "type": "settings", ferm : label }).sort({ timestamp: 1 }).exec(function (err, docs) {
 				if (err) {
 					console.error(err);
 					// res.end();
