@@ -17,11 +17,11 @@ function getSettings(num) {
 			// res.end();
 		} else {
 			// ferm = ferm
-			let lab = `label${num}`
-			let label = docs[0][lab]
+			let ferm = `label${num}`
+			let label = docs[0][ferm]
 			console.log(lab)
 			console.log(label)
-			database.find({ "type": "settings", lab : label }).sort({ timestamp: 1 }).exec(function (err, docs) {
+			database.find({ "type": "settings", "label${num}": label }).sort({ timestamp: 1 }).exec(function (err, docs) {
 				if (err) {
 					console.error(err);
 					// res.end();
