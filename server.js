@@ -66,7 +66,7 @@ app.get('/tenmin', (req, res) => {
 app.get('/onehour', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Sending 1 hour info to web plotter");
-	console.log(req.useragent);
+	// console.log(req.useragent);
 	console.log(`Source: ${req.useragent.source}`);
 	console.log("-----------------------------------------------------------------------------");
 	let response = res;
