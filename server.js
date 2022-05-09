@@ -26,6 +26,7 @@ app.post('/data', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Receiving data from python RPI");
 	console.log(`Source: ${req.useragent.source}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 	console.log(data);
 	console.log("-----------------------------------------------------------------------------");
 	data.type = "data"
@@ -42,6 +43,7 @@ app.post('/settings', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Receiving settings from web");
 	console.log(`Source: ${req.useragent.source}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 	console.log(data);
 	console.log("-----------------------------------------------------------------------------");
 	data.type = "settings"
@@ -57,6 +59,7 @@ app.get('/tenmin', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Sending 10min info to web plotter");
 	console.log(`Source: ${req.useragent.source}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 	console.log("-----------------------------------------------------------------------------");
 	let response = res;
 	findAndSend(10, response);
@@ -68,6 +71,7 @@ app.get('/onehour', (req, res) => {
 	console.log("Sending 1 hour info to web plotter");
 	// console.log(req.useragent);
 	console.log(`Source: ${req.useragent.source}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 	console.log("-----------------------------------------------------------------------------");
 	let response = res;
 	findAndSend(60, response);
@@ -78,6 +82,7 @@ app.get('/oneday', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Sending 1 day info to web plotter");
 	console.log(`Source: ${req.useragent.source}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 	console.log("-----------------------------------------------------------------------------");
 	let response = res;
 	findAndSend(1440, response);
@@ -88,6 +93,7 @@ app.get('/week', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Sending 1 week info to web plotter");
 	console.log(`Source: ${req.useragent.source}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 	console.log("-----------------------------------------------------------------------------");
 	let response = res;
 	findAndSend(10080, response);
@@ -98,6 +104,7 @@ app.get('/fortnight', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Sending 15 day info to web plotter");
 	console.log(`Source: ${req.useragent.source}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 	console.log("-----------------------------------------------------------------------------");
 	let response = res;
 	findAndSend(21600, response);
@@ -112,6 +119,7 @@ app.get('/settings', (req, res) => {
 		} else {
 			console.log("-----------------------------------------------------------------------------");
 			console.log(`Sending the last settings to ${req.useragent.source}`)
+			console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 			console.log("-----------------------------------------------------------------------------");
 			// console.log(docs[0])
 			res.json(docs[0]);
@@ -128,6 +136,7 @@ app.get('/data', (req, res) => {
 		} else {
 			console.log("-----------------------------------------------------------------------------");
 			console.log(`Sending the last data to ${req.useragent.source}`)
+			console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 			// console.log(docs[0])
 			console.log("-----------------------------------------------------------------------------");
 			res.json(docs[0]);
@@ -145,6 +154,7 @@ app.get('/status', (req, res) => {
 		} else {
 			console.log("-----------------------------------------------------------------------------");
 			console.log(`Sending the last status to ${req.useragent.source}`)
+			console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.platform}`);
 			// console.log(docs[0])
 			console.log("-----------------------------------------------------------------------------");
 			res.json(docs[0]);
