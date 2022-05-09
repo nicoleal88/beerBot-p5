@@ -2,6 +2,9 @@ let express = require('express');
 let Datastore = require('nedb');
 
 let app = express();
+
+var useragent = require('express-useragent');
+
 let database = new Datastore('database.db');
 database.loadDatabase();
 
@@ -13,11 +16,14 @@ app.use(express.static('public'));
 app.use(express.json({
 	limit: '100kb'
 }));
+app.use(useragent.express());
+
 
 
 // We recieve data from Python via HTTP post request
 app.post('/data', (req, res) => {
 	let data = req.body;
+	console.log(req.useragent);
 	console.log(data);
 	data.type = "data"
 	database.insert(data);
