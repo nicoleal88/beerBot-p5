@@ -20,10 +20,11 @@ app.use(useragent.express());
 
 
 
-// We recieve data from Python via HTTP post request
+// Recieve data from Python via HTTP post request
 app.post('/data', (req, res) => {
 	let data = req.body;
-	console.log(req.useragent);
+	console.log("Receiving data from python RPI");
+	console.log(`Source: ${req.useragent.source}, Is bot?: ${req.useragent.isBot}`);
 	console.log(data);
 	data.type = "data"
 	database.insert(data);
@@ -33,9 +34,12 @@ app.post('/data', (req, res) => {
 	})
 });
 
-// We recieve settings from Web via HTTP post request
+// Recieve settings from Web via HTTP post request
 app.post('/settings', (req, res) => {
 	let data = req.body;
+	console.log(req.useragent);
+	console.log("Receiving settings from web");
+	console.log(`Source: ${req.useragent.source}`);
 	console.log(data);
 	data.type = "settings"
 	database.insert(data);
@@ -47,6 +51,9 @@ app.post('/settings', (req, res) => {
 
 // Send the data corresponding to the last ten minutes temperatures
 app.get('/tenmin', (req, res) => {
+	console.log(req.useragent);
+	console.log("Sending 10min info to web plotter");
+	console.log(`Source: ${req.useragent.source}`);
 	let response = res;
 	findAndSend(10, response);
 })
@@ -57,50 +64,53 @@ app.get('/onehour', (req, res) => {
 	findAndSend(60, response);
 })
 
-// Send the data corresponding to the last ten minutes temperatures
+// Send the data corresponding to the last day temperatures
 app.get('/oneday', (req, res) => {
 	let response = res;
 	findAndSend(1440, response);
 })
 
-// Send the data corresponding to the last ten minutes temperatures
+// Send the data corresponding to the last week temperatures
 app.get('/week', (req, res) => {
 	let response = res;
 	findAndSend(10080, response);
 })
 
+// Send the data corresponding to the last 15 days temperatures
 app.get('/fortnight', (req, res) => {
 	let response = res;
 	findAndSend(21600, response);
 })
 
-// Send the data corresponding to the last ten minutes temperatures
+// Send the last settings
 app.get('/settings', (req, res) => {
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
 			res.end();
 		} else {
+			console.log(`Sending the last settings to ${req.useragent.source}`)
 			console.log(docs[0])
 			res.json(docs[0]);
 		}
 	});
 })
 
-// Send the data corresponding to the last ten minutes temperatures
+// Send the last data
 app.get('/data', (req, res) => {
 	database.find({ "type": "data" }).sort({ timestamp: -1 }).exec(function (err, docs) {
 		if (err) {
 			console.error(err);
 			res.end();
 		} else {
+			console.log(`Sending the last data to ${req.useragent.source}`)
 			console.log(docs[0])
 			res.json(docs[0]);
 		}
 	});
 })
 
-// Send the data corresponding to the last ten minutes temperatures
+// Send the last status
 app.get('/status', (req, res) => {
 	// 
 	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
@@ -108,12 +118,14 @@ app.get('/status', (req, res) => {
 			console.error(err);
 			res.end();
 		} else {
+			console.log(`Sending the last status to ${req.useragent.source}`)
 			console.log(docs[0])
 			res.json(docs[0]);
 		}
 	});
 })
 
+// Reduce an array from n(Input) to l  
 function reduceArray(input, l) {
 	let len = input.length
 	let div = Math.floor(len / l);
