@@ -26,7 +26,7 @@ app.post('/data', (req, res) => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Receiving data from python RPI...");
 	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
+	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}`);
 	console.log(data);
 	console.log("-----------------------------------------------------------------------------");
 	data.type = "data"
