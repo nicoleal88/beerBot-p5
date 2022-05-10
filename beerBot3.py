@@ -77,19 +77,21 @@ Contenido:\t {}
 
 status_msg = """
 Status: \n
---------------------- \n
-{}: \n
-Temp: \t {:.1f} °C \n
-Contenido:\t {} \n
---------------------- \n
-{}: \n
-Temp: \t {:.1f} °C \n
-Contenido:\t {} \n
---------------------- \n
-{}: \n
-Temp: \t {:.1f} °C \n
-Contenido:\t {} \n
---------------------- \n
+--------------------------------------- \n
+Temp. ambiente: \t {:.1f} °C \n
+--------------------------------------- \n
+** {}: ** \n
+- Temp: \t {:.1f} °C \n
+- Contenido:\t {} \n
+--------------------------------------- \n
+** {}: ** \n
+- Temp: \t {:.1f} °C \n
+- Contenido:\t {} \n
+--------------------------------------- \n
+** {}: ** \n
+- Temp: \t {:.1f} °C \n
+- Contenido:\t {} \n
+--------------------------------------- \n
 """
 info_msg = """
 Link a la web => http://34.227.26.80//
@@ -136,10 +138,10 @@ def status(update, context):
 Envía el estado de los fermentadores
     '''
     cid = update.message.chat_id
-    msg = status_msg.format(
-        f1["name"], f1["temp"], f1["label"],
-        f2["name"], f2["temp"], f2["label"],
-        f3["name"], f3["temp"], f3["label"])
+    msg = status_msg.format(f0["temp"],
+                            f1["name"], f1["temp"], f1["label"],
+                            f2["name"], f2["temp"], f2["label"],
+                            f3["name"], f3["temp"], f3["label"])
     # Responde directametne en el canal donde se le ha hablado.
     update.message.reply_text(msg)
 
@@ -169,9 +171,9 @@ def status2(update, context):
     for ferm, cont, temp, promedio, tiempo in data:
         table.add_row(
             [ferm,
-             '{0:.6s}'.format(cont), 
-             '{0:.1f}'.format(temp), 
-             '{0:.1f}'.format(promedio), 
+             '{0:.6s}'.format(cont),
+             '{0:.1f}'.format(temp),
+             '{0:.1f}'.format(promedio),
              tiempo+"d"])
 
     update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
@@ -194,7 +196,7 @@ def checkBlacklist(text):
     blacklist = ["vacio", "vacío"]
     # blacklist = []
 
-    if text.lower() in blacklist:
+    if text.lower().strip() in blacklist:
         return False
     else:
         return True
