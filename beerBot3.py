@@ -80,15 +80,15 @@ Status: \n
 --------------------------------------- \n
 Temp. ambiente: \t {:.1f} °C \n
 --------------------------------------- \n
-** {}: ** \n
+{}: \n
 - Temp: \t {:.1f} °C \n
 - Contenido:\t {} \n
 --------------------------------------- \n
-** {}: ** \n
+{}: \n
 - Temp: \t {:.1f} °C \n
 - Contenido:\t {} \n
 --------------------------------------- \n
-** {}: ** \n
+{}: \n
 - Temp: \t {:.1f} °C \n
 - Contenido:\t {} \n
 --------------------------------------- \n
@@ -104,7 +104,9 @@ tmax_warning = 23
 tmax_critical = 24
 
 
-t0 = -999
+f0 = {
+    "temp": -999,
+}
 f1 = {
     "name": "Ferm. 1",
     "temp": -999,
@@ -140,7 +142,7 @@ def status(update, context):
 Envía el estado de los fermentadores
     '''
     cid = update.message.chat_id
-    msg = status_msg.format(t0,
+    msg = status_msg.format(f0["temp"],
                             f1["name"], f1["temp"], f1["label"],
                             f2["name"], f2["temp"], f2["label"],
                             f3["name"], f3["temp"], f3["label"])
@@ -229,7 +231,7 @@ def checkTemps():
     settings_json = lastSettings.json()
 
     # Assign the data to each ferm.
-    t0 = data_json['t0']
+    f0["temp"] = data_json['t0']
     # Ferm 1:
     f1["temp"] = data_json['t1']
     f1["label"] = settings_json['label1']
