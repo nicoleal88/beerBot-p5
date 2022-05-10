@@ -140,7 +140,7 @@ def status(update, context):
 Envía el estado de los fermentadores
     '''
     cid = update.message.chat_id
-    msg = status_msg.format(f0["temp"],
+    msg = status_msg.format(t0,
                             f1["name"], f1["temp"], f1["label"],
                             f2["name"], f2["temp"], f2["label"],
                             f3["name"], f3["temp"], f3["label"])
