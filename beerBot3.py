@@ -103,6 +103,8 @@ tmin_warning = 16
 tmax_warning = 23
 tmax_critical = 24
 
+
+t0 = -999
 f1 = {
     "name": "Ferm. 1",
     "temp": -999,
@@ -227,7 +229,7 @@ def checkTemps():
     settings_json = lastSettings.json()
 
     # Assign the data to each ferm.
-
+    t0 = data_json['t0']
     # Ferm 1:
     f1["temp"] = data_json['t1']
     f1["label"] = settings_json['label1']
