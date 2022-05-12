@@ -14,8 +14,6 @@ import datetime
 userHome = os.getenv("HOME")
 dirPath = userHome + '/beerBot-p5'
 
-lastDataAlarm = False
-
 # [Opcional] Recomendable poner un log con los errores que apareceran por pantalla.
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -221,6 +219,7 @@ def checkLastData(timestamp):
 
     if minutes < limit:
         lastDataAlarm = False
+        print(minutes)
 
     if (minutes > limit and lastDataAlarm == False):
         lastDataAlarm = True
@@ -428,4 +427,5 @@ def main():
 
 if __name__ == '__main__':
     print(('DragerBot Starting...'))
+    lastDataAlarm = False
     main()
