@@ -14,6 +14,7 @@ import datetime
 userHome = os.getenv("HOME")
 dirPath = userHome + '/beerBot-p5'
 
+lastDataAlarm = False
 
 # [Opcional] Recomendable poner un log con los errores que apareceran por pantalla.
 logging.basicConfig(
@@ -208,13 +209,22 @@ def checkBlacklist(text):
 
 
 def checkLastData(timestamp):
+
+    limit = 1
     ts = timestamp
 
     converted_ts = datetime.datetime.fromtimestamp(round(ts / 1000))
     current_time_utc = datetime.datetime.utcnow()
 
-    print((current_time_utc - converted_ts))
-    print((current_time_utc - converted_ts).total_seconds() / 60)
+    #print((current_time_utc - converted_ts))
+    minutes = ((current_time_utc - converted_ts).total_seconds() / 60)
+
+    if minutes < limit:
+        lastDataAlarm = False
+
+    if (minutes > limit and lastDataAlarm == False):
+        lastDataAlarm = True
+        print("Last data is too old! " + minutes + " minutes ago.")
 
 
 def telegram_bot_sendtext(bot_message, label):
