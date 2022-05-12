@@ -213,8 +213,8 @@ def checkLastData(timestamp):
     converted_ts = datetime.datetime.fromtimestamp(round(ts / 1000))
     current_time_utc = datetime.datetime.utcnow()
 
-    print((current_time_utc - converted_d1))
-    print((current_time_utc - converted_d1).total_seconds() / 60)
+    print((current_time_utc - converted_ts))
+    print((current_time_utc - converted_ts).total_seconds() / 60)
 
 
 def telegram_bot_sendtext(bot_message, label):
