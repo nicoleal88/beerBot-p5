@@ -218,11 +218,9 @@ def checkLastData(timestamp):
     minutes = ((current_time_utc - converted_ts).total_seconds() / 60)
 
     if minutes < limit:
-        lastDataAlarm = False
         print(minutes)
 
-    if (minutes > limit and lastDataAlarm == False):
-        lastDataAlarm = True
+    if (minutes > limit and minutes < (limit + 1)):
         print("Last data is too old! " + minutes + " minutes ago.")
 
 
@@ -427,5 +425,4 @@ def main():
 
 if __name__ == '__main__':
     print(('DragerBot Starting...'))
-    lastDataAlarm = False
     main()
