@@ -221,9 +221,9 @@ def checkLastData(timestamp):
         print(minutes)
 
     if (minutes > limit and minutes < (limit + 1)):
-        print("Last data is too old! " + str(minutes) + " minutes ago.")
+        print("Last data is too old! " + str(round(minutes)) + " minutes ago.")
         telegram_bot_sendtext("Last data is too old! " +
-                              str(minutes) + " minutes ago.")
+                              str(round(minutes)) + " minutes ago.", "-")
 
 
 def telegram_bot_sendtext(bot_message, label):
