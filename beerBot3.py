@@ -208,7 +208,7 @@ def checkBlacklist(text):
 
 def checkLastData(timestamp):
 
-    limit = 1
+    limit = 15
     ts = timestamp
 
     converted_ts = datetime.datetime.fromtimestamp(round(ts / 1000))
@@ -217,13 +217,13 @@ def checkLastData(timestamp):
     #print((current_time_utc - converted_ts))
     minutes = ((current_time_utc - converted_ts).total_seconds() / 60)
 
-    if minutes < limit:
-        print(minutes)
+    # if minutes < limit:
+    #     print(minutes)
 
     if (minutes > limit and minutes < (limit + 1)):
         print("Last data is too old! " + str(round(minutes)) + " minutes ago.")
-        telegram_bot_sendtext("Last data is too old! " +
-                              str(round(minutes)) + " minutes ago.", "-")
+        telegram_bot_sendtext("Último dato muy viejo! Hace" +
+                              str(round(minutes)) + " minutos. Revisar RPI", "-")
 
 
 def telegram_bot_sendtext(bot_message, label):
