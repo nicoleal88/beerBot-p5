@@ -325,12 +325,7 @@ function showLastUpdate() {
   var timestamp = lastTimestamp
   var date = new Date(timestamp);
  
-  text("Último dato: "+ date.getDate()+
-  "/"+(date.getMonth()+1)+
-  "/"+date.getFullYear()+
-  " "+date.getHours()+
-  ":"+date.getMinutes()+
-  ":"+date.getSeconds() , width / 2, height - 4);
+  text("Último dato: "+ date.toLocaleString('es-AR'), width / 2, height - 4);
   pop();
   // const point = AMIGA_Map.latLngToPixel(elt.lat, elt.lng);
 }
