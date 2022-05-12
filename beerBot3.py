@@ -10,6 +10,7 @@ import prettytable as pt
 from telegram.ext import (Updater, CommandHandler)
 from telegram import (ParseMode)
 import os
+import datetime
 userHome = os.getenv("HOME")
 dirPath = userHome + '/beerBot-p5'
 
@@ -206,6 +207,16 @@ def checkBlacklist(text):
         return True
 
 
+def checkLastData(timestamp):
+    ts = timestamp
+
+    converted_ts = datetime.datetime.fromtimestamp(round(ts / 1000))
+    current_time_utc = datetime.datetime.utcnow()
+
+    print((current_time_utc - converted_d1))
+    print((current_time_utc - converted_d1).total_seconds() / 60)
+
+
 def telegram_bot_sendtext(bot_message, label):
     if checkBlacklist(label):
         bot_token = TOKEN
@@ -229,6 +240,10 @@ def checkTemps():
     # Convert the data into json
     data_json = lastData.json()
     settings_json = lastSettings.json()
+
+    ts = data_json['timestamp']
+
+    checkLastData(ts)
 
     # Assign the data to each ferm.
     f0["temp"] = data_json['t0']
