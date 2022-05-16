@@ -242,9 +242,18 @@ async function sendData() {
     },
     body: JSON.stringify(data)
   }
-  const response = await fetch('/settings', options);
-  const json = await response.json();
-  console.log(json);
+
+  const confirm_message = `Desea enviar estos labels?\nLabel1: ${data.label1}\nLabel2: ${data.label2}\nLabel3: ${data.label3}`
+
+
+  if (confirm(confirm_message)) {
+    const response = await fetch('/settings', options);
+    const json = await response.json();
+    console.log("Envío de settings autorizado");
+    console.log(json)
+  } else {
+    console.log("Envío de settings cancelado");
+  }
 }
 
 async function getData(route) {
