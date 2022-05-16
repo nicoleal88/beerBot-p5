@@ -37,8 +37,8 @@ def update():
         f.close()  # to change file access modes
 
     f1_label.config(text="Temp. de Ferm 1: {} °C".format(f1))
-    f2_label.config(text="Temp. de Ferm 1: {} °C".format(f2))
-    f3_label.config(text="Temp. de Ferm 1: {} °C".format(f3))
+    f2_label.config(text="Temp. de Ferm 2: {} °C".format(f2))
+    f3_label.config(text="Temp. de Ferm 3: {} °C".format(f3))
     f1_label.after(1000, update)
 
 
