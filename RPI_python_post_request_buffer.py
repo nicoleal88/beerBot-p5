@@ -117,12 +117,12 @@ while True:
     payload = {'timestamp': timestamp,
                't0': Temps[0], 't1': Temps[1], 't2': Temps[2], 't3': Temps[3]}
 
+    with open("data.txt", "w") as file:
+        file.write(payload)
+
     try:
         # sending post request and saving response as response object
         status = postData(payload)
-
-        with open("data.txt", "w") as file:
-            file.write(payload)
 
         if status != 200:
             print("The status was: " + str(status))
