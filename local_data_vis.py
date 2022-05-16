@@ -10,7 +10,7 @@ window.title("Data Vis Offline")
 
 
 def clock():
-    date_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S/%p")
+    date_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     date, time = date_time.split()
     # time2, time3 = time1.split('/')
     # hour, minutes, seconds = time2.split(':')
@@ -36,9 +36,9 @@ def update():
         f1, f2, f3 = data.split()
         f.close()  # to change file access modes
 
-    f1_label.config(text="Temp. de Ferm 1: {:.1f} °C".format(float(f1)))
-    f2_label.config(text="Temp. de Ferm 2: {:.1f} °C".format(float(f2)))
-    f3_label.config(text="Temp. de Ferm 3: {:.1f} °C".format(float(f3)))
+    f1_label.config(text="T1: {:.1f} °C".format(float(f1)))
+    f2_label.config(text="T2: {:.1f} °C".format(float(f2)))
+    f3_label.config(text="T3: {:.1f} °C".format(float(f3)))
     f1_label.after(1000, update)
 
 
