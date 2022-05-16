@@ -6,12 +6,18 @@ class Fermentador{
     // id
     // temperatire
     // setpoint
+    
+    // tmin_critical = 15
+    // tmin_warning = 16
+    // 17, 18, 19, 20, 21, 22
+    // tmax_warning = 23
+    // tmax_critical = 24
 
     constructor(x, id){
        this.x = x;
        this.id = id;
-       this.button = 0;
-       this.control = 1;
+      //  this.button = 0;
+      //  this.control = 1;
        this.temp = 2;
       //  this.sp = 3;
        this.label = "label";
@@ -69,17 +75,20 @@ class Fermentador{
       pop();
     }
     
-    getColor = function(button, control) {
-      if(this.button == 1){
-       if( this.control == 0){
-        return color('red');
+    getColor = function(label, temp) {
+      if(this.label.toLowerCase() == "vacio"){
+        return color('grey');
       }
       else{
-        return color('green');
-      }
-    }
-      else{
-        return color('gray');
+        if(this.temp < 15){
+          return color('blue');
+        }
+        else if(this.temp > 24){
+          return color('red');
+        }
+        else{
+          return color('green');
+        }
       }
     }
 }
