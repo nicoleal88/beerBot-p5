@@ -121,6 +121,9 @@ while True:
         # sending post request and saving response as response object
         status = postData(payload)
 
+        with open("data.txt", "w") as file:
+            file.write(payload)
+
         if status != 200:
             print("The status was: " + str(status))
             dataBuffer.append(payload)
