@@ -38,7 +38,7 @@ def update():
         f.close()  # to change file access modes
 
     converted_ts = datetime.datetime.fromtimestamp(round(int(ts) / 1000))
-    current_time_utc = datetime.datetime.utcnow()
+    current_time_utc = datetime.datetime.now()
 
     #print((current_time_utc - converted_ts))
     minutes = ((current_time_utc - converted_ts).total_seconds() / 60)
@@ -50,7 +50,7 @@ def update():
     ts_label.config(text="Ultimo dato: {}".format(converted_ts))
     if(minutes > 15):
         alarm_label.config(
-            text="Ultimo dato muy viejo, hace {} minutos!!! \nLlamar a Pichedron!".format(round(minutes)))
+            text="Último dato muy viejo!\nHace {} minutos! \nLlamar a Pichedron!".format(round(minutes)))
     else:
         alarm_label.config(text="")
     f1_label.after(1000, update)
