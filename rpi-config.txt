@@ -1,0 +1,31 @@
+1- Editar archivo para que las ventanas se lancen en un escritorio determinado:
+nano /home/pi/.config/openbox/lxde-pi-rc.xml
+
+  <!-- i want firefox on desktop 3 and maximized -->
+  <application name="chromium-browser*">
+    <desktop>2</desktop>
+    <maximized>yes</maximized>
+  </application>
+<!-- i want firefox on desktop 3 and maximized -->
+  <application name="lxterminal*">
+    <desktop>3</desktop>
+  </application>
+  <application name="python3*">
+    <desktop>3</desktop>
+  </application>
+
+
+
+2- Lanzar aplicaciones automáticamente desde:
+
+/etc/xdg/lxsession/LXDE-pi/autostart
+
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@xscreensaver -no-splash
+point-rpi
+
+@chromium-browser --start-fullscreen 34.227.26.80
+@lxterminal -e python3 /home/pi/beerBot-p5/RPI_python_post_request_buffer.py
+@lxterminal -e python3 /home/pi/beerBot-p5/local_data_vis.py
+@vlc -L --qt-minimal-view /home/pi/Videos/VideosTapRoom/ListaTapRoom.xspf
