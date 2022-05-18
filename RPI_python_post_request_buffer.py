@@ -117,14 +117,15 @@ while True:
     payload = {'timestamp': timestamp,
                't0': Temps[0], 't1': Temps[1], 't2': Temps[2], 't3': Temps[3]}
 
-    with open("/home/pi/beerBot-p5/data.txt", "w") as file:
-        text = "{}\t{}\t{}\t{}\t{}".format(
-            payload["t0"], payload["t1"], payload["t2"], payload["t3"], payload["timestamp"])
-        file.write(text)
-
     try:
         # sending post request and saving response as response object
         status = postData(payload)
+
+        if status == 200:
+            with open("/home/pi/beerBot-p5/data.txt", "w") as file:
+                text = "{}\t{}\t{}\t{}\t{}".format(
+                    payload["t0"], payload["t1"], payload["t2"], payload["t3"], payload["timestamp"])
+                file.write(text)
 
         if status != 200:
             print("The status was: " + str(status))
