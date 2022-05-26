@@ -3,6 +3,7 @@ from tkinter.ttk import *
 import datetime
 import platform
 import os
+import time
 
 window = Tk()
 window.title("Data Vis Offline")
@@ -26,16 +27,21 @@ def clock():
 
 def update():
 
-    f1 = "test"
-    f2 = "test2"
-    f3 = "test3"
-    ts = "ts"
+    t0 = "-99"
+    f1 = "-99"
+    f2 = "-99"
+    f3 = "-99"
+    ts = "1"
 
     with open("data.txt", "r") as f:
         # Writing data to a file
-        data = f.readlines()[0]
-        t0, f1, f2, f3, ts = data.split()
-        f.close()  # to change file access modes
+        try:
+            data = f.readlines()[0]
+            t0, f1, f2, f3, ts = data.split()
+            f.close()  # to change file access modes
+        except:
+            print("Couldn't load data.txt")
+            time.sleep(120)
 
     converted_ts = datetime.datetime.fromtimestamp(round(int(ts) / 1000))
     current_time_utc = datetime.datetime.now()
