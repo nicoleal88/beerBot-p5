@@ -35,6 +35,8 @@ with open(dirPath + '/config', 'r') as f:
 TOKEN = config['TOKEN']
 chat_id = config['CHAT_ID']
 
+refresh_time = 300  # 5 min = 300 sec
+
 # Messages
 welcome_msg = """
 📟 Iniciando DragerBot 🍻 \n
@@ -223,15 +225,15 @@ def checkLastData(timestamp):
     # if minutes < limit:
     #     print(minutes)
 
-    if (minutes > limit_1 and minutes < (limit_1 + 1)):
+    if (minutes > limit_1 and minutes <= (limit_1 + refresh_time/60)):
         print("Last data is too old! " + str(round(minutes)) + " minutes ago.")
         telegram_bot_sendtext("Último dato muy viejo! Hace " +
                               str(round(minutes)) + " minutos. Revisar RPI", "-")
-    if (minutes > limit_2 and minutes < (limit_2 + 1)):
+    if (minutes > limit_2 and minutes <= (limit_2 + refresh_time/60)):
         print("Last data is too old! " + str(round(minutes)) + " minutes ago.")
         telegram_bot_sendtext("Último dato muy viejo! Hace " +
                               str(round(minutes)) + " minutos. Revisar RPI", "-")
-    if (minutes > limit_3 and minutes < (limit_3 + 1)):
+    if (minutes > limit_3 and minutes <= (limit_3 + refresh_time/60)):
         print("Last data is too old! " + str(round(minutes)) + " minutes ago.")
         telegram_bot_sendtext("Último dato muy viejo! Hace " +
                               str(round(minutes)) + " minutos. Revisar RPI", "-")
@@ -252,7 +254,7 @@ def telegram_bot_sendtext(bot_message, label):
 
 
 def checkTemps():
-    threading.Timer(30, checkTemps).start()
+    threading.Timer(refresh_time, checkTemps).start()
     # Load last data and settings from database
     lastSettings = requests.get('http://localhost:3001/settings')
     lastData = requests.get('http://localhost:3001/data')
