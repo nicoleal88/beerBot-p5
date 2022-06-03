@@ -50,7 +50,7 @@ class Fermentador{
       textSize(tempsSize);
       textStyle(BOLD);
       textAlign(CENTER, CENTER);
-      if (this.temp == 'null'){
+      if (this.temp == 'null.0'){
         text(this.temp, this.x, temp_y);
       }
       else{

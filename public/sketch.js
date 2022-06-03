@@ -166,7 +166,7 @@ function draw() {
   textStyle(BOLD);
   fill(230)
   textAlign(CENTER)
-  if (tempAmb == 'null'){
+  if (tempAmb == 'null.0'){
     text("T° amb.: null", 1032, 175);  
   }
   else{
