@@ -49,10 +49,23 @@ def update():
     #print((current_time_utc - converted_ts))
     minutes = ((current_time_utc - converted_ts).total_seconds() / 60)
 
-    t0_label.config(text="T amb.: {:.1f} °C".format(float(t0)))
-    f1_label.config(text="T1: {:.1f} °C".format(float(f1)))
-    f2_label.config(text="T2: {:.1f} °C".format(float(f2)))
-    f3_label.config(text="T3: {:.1f} °C".format(float(f3)))
+    if t0 == 'null':
+        t0_label.config(text="T amb.: null")
+    else:
+        t0_label.config(text="T amb.: {:.1f} °C".format(float(t0)))
+    if f1 == 'null':
+        f1_label.config(text="T1: null")
+    else:
+        f1_label.config(text="T1: {:.1f} °C".format(float(f1)))
+    if f2 == 'null':
+        f2_label.config(text="T2: null")
+    else:
+        f2_label.config(text="T2: {:.1f} °C".format(float(f2)))
+    if f3 == 'null':
+        f3_label.config(text="T3: null")
+    else:
+        f3_label.config(text="T3: {:.1f} °C".format(float(f3)))
+
     ts_label.config(text="Ultimo dato: {}".format(converted_ts))
     if(minutes > 15):
         alarm_label.config(
