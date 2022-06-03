@@ -12,8 +12,8 @@ from datetime import datetime
 endpoint = "http://34.227.26.80/data"
 # endpoint = "http://localhost:3000/data"
 
-# idSensorA = '28-020291770688'
-idSensorA = '28-020592453487'
+idSensorA = '28-020291770688'
+# idSensorA = '28-020592453487'
 idSensor1 = '28-020592453487'
 idSensor2 = '28-02049245c8d5'
 idSensor3 = '28-020192451d5e'
@@ -84,7 +84,11 @@ def read_temp(id):
 
 def readTemps():
     # threading.Timer(30, readTemps).start()
-    Temps[0] = read_temp(idSensorA)
+    try:
+        Temps[0] = read_temp(idSensorA)
+    except:
+        Temps[0] = 99.9
+        print("No se puede leer el sensor 0")
     Temps[1] = read_temp(idSensor1)
     Temps[2] = read_temp(idSensor2)
     Temps[3] = read_temp(idSensor3)
