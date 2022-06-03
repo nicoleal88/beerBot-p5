@@ -87,11 +87,26 @@ def readTemps():
     try:
         Temps[0] = read_temp(idSensorA)
     except:
-        Temps[0] = 99.9
+        Temps[0] = -99.9
         print("No se puede leer el sensor 0")
-    Temps[1] = read_temp(idSensor1)
-    Temps[2] = read_temp(idSensor2)
-    Temps[3] = read_temp(idSensor3)
+    try:
+        Temps[1] = read_temp(idSensor1)
+    except:
+        Temps[1] = -99.9
+        print("No se puede leer el sensor 1")
+    try:
+        Temps[2] = read_temp(idSensor2)
+    except:
+        Temps[2] = -99.9
+        print("No se puede leer el sensor 2")
+    try:
+        Temps[3] = read_temp(idSensor3)
+    except:
+        Temps[3] = -99.9
+        print("No se puede leer el sensor 3")
+    # Temps[1] = read_temp(idSensor1)
+    # Temps[2] = read_temp(idSensor2)
+    # Temps[3] = read_temp(idSensor3)
 
 
 def postData(data):
