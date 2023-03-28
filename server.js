@@ -10,7 +10,7 @@ database.loadDatabase();
 
 let server = app.listen(3000, () => {
 	console.log("-----------------------------------------------------------------------------");
-	console.log("Server running, listening at 3001...");
+	console.log("Server running, listening at 3000...");
 	console.log("-----------------------------------------------------------------------------");
 });
 
