@@ -9,8 +9,8 @@ import json
 import random
 import time
 from datetime import datetime
-endpoint = "http://34.227.26.80/data"
-# endpoint = "http://localhost:3000/data"
+# endpoint = "http://34.227.26.80/data"
+endpoint = "http://localhost:3000/data"
 
 idSensorA = '28-020291770688'
 # idSensorA = '28-020592453487'

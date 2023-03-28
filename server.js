@@ -8,7 +8,7 @@ var useragent = require('express-useragent');
 let database = new Datastore('database.db');
 database.loadDatabase();
 
-let server = app.listen(3001, () => {
+let server = app.listen(3000, () => {
 	console.log("-----------------------------------------------------------------------------");
 	console.log("Server running, listening at 3001...");
 	console.log("-----------------------------------------------------------------------------");
