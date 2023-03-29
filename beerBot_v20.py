@@ -20,6 +20,7 @@ import os
 import requests
 import threading
 import datetime
+import prettytable as pt
 from telegram import __version__ as TG_VER
 
 try:
@@ -173,6 +174,31 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                             f1["name"], f1["temp"], f1["label"],
                             f2["name"], f2["temp"], f2["label"],
                             f3["name"], f3["temp"], f3["label"])
+    await update.message.reply_text(msg)
+
+async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send table status."""
+    table = pt.PrettyTable(['N', 'Cont', 'Temp', 'Prom', 'Dias'])
+    table.align['N'] = 'l'
+    table.align['Cont'] = 'l'
+    table.align['Temp'] = 'r'
+    table.align['Prom'] = 'r'
+    table.align['Dias'] = 'l'
+
+    data = [
+        ('F1', f1["label"], f1["temp"], f1["temp"], '5'),
+        ('F2', f2["label"], f2["temp"], f2["temp"], '4'),
+        ('F3', f3["label"], f3["temp"], f3["temp"], '14'),
+    ]
+    for ferm, cont, temp, promedio, tiempo in data:
+        table.add_row(
+            [ferm,
+             '{0:.6s}'.format(cont),
+             '{0:.1f}'.format(temp),
+             '{0:.1f}'.format(promedio),
+             tiempo+"d"])
+
+    msg = f'<pre>{table}</pre>'
     await update.message.reply_text(msg)
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
