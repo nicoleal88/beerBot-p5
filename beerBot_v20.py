@@ -176,6 +176,8 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                             f3["name"], f3["temp"], f3["label"])
     await update.message.reply_text(msg)
 
+'''
+
 async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send table status."""
     table = pt.PrettyTable(['N', 'Cont', 'Temp', 'Prom', 'Dias'])
@@ -200,6 +202,7 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     msg = f'<pre>{table}</pre>'
     await update.message.reply_text(msg)
+'''
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
