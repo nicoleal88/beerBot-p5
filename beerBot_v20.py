@@ -164,6 +164,13 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     """Send a message when the command /help is issued."""
     await update.message.reply_text("Help!")
 
+async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send brief status."""
+    msg = status_msg.format(f0["temp"],
+                            f1["name"], f1["temp"], f1["label"],
+                            f2["name"], f2["temp"], f2["label"],
+                            f3["name"], f3["temp"], f3["label"])
+    await update.message.reply_text(msg)
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
