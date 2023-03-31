@@ -51,7 +51,7 @@ class Fermentador{
       textStyle(BOLD);
       textAlign(CENTER, CENTER);
       if (this.temp == 'null.0'){
-        text(this.temp, this.x, temp_y);
+        text("-", this.x, temp_y);
       }
       else{
         text(this.temp + " °C", this.x, temp_y);
