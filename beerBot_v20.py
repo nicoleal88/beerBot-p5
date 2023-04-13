@@ -448,7 +448,8 @@ checkTemps()
 
 def main() -> None:
     """Start the bot."""
-    start()
+    telegram_bot_sendtext(welcome_msg, "-")
+
     # Create the Application and pass it your bot's token.
     application = Application.builder().token(TOKEN).build()
 
