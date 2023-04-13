@@ -275,9 +275,19 @@ def checkTemps():
     checkLastData(ts)
 
     # Assign the data to each ferm.
-    if (data_json['t0'] != 'null'): f0["temp"] = data_json['t0']
+    # if (data_json['t0'] != 'null'): f0["temp"] = data_json['t0']
+    if data_json['t0'] != 'null':
+        f0["temp"] = data_json['t0'] 
+    else:
+        f0["temp"] = -999
+    
     # Ferm 1:
-    if (data_json['t1'] != 'null'): f1["temp"] = data_json['t1']
+    # if (data_json['t1'] != 'null'): f1["temp"] = data_json['t1']
+    if data_json['t1'] != 'null':
+        f1["temp"] = data_json['t1'] 
+    else:
+        f1["temp"] = -999
+    
     f1["label"] = settings_json['label1']
 
     if (f1["temp"] > tmin_warning and f1["temp"] < tmax_warning):
@@ -326,7 +336,12 @@ def checkTemps():
             f1["alarm"] = -2
 
     # Ferm 2:
-    if (data_json['t2'] != 'null'): f2["temp"] = data_json['t2']
+    # if (data_json['t2'] != 'null'): f2["temp"] = data_json['t2']
+    if data_json['t2'] != 'null':
+        f2["temp"] = data_json['t2'] 
+    else:
+        f2["temp"] = -999
+    
     f2["label"] = settings_json['label2']
 
     if (f2["temp"] > tmin_warning and f2["temp"] < tmax_warning):
@@ -375,7 +390,13 @@ def checkTemps():
             f2["alarm"] = -2
 
     # Ferm 3:
-    if (data_json['t3'] != 'null'): f3["temp"] = data_json['t3']
+    # if (data_json['t3'] != 'null'): f3["temp"] = data_json['t3']
+    
+    if data_json['t3'] != 'null':
+        f3["temp"] = data_json['t3'] 
+    else:
+        f3["temp"] = -999
+    
     f3["label"] = settings_json['label3']
 
     if (f3["temp"] > tmin_warning and f3["temp"] < tmax_warning):
