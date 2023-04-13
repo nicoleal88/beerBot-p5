@@ -160,8 +160,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
     await update.message.reply_html(
-        welcome_msg,
-        reply_markup=ForceReply(selective=True),
+        welcome_msg
     )
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -449,6 +448,7 @@ checkTemps()
 
 def main() -> None:
     """Start the bot."""
+    start()
     # Create the Application and pass it your bot's token.
     application = Application.builder().token(TOKEN).build()
 
