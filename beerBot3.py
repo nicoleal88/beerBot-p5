@@ -8,7 +8,7 @@ import threading
 import requests
 import prettytable as pt
 from telegram.ext import (Updater, CommandHandler)
-from telegram.constants import ParseMode
+from telegram import (ParseMode)
 import os
 import datetime
 userHome = os.getenv("HOME")

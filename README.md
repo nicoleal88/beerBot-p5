@@ -154,6 +154,7 @@ En algunos casos me ha tocado hacer después un comando adicional para guardar l
 1- Editar archivo para que las ventanas se lancen en un escritorio determinado:
 nano /home/pi/.config/openbox/lxde-pi-rc.xml
 
+```bash
   <!-- i want firefox on desktop 3 and maximized -->
   <application name="chromium-browser*">
     <desktop>2</desktop>
@@ -181,9 +182,11 @@ point-rpi
 @lxterminal -e python3 /home/pi/beerBot-p5/local_data_vis.py
 @vlc -L --qt-minimal-view /home/pi/Videos/VideosTapRoom/ListaTapRoom.xspf
 
+```
+
 ## BOT
 
 ## Instalar paquetes
 
 `sudo apt install python3-prettytable`
-`pip3 install telegram --break-system-packages`
+`pip3 install python-telegram-bot==13.7 --break-system-packages`
