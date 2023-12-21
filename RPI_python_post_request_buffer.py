@@ -9,8 +9,8 @@ import json
 import random
 import time
 from datetime import datetime
-endpoint = "http://34.227.26.80/data"
-# endpoint = "http://localhost:3000/data"
+# endpoint = "http://34.227.26.80/data"
+endpoint = "http://localhost:3001/data"
 
 idSensorA = '28-020291770688'
 # idSensorA = '28-020592453487'
@@ -51,8 +51,8 @@ GPIO.output(pin3v3, GPIO.HIGH)      # turn on pin
 
 time.sleep(2)
 
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
+# os.system('modprobe w1-gpio') // Parece que en nuevas versiones no es necesario
+# os.system('modprobe w1-therm')
 
 baseDir = '/sys/bus/w1/devices/'
 # deviceFolder = glob.glob(baseDir + '28*')[0]
