@@ -269,6 +269,10 @@ def checkTemps():
 
     # Assign the data to each ferm.
     f0["temp"] = data_json['t0']
+    if isinstance(f0["temp"], (int, float)):
+        pass
+    else:
+        f0["temp"]==-990
     # Ferm 1:
     f1["temp"] = data_json['t1']
     f1["label"] = settings_json['label1']
@@ -319,7 +323,9 @@ def checkTemps():
                     f1["name"], f1["temp"], f1["label"]), f1["label"])
                 print("Temp debajo del límite inferior!!")
                 f1["alarm"] = -2
-
+    else:
+        f1["temp"]==-991
+    
     # Ferm 2:
     f2["temp"] = data_json['t2']
     f2["label"] = settings_json['label2']
@@ -370,7 +376,9 @@ def checkTemps():
                     f2["name"], f2["temp"], f2["label"]), f2["label"])
                 print("Temp debajo del límite inferior!!")
                 f2["alarm"] = -2
-
+    else:
+            f2["temp"]==-992
+        
     # Ferm 3:
     f3["temp"] = data_json['t3']
     f3["label"] = settings_json['label3']
@@ -422,7 +430,9 @@ def checkTemps():
                 print("Temp debajo del límite inferior!!")
                 f3["alarm"] = -2
 
-
+    else:
+        f3["temp"]==-993
+    
 checkTemps()
 
 
