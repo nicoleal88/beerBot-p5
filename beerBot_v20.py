@@ -262,8 +262,8 @@ def telegram_bot_sendtext(bot_message, label):
 def checkTemps():
     threading.Timer(refresh_time, checkTemps).start()
     # Load last data and settings from database
-    lastSettings = requests.get('http://localhost:3000/settings')
-    lastData = requests.get('http://localhost:3000/data')
+    lastSettings = requests.get('http://localhost:3001/settings')
+    lastData = requests.get('http://localhost:3001/data')
 
     # Convert the data into json
     data_json = lastData.json()
