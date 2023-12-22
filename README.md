@@ -1,12 +1,18 @@
-# beerBot Drager
+# beerBot Drager: Software para monitorear temperaturas de fermentadores, visualizarlas en una interfaz web y acceder a los datos mediante un bot de Telegram
 
 ## Primeros pasos
 
-### Habilitar puertos 1 wire
+### Habilitar puertos 1-Wire
 
-Editar archivo `sudo nano /boot/config.txt`
+Edite el archivo `/boot/config.txt`:
 
-'''
+```bash
+sudo nano /boot/config.txt
+```
+
+Agregue las siguientes líneas para habilitar los puertos 1-Wire:
+
+```bash
 dtoverlay=w1-gpio
 dtparam=gpiopin=18
 dtoverlay=w1-gpio
@@ -15,178 +21,178 @@ dtoverlay=w1-gpio
 dtparam=gpiopin=22
 dtoverlay=w1-gpio
 dtparam=gpiopin=23
-'''
+```
 
-### Ver los sensores conectados
+### Verificar sensores conectados
 
-`ls /sys/bus/w1/devices/`
+Ejecute el siguiente comando para listar los sensores conectados:
 
-### Ver un dato de temperatura
+```bash
+ls /sys/bus/w1/devices/
+```
 
-`cat /sys/bus/w1/devices/28-020592453487/w1_slave`
+### Verificar una lectura de temperatura
+
+Use el siguiente comando para obtener la temperatura de un sensor específico:
+
+```bash
+cat /sys/bus/w1/devices/28-020592453487/w1_slave
+```
 
 ## Instalar Node.js
 
-1. Before we begin installing NodeJS to our Raspberry Pi, let us first update the packages running on our operating system.
+1. Actualice los paquetes en su sistema operativo:
 
-We can update the package list and upgrade existing packages using the following two commands.
+```bash
+sudo apt update
+sudo apt upgrade
+```
 
-`sudo apt update`
-`sudo apt upgrade`
+2. Instale los paquetes necesarios para acceder al repositorio de Nodesource:
 
-2. Our next step is ensuring we have all the packages we need to access the Nodesource repository.
+```bash
+sudo apt install -y ca-certificates curl gnupg
+```
 
-Install these packages by using the following command in the terminal.
+3. Descargue la clave GPG de Nodesource y guárdela en el directorio `/usr/share/keyrings`:
 
-`sudo apt install -y ca-certificates curl gnupg`
+```bash
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/nodesource.gpg
+```
 
-3. With our Raspberry Pi up to date, we can now set up the NodeSource repository.
+4. Agregue el repositorio de Node.JS a la lista de fuentes:
 
-This repository will allow us to install the latest versions of NodeJS to the Raspberry Pi easily.
+```bash
+NODE_MAJOR=18  # Cambie a la versión deseada: 18 para LTS, 20 para la versión actual
+echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+```
 
-Let us start this process by downloading the Nodesource GPG key and storing it within the `/usr/share/keyrings` directory.
+5. Actualice la lista de paquetes:
 
-`curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/nodesource.gpg`
+```bash
+sudo apt update
+```
 
-4. With the GPG key stored on our Raspberry Pi, we can now the Nodesource Node.JS repository to the sources list.
+6. Instale NodeJS:
 
-Before we do this, you must decide what NodeJS version you want to install. Use the relevant line for which version you would like to install. If a newer release exists, replace the number with that version.
+```bash
+sudo apt install nodejs
+```
 
-These lines simply set an environment variable we will reference in the next step.
+7. Verifique la instalación:
 
-- LTS Release
+```bash
+node -v
+```
 
-`NODE_MAJOR=18`
+8. Instale el paquete "build-essential" para manejar problemas de compilación al instalar módulos adicionales:
 
-- Current Release
+```bash
+sudo apt install build-essential
+```
 
-`NODE_MAJOR=20`
+## Clonar el repositorio
 
-5. Using the following command, You can now add the Node.JS repository to your Raspberry Pi’s sources list.
+```bash
+git clone https://github.com/nicoleal88/beerBot-p5.git
+cd beerBot-p5/
+```
 
-`echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list`
+## Instalar dependencias del servidor
 
-6. Since we made changes to your sources list you will need to run an update of the package list again.
+```bash
+npm install
+```
 
-Update the package list on your Raspberry Pi by using the following command.
+## Instalar PM2
 
-`sudo apt update`
+### Instalar PM2 globalmente
 
-7. With the NodeJS repositories added to our Raspberry Pi, we can proceed to install the runtime to our device.
+```bash
+npm install -g pm2
+```
 
-As the script we ran in the previous step runs a package update, we simply need to install the package.
+### Gestión de procesos con PM2
 
-`sudo apt install nodejs`
+Arrancar un proceso:
 
-8. To verify that we have now successfully installed NodeJS, we can run the following command.
+```bash
+pm2 start index.js
+```
 
-This command will retrieve the version number from the runtime environment.
+Detener un proceso:
 
-`node -v`
+```bash
+pm2 stop mi-api
+```
 
-9. When using NPM to install additional modules you may have issues when the module needs compiling to support the native hardware.
+Reiniciar un proceso:
 
-We can install the “build-essential” package to solve most of these issues. This package contains various tools used to compile software.
+```bash
+pm2 restart mi-api
+```
 
-You can install this package to your Raspberry Pi by using the following command on your device.
+Verificar procesos en ejecución:
 
-`sudo apt install build-essential`
+```bash
+pm2 list
+```
 
-## Clonar el repo
+Ver registros en tiempo real:
 
-`git clone https://github.com/nicoleal88/beerBot-p5.git`
+```bash
+pm2 log
+```
 
-`cd beerBot-p5/`
+Generar el script de inicio:
 
-## Instalar dependencias de servidor
-
-`npm install`
-
-## Instalar pm2
-
-### Instalar PM2
-
-Si quieres disponer de tu gestor de procesos en el servidor, tendrás que instalarlo como cualquier otra aplicación Node.
-
-`npm install -g pm2`
-
-### Arrancar y parar procesos
-
-Lo primero que debes aprender es a arrancar y detener procesos, o volverlos a arracar cuando sea necesario. Obviamente, en vez de solicitar a Node que ejecute tal o cual fichero, se lo pediremos directamente a PM2.
-
-`pm2 start index.js`
-
-Para detener el proceso se usará el comando stop, indicando el nombre del proceso que quieres parar.
-
-`pm2 stop mi-api`
-O para reiniciarlo, el comando restart.
-
-`pm2 restart mi-api`
-
-### Mantenimiento de los procesos
-
-Tal como lo tienes ahora, gracias a que PM2 controla estos procesos listados, se arrancarán nuevamente en caso de error, manteniéndose encendidos mientras la máquina permanezca encendida. Es decir, en el hipotético caso que uno de ellos se termine por cualquier motivo, como un error en el programa que haga que el proceso se acabe, PM2 lo iniciará de nuevo automáticamente.
-
-Para encontrar información sobre los procesos controlados por PM2 puedes listarlos con el comando list:
-
-`pm2 list`
-
-La administración de los log en PM2 es bastante configurable. Hay un comando que te permite ver en tiempo real todos los log que se están produciendo en tus procesos.
-
-`pm2 log`
-
-Este comando te mostrará los últimos log y se quedará arrancado, mostrando nuevos mensajes que los procesos envíen como salida por consola. En caso de reinicio de un proceso arrancado con PM2 podrás observar en tiempo real cómo el gestor de procesos se encarga de reiniciarlo.
-
-### Generación del script de startup
-
-Para acabar nuestra configuración básica de PM2 necesitamos configurar el script de startup del servidor.
-
-Con tus procesos en marcha, arrancados mediante PM2, ahora puedes generar de manera automatizada el correspondiente script, sin tener que preocuparte por la programación, ya que PM2 lo generará para ti. Para ello tenemos el comando siguiente:
-
-`pm2 startup`
-
-En algunos casos me ha tocado hacer después un comando adicional para guardar la lista de procesos, me figuro es cuando necesitas cambiar la lista de procesos después de haber generado el script de startup:
-
-`pm2 save`
+```bash
+pm2 startup
+pm2 save
+```
 
 ## Configurar aplicaciones y escritorios
 
-1- Editar archivo para que las ventanas se lancen en un escritorio determinado:
-nano /home/pi/.config/openbox/lxde-pi-rc.xml
+1. Edite el archivo para especificar el escritorio de lanzamiento de ventanas:
 
 ```bash
-  <!-- i want firefox on desktop 3 and maximized -->
-  <application name="chromium-browser*">
-    <desktop>2</desktop>
-    <maximized>yes</maximized>
-  </application>
-<!-- i want firefox on desktop 3 and maximized -->
-  <application name="lxterminal*">
-    <desktop>3</desktop>
-  </application>
-  <application name="python3*">
-    <desktop>3</desktop>
-  </application>
+nano /home/pi/.config/openbox/lxde-pi-rc.xml
+```
 
-2- Lanzar aplicaciones automáticamente desde:
+```xml
+<!-- Quiero que Chromium se ejecute en el escritorio 2 y maximizado -->
+<application name="chromium-browser*">
+  <desktop>2</desktop>
+  <maximized>yes</maximized>
+</application>
+<!-- Quiero que el terminal se ejecute en el escritorio 3 -->
+<application name="lxterminal*">
+  <desktop>3</desktop>
+</application>
+<application name="python3*">
+  <desktop>3</desktop>
+</application>
+```
 
-/etc/xdg/lxsession/LXDE-pi/autostart
+2. Configure las aplicaciones de inicio en `/etc/xdg/lxsession/LXDE-pi/autostart`:
 
+```bash
 @lxpanel --profile LXDE-pi
 @pcmanfm --desktop --profile LXDE-pi
 @xscreensaver -no-splash
 point-rpi
 
-@chromium-browser --start-fullscreen 34.227.26.80
+@chromium-browser --start-fullscreen localhost:3001
 @lxterminal -e python3 /home/pi/beerBot-p5/RPI_python_post_request_buffer.py
 @lxterminal -e python3 /home/pi/beerBot-p5/local_data_vis.py
 @vlc -L --qt-minimal-view /home/pi/Videos/VideosTapRoom/ListaTapRoom.xspf
-
 ```
 
 ## BOT
 
 ## Instalar paquetes
 
-`sudo apt install python3-prettytable`
-`pip3 install python-telegram-bot==13.7 --break-system-packages`
+```bash
+sudo apt install python3-prettytable
+pip3 install python-telegram-bot==13.7 --break-system-packages
+```
