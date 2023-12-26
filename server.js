@@ -1,206 +1,291 @@
-let express = require('express');
-let Datastore = require('nedb');
+let express = require("express");
+let Datastore = require("nedb");
 
 let app = express();
 
-var useragent = require('express-useragent');
+var useragent = require("express-useragent");
 
-let database = new Datastore('database.db');
+let database = new Datastore("database.db");
 database.loadDatabase();
 
 let server = app.listen(3001, () => {
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Server running, listening at 3001...");
-	console.log("-----------------------------------------------------------------------------");
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Server running, listening at 3001...");
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
 });
 
-app.use(express.static('public'));
-app.use(express.json({
-	limit: '100kb'
-}));
+// app.use(express.static('public'));
+app.use(
+  express.json({
+    limit: "100kb",
+  })
+);
 app.use(useragent.express());
 
+// serve your css as static
+app.use(express.static(__dirname));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
 // Recieve data from Python via HTTP post request
-app.post('/data', (req, res) => {
-	let data = req.body;
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Receiving data from python RPI...");
-	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}`);
-	console.log(data);
-	console.log("-----------------------------------------------------------------------------");
-	data.type = "data"
-	database.insert(data);
-	res.json({
-		status: "OK",
-		data: data
-	})
+app.post("/data", (req, res) => {
+  let data = req.body;
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Receiving data from python RPI...");
+  // console.log(`Source: ${req.useragent.source}`);
+  console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}`);
+  console.log(data);
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  data.type = "data";
+  database.insert(data);
+  res.json({
+    status: "OK",
+    data: data,
+  });
 });
 
 // Recieve settings from Web via HTTP post request
-app.post('/settings', (req, res) => {
-	let data = req.body;
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Receiving settings from web...");
-	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-	console.log(data);
-	console.log("-----------------------------------------------------------------------------");
-	data.type = "settings"
-	database.insert(data);
-	res.json({
-		status: "OK",
-		data: data
-	})
+app.post("/settings", (req, res) => {
+  let data = req.body;
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Receiving settings from web...");
+  // console.log(`Source: ${req.useragent.source}`);
+  console.log(
+    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+  );
+  console.log(data);
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  data.type = "settings";
+  database.insert(data);
+  res.json({
+    status: "OK",
+    data: data,
+  });
 });
 
 // Send the data corresponding to the last ten minutes temperatures
-app.get('/tenmin', (req, res) => {
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Sending 10min info to web plotter...");
-	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-	console.log("-----------------------------------------------------------------------------");
-	let response = res;
-	findAndSend(10, response);
-})
+app.get("/tenmin", (req, res) => {
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Sending 10min info to web plotter...");
+  // console.log(`Source: ${req.useragent.source}`);
+  console.log(
+    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+  );
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  let response = res;
+  findAndSend(10, response);
+});
 
 // Send the data corresponding to the last hour temperatures
-app.get('/onehour', (req, res) => {
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Sending 1 hour info to web plotter...");
-	// console.log(req.useragent);
-	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-	console.log("-----------------------------------------------------------------------------");
-	let response = res;
-	findAndSend(60, response);
-})
+app.get("/onehour", (req, res) => {
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Sending 1 hour info to web plotter...");
+  // console.log(req.useragent);
+  // console.log(`Source: ${req.useragent.source}`);
+  console.log(
+    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+  );
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  let response = res;
+  findAndSend(60, response);
+});
 
 // Send the data corresponding to the last day temperatures
-app.get('/oneday', (req, res) => {
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Sending 1 day info to web plotter...");
-	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-	console.log("-----------------------------------------------------------------------------");
-	let response = res;
-	findAndSend(1440, response);
-})
+app.get("/oneday", (req, res) => {
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Sending 1 day info to web plotter...");
+  // console.log(`Source: ${req.useragent.source}`);
+  console.log(
+    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+  );
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  let response = res;
+  findAndSend(1440, response);
+});
 
 // Send the data corresponding to the last week temperatures
-app.get('/week', (req, res) => {
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Sending 1 week info to web plotter...");
-	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-	console.log("-----------------------------------------------------------------------------");
-	let response = res;
-	findAndSend(10080, response);
-})
+app.get("/week", (req, res) => {
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Sending 1 week info to web plotter...");
+  // console.log(`Source: ${req.useragent.source}`);
+  console.log(
+    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+  );
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  let response = res;
+  findAndSend(10080, response);
+});
 
 // Send the data corresponding to the last 15 days temperatures
-app.get('/fortnight', (req, res) => {
-	console.log("-----------------------------------------------------------------------------");
-	console.log("Sending 15 day info to web plotter...");
-	// console.log(`Source: ${req.useragent.source}`);
-	console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-	console.log("-----------------------------------------------------------------------------");
-	let response = res;
-	findAndSend(21600, response);
-})
+app.get("/fortnight", (req, res) => {
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log("Sending 15 day info to web plotter...");
+  // console.log(`Source: ${req.useragent.source}`);
+  console.log(
+    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+  );
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  let response = res;
+  findAndSend(21600, response);
+});
 
 // Send the last settings
-app.get('/settings', (req, res) => {
-	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			res.end();
-		} else {
-			console.log("-----------------------------------------------------------------------------");
-			console.log("Sending the last settings...")
-			console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-			console.log("-----------------------------------------------------------------------------");
-			// console.log(docs[0])
-			res.json(docs[0]);
-		}
-	});
-})
+app.get("/settings", (req, res) => {
+  database
+    .find({ type: "settings" })
+    .sort({ timestamp: -1 })
+    .exec(function (err, docs) {
+      if (err) {
+        console.error(err);
+        res.end();
+      } else {
+        console.log(
+          "-----------------------------------------------------------------------------"
+        );
+        console.log("Sending the last settings...");
+        console.log(
+          `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+        );
+        console.log(
+          "-----------------------------------------------------------------------------"
+        );
+        // console.log(docs[0])
+        res.json(docs[0]);
+      }
+    });
+});
 
 // Send the last data
-app.get('/data', (req, res) => {
-	database.find({ "type": "data" }).sort({ timestamp: -1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			res.end();
-		} else {
-			console.log("-----------------------------------------------------------------------------");
-			console.log("Sending the last data...")
-			console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-			// console.log(docs[0])
-			console.log("-----------------------------------------------------------------------------");
-			res.json(docs[0]);
-		}
-	});
-})
+app.get("/data", (req, res) => {
+  database
+    .find({ type: "data" })
+    .sort({ timestamp: -1 })
+    .exec(function (err, docs) {
+      if (err) {
+        console.error(err);
+        res.end();
+      } else {
+        console.log(
+          "-----------------------------------------------------------------------------"
+        );
+        console.log("Sending the last data...");
+        console.log(
+          `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+        );
+        // console.log(docs[0])
+        console.log(
+          "-----------------------------------------------------------------------------"
+        );
+        res.json(docs[0]);
+      }
+    });
+});
 
 // Send the last status
-app.get('/status', (req, res) => {
-	// 
-	database.find({ "type": "settings" }).sort({ timestamp: -1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			res.end();
-		} else {
-			console.log("-----------------------------------------------------------------------------");
-			console.log("Sending the last status...")
-			console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`);
-			// console.log(docs[0])
-			console.log("-----------------------------------------------------------------------------");
-			res.json(docs[0]);
-		}
-	});
-})
+app.get("/status", (req, res) => {
+  //
+  database
+    .find({ type: "settings" })
+    .sort({ timestamp: -1 })
+    .exec(function (err, docs) {
+      if (err) {
+        console.error(err);
+        res.end();
+      } else {
+        console.log(
+          "-----------------------------------------------------------------------------"
+        );
+        console.log("Sending the last status...");
+        console.log(
+          `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+        );
+        // console.log(docs[0])
+        console.log(
+          "-----------------------------------------------------------------------------"
+        );
+        res.json(docs[0]);
+      }
+    });
+});
 
-// Reduce an array from n(Input) to l  
+// Reduce an array from n(Input) to l
 function reduceArray(input, l) {
-	let len = input.length
-	let div = Math.floor(len / l);
-	let result = [];
-	if (len > l) {
-		for (let i = 0; i < len; i = i + div) {
-			result.push(input[i])
-		}
-	}
-	else {
-		for (let i = 0; i < len; i++) {
-			result.push(input[i])
-		}
-	}
-	return result
-};
+  let len = input.length;
+  let div = Math.floor(len / l);
+  let result = [];
+  if (len > l) {
+    for (let i = 0; i < len; i = i + div) {
+      result.push(input[i]);
+    }
+  } else {
+    for (let i = 0; i < len; i++) {
+      result.push(input[i]);
+    }
+  }
+  return result;
+}
 
 function findAndSend(gap_, res) {
-	const gap = gap_
-	const now = Date.now();
-	const last = now - (gap * 60 * 1000)
-	database.find({
-		$and: [{
-			"type": "data"
-		}, {
-			"timestamp": { $gt: last }
-		}]
-	}).sort({ timestamp: 1 }).exec(function (err, docs) {
-		if (err) {
-			console.error(err);
-			res.end();
-		} else {
-			let toSend = reduceArray(docs, 100);
-			// console.log(toSend)
-			res.json(toSend);
-		}
-	});
-};
+  const gap = gap_;
+  const now = Date.now();
+  const last = now - gap * 60 * 1000;
+  database
+    .find({
+      $and: [
+        {
+          type: "data",
+        },
+        {
+          timestamp: { $gt: last },
+        },
+      ],
+    })
+    .sort({ timestamp: 1 })
+    .exec(function (err, docs) {
+      if (err) {
+        console.error(err);
+        res.end();
+      } else {
+        let toSend = reduceArray(docs, 100);
+        // console.log(toSend)
+        res.json(toSend);
+      }
+    });
+}
 
 // myArray = [];
 // let ind;
@@ -214,7 +299,6 @@ function findAndSend(gap_, res) {
 // for (let i = 0; i < myArray.length; i = i + div){
 //   result.push(myArray[i])
 // }
-
 
 // getDataDB();
 
