@@ -18,7 +18,8 @@ let server = app.listen(3001, () => {
   );
 });
 
-// app.use(express.static('public'));
+app.use(express.static("public"));
+
 app.use(
   express.json({
     limit: "100kb",
@@ -26,11 +27,9 @@ app.use(
 );
 app.use(useragent.express());
 
-// serve your css as static
-app.use(express.static(__dirname));
-
+// Send the index.html file
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "/index.html");
 });
 
 // Recieve data from Python via HTTP post request
