@@ -41,7 +41,7 @@ var temp1;
 var temp2;
 var temp3;
 var tempAmb;
-var lastTimestamp
+var lastTimestamp;
 
 // var SPs = [21, 22, 23, 24];
 // float[] temps = {0.0, 0.0, 0.0, 0.0};
@@ -71,34 +71,32 @@ function preload() {
   ferm3 = new Fermentador(f3_x, 03);
   setMySettings();
   setMyData();
-  
-  bImg = loadImage('images/Ferm_background_720.png');
-  
+
+  bImg = loadImage("images/Ferm_background_720.png");
 }
 
 const minutes = 1;
 const interval = minutes * 60 * 1000;
 
-setInterval(function() {
-    // catch all the errors
-    setMySettings().catch(console.log);
-    setMyData().catch(console.log);
-    showLastUpdate();
+setInterval(function () {
+  // catch all the errors
+  setMySettings().catch(console.log);
+  setMyData().catch(console.log);
+  showLastUpdate();
 }, interval);
 
 function setup() {
-
   frameRate(5);
   console.log("preloading DONE");
   createCanvas(1280, 720);
   // console.log(test);
 
   // lastUpdateDate = new Date(Number(lastTimestamp));
-  
+
   showLastUpdate();
-  
+
   //Button creation
-  button = createButton('Enviar datos');
+  button = createButton("Enviar datos");
   button.position(buttons_x, 412);
   button.class("button");
   button.mousePressed(sendData);
@@ -106,22 +104,22 @@ function setup() {
   hourButton = createButton("Gráfico 1 hora");
   hourButton.position(buttons_x, 442);
   hourButton.class("button");
-  hourButton.mousePressed(onehour)
+  hourButton.mousePressed(onehour);
 
   dayButton = createButton("Gráfico 1 día");
   dayButton.position(buttons_x, 472);
   dayButton.class("button");
-  dayButton.mousePressed(oneday)
+  dayButton.mousePressed(oneday);
 
   dayButton = createButton("Gráfico 7 días");
   dayButton.position(buttons_x, 502);
   dayButton.class("button");
-  dayButton.mousePressed(week)
+  dayButton.mousePressed(week);
 
   fortnightButton = createButton("Gráfico 15 días");
   fortnightButton.position(buttons_x, 532);
   fortnightButton.class("button");
-  fortnightButton.mousePressed(fortnight)
+  fortnightButton.mousePressed(fortnight);
 
   // Create Layout GUI
   gui = createGui();
@@ -145,7 +143,7 @@ function setup() {
     label1: ferm1.label,
     label2: ferm2.label,
     label3: ferm3.label,
-  }
+  };
   // sliderRange(spMin, spMax, 1);
   gui.addObject(obj);
 
@@ -161,20 +159,19 @@ function draw() {
 
   // temp2 = temps[1];
   // temp3 = temps[2];
-  push()
+  push();
   textSize(labelsSize);
   textStyle(BOLD);
-  fill(230)
-  textAlign(CENTER)
-  if (tempAmb == 'null.0'){
-    text("T° amb.: null", 1032, 175);  
-  }
-  else{
+  fill(230);
+  textAlign(CENTER);
+  if (tempAmb == "null.0") {
+    text("T° amb.: ---", 1032, 175);
+  } else {
     text("T° amb.: " + tempAmb + " °C", 1032, 175);
   }
-  pop()
+  pop();
 
-  showLastUpdate()
+  showLastUpdate();
 
   // ferm1.sp = obj.setpoint1;
   // ferm2.sp = obj.setpoint2;
@@ -206,9 +203,10 @@ function draw() {
 function keyPressed() {
   switch (key) {
     // type [F1] to hide / show the GUI
-    case '+':
+    case "+":
       visible = !visible;
-      if (visible) gui.show(); else gui.hide();
+      if (visible) gui.show();
+      else gui.hide();
       break;
   }
 }
@@ -238,24 +236,23 @@ async function sendData() {
     // sp3: ferm3.sp,
     label1: ferm1.label,
     label2: ferm2.label,
-    label3: ferm3.label
-  }
+    label3: ferm3.label,
+  };
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
-  }
+    body: JSON.stringify(data),
+  };
 
-  const confirm_message = `Desea enviar estos labels?\nLabel1: ${data.label1}\nLabel2: ${data.label2}\nLabel3: ${data.label3}`
-
+  const confirm_message = `Desea enviar estos labels?\nLabel1: ${data.label1}\nLabel2: ${data.label2}\nLabel3: ${data.label3}`;
 
   if (confirm(confirm_message)) {
-    const response = await fetch('/settings', options);
+    const response = await fetch("/settings", options);
     const json = await response.json();
     console.log("Envío de settings autorizado");
-    console.log(json)
+    console.log(json);
   } else {
     console.log("Envío de settings cancelado");
   }
@@ -269,16 +266,15 @@ async function getData(route) {
 }
 
 async function setMyData() {
-  const data = await getData('/data');
+  const data = await getData("/data");
   if (data) {
     console.log(data);
     ferm1.temp = nf(data.t1, 0, 1);
     ferm2.temp = nf(data.t2, 0, 1);
     ferm3.temp = nf(data.t3, 0, 1);
     tempAmb = nf(data.t0, 0, 1);
-    lastTimestamp = data.timestamp
-  }
-  else {
+    lastTimestamp = data.timestamp;
+  } else {
     ferm1.temp = -999;
     ferm2.temp = -999;
     ferm3.temp = -999;
@@ -286,7 +282,7 @@ async function setMyData() {
 }
 
 async function setMySettings() {
-  const settings = await getData('/settings');
+  const settings = await getData("/settings");
   if (settings) {
     console.log(settings);
     // ferm1.sp = settings.sp1;
@@ -296,8 +292,7 @@ async function setMySettings() {
     ferm1.label = settings.label1;
     ferm2.label = settings.label2;
     ferm3.label = settings.label3;
-  }
-  else {
+  } else {
     // ferm1.sp = 20;
     // ferm2.sp = 20;
     // ferm3.sp = 20;
@@ -328,7 +323,6 @@ function fortnight() {
   window.open("fortnight.html");
 }
 
-
 function showLastUpdate() {
   push();
   fill(200);
@@ -336,10 +330,10 @@ function showLastUpdate() {
   textSize(12);
   textAlign(CENTER);
 
-  var timestamp = lastTimestamp
+  var timestamp = lastTimestamp;
   var date = new Date(timestamp);
- 
-  text("Último dato: "+ date.toLocaleString('es-AR'), width / 2, height - 4);
+
+  text("Último dato: " + date.toLocaleString("es-AR"), width / 2, height - 4);
   pop();
   // const point = AMIGA_Map.latLngToPixel(elt.lat, elt.lng);
 }
