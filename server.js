@@ -27,11 +27,6 @@ app.use(
 );
 app.use(useragent.express());
 
-// Send the index.html file
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
 // Recieve data from Python via HTTP post request
 app.post("/data", (req, res) => {
   let data = req.body;
