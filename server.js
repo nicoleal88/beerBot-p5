@@ -1,22 +1,14 @@
-let express = require("express");
-let Datastore = require("nedb");
+const express = require("express");
+const Datastore = require("nedb");
+const useragent = require("express-useragent");
 
-let app = express();
+const app = express();
 
-var useragent = require("express-useragent");
+const PORT = process.env.PORT || 3001;
+const DB_NAME = process.env.DB_NAME || "database.db";
 
-let database = new Datastore("database.db");
+const database = new Datastore(DB_NAME);
 database.loadDatabase();
-
-let server = app.listen(3001, () => {
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Server running, listening at 3001...");
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-});
 
 app.use(express.static("public"));
 
@@ -27,315 +19,178 @@ app.use(
 );
 app.use(useragent.express());
 
-// Recieve data from Python via HTTP post request
-app.post("/data", (req, res) => {
-  let data = req.body;
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Receiving data from python RPI...");
-  // console.log(`Source: ${req.useragent.source}`);
-  console.log(`Device data: ${req.useragent.browser} ${req.useragent.version}`);
-  console.log(data);
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  data.type = "data";
-  database.insert(data);
-  res.json({
-    status: "OK",
-    data: data,
-  });
+// Receive data from Python via HTTP post request
+app.post("/data", async (req, res) => {
+  try {
+    let data = req.body;
+    if (!data || typeof data !== "object") {
+      return res.status(400).json({ error: "Invalid data format" });
+    }
+
+    data.type = "data";
+    await database.insert(data);
+
+    logRequest(req, "Receiving data from python RPI...");
+    console.log(data);
+
+    res.json({
+      status: "OK",
+      data: data,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-// Recieve settings from Web via HTTP post request
-app.post("/settings", (req, res) => {
-  let data = req.body;
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Receiving settings from web...");
-  // console.log(`Source: ${req.useragent.source}`);
-  console.log(
-    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-  );
-  console.log(data);
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  data.type = "settings";
-  database.insert(data);
-  res.json({
-    status: "OK",
-    data: data,
-  });
+// Receive settings from Web via HTTP post request
+app.post("/settings", async (req, res) => {
+  try {
+    let data = req.body;
+    if (!data || typeof data !== "object") {
+      return res.status(400).json({ error: "Invalid settings format" });
+    }
+
+    data.type = "settings";
+    await database.insert(data);
+
+    logRequest(req, "Receiving settings from web...");
+    console.log(data);
+
+    res.json({
+      status: "OK",
+      data: data,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Send the data corresponding to the last ten minutes temperatures
-app.get("/tenmin", (req, res) => {
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Sending 10min info to web plotter...");
-  // console.log(`Source: ${req.useragent.source}`);
-  console.log(
-    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-  );
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  let response = res;
-  findAndSend(10, response);
-});
+function createTimeHandler(minutes, description) {
+  return async (req, res) => {
+    try {
+      logRequest(req, `Sending ${description} info to web plotter...`);
+      await findAndSend(minutes, res);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+}
 
-// Send the data corresponding to the last hour temperatures
-app.get("/onehour", (req, res) => {
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Sending 1 hour info to web plotter...");
-  // console.log(req.useragent);
-  // console.log(`Source: ${req.useragent.source}`);
-  console.log(
-    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-  );
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  let response = res;
-  findAndSend(60, response);
-});
-
-// Send the data corresponding to the last day temperatures
-app.get("/oneday", (req, res) => {
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Sending 1 day info to web plotter...");
-  // console.log(`Source: ${req.useragent.source}`);
-  console.log(
-    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-  );
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  let response = res;
-  findAndSend(1440, response);
-});
-
-// Send the data corresponding to the last week temperatures
-app.get("/week", (req, res) => {
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Sending 1 week info to web plotter...");
-  // console.log(`Source: ${req.useragent.source}`);
-  console.log(
-    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-  );
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  let response = res;
-  findAndSend(10080, response);
-});
-
-// Send the data corresponding to the last 15 days temperatures
-app.get("/fortnight", (req, res) => {
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  console.log("Sending 15 day info to web plotter...");
-  // console.log(`Source: ${req.useragent.source}`);
-  console.log(
-    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-  );
-  console.log(
-    "-----------------------------------------------------------------------------"
-  );
-  let response = res;
-  findAndSend(21600, response);
-});
+app.get("/tenmin", createTimeHandler(10, "10min"));
+app.get("/onehour", createTimeHandler(60, "1 hour"));
+app.get("/oneday", createTimeHandler(1440, "1 day"));
+app.get("/week", createTimeHandler(10080, "1 week"));
+app.get("/fortnight", createTimeHandler(21600, "15 day"));
 
 // Send the last settings
-app.get("/settings", (req, res) => {
-  database
-    .find({ type: "settings" })
-    .sort({ timestamp: -1 })
-    .exec(function (err, docs) {
-      if (err) {
-        console.error(err);
-        res.end();
-      } else {
-        console.log(
-          "-----------------------------------------------------------------------------"
-        );
-        console.log("Sending the last settings...");
-        console.log(
-          `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-        );
-        console.log(
-          "-----------------------------------------------------------------------------"
-        );
-        // console.log(docs[0])
-        res.json(docs[0]);
-      }
-    });
+app.get("/settings", async (req, res) => {
+  try {
+    const docs = await database
+      .find({ type: "settings" })
+      .sort({ timestamp: -1 })
+      .limit(1)
+      .exec();
+
+    if (docs.length === 0) {
+      return res.status(404).json({ error: "No settings found" });
+    }
+
+    logRequest(req, "Sending the last settings...");
+    res.json(docs[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Send the last data
-app.get("/data", (req, res) => {
-  database
-    .find({ type: "data" })
-    .sort({ timestamp: -1 })
-    .exec(function (err, docs) {
-      if (err) {
-        console.error(err);
-        res.end();
-      } else {
-        console.log(
-          "-----------------------------------------------------------------------------"
-        );
-        console.log("Sending the last data...");
-        console.log(
-          `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-        );
-        // console.log(docs[0])
-        console.log(
-          "-----------------------------------------------------------------------------"
-        );
-        res.json(docs[0]);
-      }
-    });
+app.get("/data", async (req, res) => {
+  try {
+    const docs = await database
+      .find({ type: "data" })
+      .sort({ timestamp: -1 })
+      .limit(1)
+      .exec();
+
+    if (docs.length === 0) {
+      return res.status(404).json({ error: "No data found" });
+    }
+
+    logRequest(req, "Sending the last data...");
+    res.json(docs[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Send the last status
-app.get("/status", (req, res) => {
-  //
-  database
-    .find({ type: "settings" })
-    .sort({ timestamp: -1 })
-    .exec(function (err, docs) {
-      if (err) {
-        console.error(err);
-        res.end();
-      } else {
-        console.log(
-          "-----------------------------------------------------------------------------"
-        );
-        console.log("Sending the last status...");
-        console.log(
-          `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
-        );
-        // console.log(docs[0])
-        console.log(
-          "-----------------------------------------------------------------------------"
-        );
-        res.json(docs[0]);
-      }
-    });
+app.get("/status", async (req, res) => {
+  try {
+    const docs = await database
+      .find({ type: "settings" })
+      .sort({ timestamp: -1 })
+      .limit(1)
+      .exec();
+
+    if (docs.length === 0) {
+      return res.status(404).json({ error: "No status found" });
+    }
+
+    logRequest(req, "Sending the last status...");
+    res.json(docs[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Reduce an array from n(Input) to l
 function reduceArray(input, l) {
-  let len = input.length;
-  let div = Math.floor(len / l);
-  let result = [];
-  if (len > l) {
-    for (let i = 0; i < len; i = i + div) {
-      result.push(input[i]);
-    }
-  } else {
-    for (let i = 0; i < len; i++) {
-      result.push(input[i]);
-    }
+  const len = input.length;
+  if (len <= l) return input;
+
+  const step = len / l;
+  return Array.from({ length: l }, (_, i) => input[Math.floor(i * step)]);
+}
+
+async function findAndSend(gap_, res) {
+  try {
+    const gap = gap_;
+    const now = Date.now();
+    const last = now - gap * 60 * 1000;
+    const docs = await database
+      .find({
+        $and: [{ type: "data" }, { timestamp: { $gt: last } }],
+      })
+      .sort({ timestamp: 1 })
+      .exec();
+
+    let toSend = reduceArray(docs, 100);
+    res.json(toSend);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  return result;
 }
 
-function findAndSend(gap_, res) {
-  const gap = gap_;
-  const now = Date.now();
-  const last = now - gap * 60 * 1000;
-  database
-    .find({
-      $and: [
-        {
-          type: "data",
-        },
-        {
-          timestamp: { $gt: last },
-        },
-      ],
-    })
-    .sort({ timestamp: 1 })
-    .exec(function (err, docs) {
-      if (err) {
-        console.error(err);
-        res.end();
-      } else {
-        let toSend = reduceArray(docs, 100);
-        // console.log(toSend)
-        res.json(toSend);
-      }
-    });
+function logRequest(req, description) {
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
+  console.log(description);
+  console.log(
+    `Device data: ${req.useragent.browser} ${req.useragent.version}, ${req.useragent.os} - ${req.useragent.platform}`
+  );
+  console.log(
+    "-----------------------------------------------------------------------------"
+  );
 }
 
-// myArray = [];
-// let ind;
-// for (ind = 0; ind < 12120; ind++){
-//   myArray.push(ind)
-// }
-// let div = Math.floor(myArray.length / 50);
-
-// let result = [];
-
-// for (let i = 0; i < myArray.length; i = i + div){
-//   result.push(myArray[i])
-// }
-
-// getDataDB();
-
-// function getDataDB() {
-// 	database.find({
-// 		$and: [{
-// 			"type": "data"
-// 		}, {
-// 			"timestamp": { $gt: 5 }
-// 		}]
-// 	}, function (err, docs) {
-// 		if (err) {
-// 			console.error(err);
-// 		} else {
-// 			console.log(docs)
-// 			return docs;
-// 		}
-// 	});
-// }
-// ########################################################## //
-
-// let socket = require('socket.io');
-// let io = socket(server);
-
-// If there is a new connection, execute newConnection function
-// io.sockets.on('connection', newConnection);
-
-// function newConnection(socket) {
-// 	console.log("New connection: " + socket.id);
-// 	// If we recieve a message called "clickDate", execute the message function
-// 	socket.on('clickDate', message);
-
-// 	function message(data) {
-// 		// Adding the socket.id to the message sended by the client
-// 		data['userID'] = socket.id;
-// 		database.insert(data);
-// 		console.log(data);
-// 		// Here we should store this data into a db
-// 	}
-// 	setInterval(timer, 3000);
-
-// 	function timer() {
-// 		let d = "lala";
-// 		socket.emit('status', d);
-// 	}
-// }
+app.listen(PORT, () => {
+  console.log(`Server running, listening at ${PORT}...`);
+});
