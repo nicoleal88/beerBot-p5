@@ -22,6 +22,8 @@ import threading
 import datetime
 import prettytable as pt
 from telegram import __version__ as TG_VER
+import json
+from typing import Dict, Any
 
 try:
     from telegram import __version_info__
@@ -46,20 +48,20 @@ logger = logging.getLogger(__name__)
 userHome = os.getenv("HOME")
 dirPath = userHome + '/beerBot-p5'
 
-config = {}
-with open(dirPath + '/config', 'r') as f:
-    File = f.readlines()
-    for lines in File:
-        splittedLine = lines.split('=')
-        if len(splittedLine) == 2:
-            config[splittedLine[0]] = splittedLine[1][:-1]
+# Load config from file
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
 
 TOKEN = config['TOKEN']
 chat_id = config['CHAT_ID']
+tmin_critical = config['tmin_critical']
+tmin_warning = config['tmin_warning']
+tmax_warning = config['tmax_warning']
+tmax_critical = config['tmax_critical']
+refresh_time = config['refresh_time']
+api_base_url = config['api_base_url']
+blacklist = config['blacklist']
 
-refresh_time = 300  # 5 min = 300 sec
-
-# Messages
 welcome_msg = """
 📟 Iniciando DragerBot 🍻 \n
 @pichedron
@@ -121,13 +123,6 @@ info_msg = """
 Link a la web => http://34.227.26.80//
 """
 
-tmin_critical = 15
-tmin_warning = 16
-# 17, 18, 19, 20, 21, 22
-tmax_warning = 23
-tmax_critical = 24
-
-
 f0 = {
     "temp": -999,
 }
@@ -153,7 +148,6 @@ f3 = {
     "alarm": 2
 }
 
-
 # Define a few command handlers. These usually take the two arguments update and
 # context.
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -174,34 +168,6 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                             f2["name"], f2["temp"], f2["label"],
                             f3["name"], f3["temp"], f3["label"])
     await update.message.reply_text(msg)
-
-'''
-
-async def status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send table status."""
-    table = pt.PrettyTable(['N', 'Cont', 'Temp', 'Prom', 'Dias'])
-    table.align['N'] = 'l'
-    table.align['Cont'] = 'l'
-    table.align['Temp'] = 'r'
-    table.align['Prom'] = 'r'
-    table.align['Dias'] = 'l'
-
-    data = [
-        ('F1', f1["label"], f1["temp"], f1["temp"], '5'),
-        ('F2', f2["label"], f2["temp"], f2["temp"], '4'),
-        ('F3', f3["label"], f3["temp"], f3["temp"], '14'),
-    ]
-    for ferm, cont, temp, promedio, tiempo in data:
-        table.add_row(
-            [ferm,
-             '{0:.6s}'.format(cont),
-             '{0:.1f}'.format(temp),
-             '{0:.1f}'.format(promedio),
-             tiempo+"d"])
-
-    msg = f'<pre>{table}</pre>'
-    await update.message.reply_text(msg)
-'''
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
@@ -259,192 +225,80 @@ def telegram_bot_sendtext(bot_message, label):
     else:
         print("Alerta en fermentador vacío")
 
-def checkTemps():
-    threading.Timer(refresh_time, checkTemps).start()
-    # Load last data and settings from database
-    lastSettings = requests.get('http://localhost:3001/settings')
-    lastData = requests.get('http://localhost:3001/data')
+def check_temps() -> None:
+    threading.Timer(refresh_time, check_temps).start()
+    try:
+        last_settings = requests.get('http://localhost:3001/settings').json()
+        last_data = requests.get('http://localhost:3001/data').json()
+        
+        checkLastData(last_data['timestamp'])
+        
+        update_fermentor(f0, last_data, 't0')
+        update_fermentor(f1, last_data, 't1', last_settings, 'label1')
+        update_fermentor(f2, last_data, 't2', last_settings, 'label2')
+        update_fermentor(f3, last_data, 't3', last_settings, 'label3')
+        
+    except requests.RequestException as e:
+        logger.error(f"Error fetching data: {e}")
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON: {e}")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
 
-    # Convert the data into json
-    data_json = lastData.json()
-    settings_json = lastSettings.json()
-
-    ts = data_json['timestamp']
-
-    checkLastData(ts)
-
-    # Assign the data to each ferm.
-    # if (data_json['t0'] != 'null'): f0["temp"] = data_json['t0']
-    if data_json['t0'] != 'null':
-        f0["temp"] = data_json['t0'] 
-    else:
-        f0["temp"] = -999
+def update_fermentor(ferm: Dict[str, Any], data: Dict[str, Any], temp_key: str, settings: Dict[str, Any] = None, label_key: str = None) -> None:
+    ferm["temp"] = data[temp_key] if data[temp_key] != 'null' else -999
+    if settings and label_key:
+        ferm["label"] = settings[label_key]
     
-    # Ferm 1:
-    # if (data_json['t1'] != 'null'): f1["temp"] = data_json['t1']
-    if data_json['t1'] != 'null':
-        f1["temp"] = data_json['t1'] 
-    else:
-        f1["temp"] = -999
-    
-    f1["label"] = settings_json['label1']
+    check_temperature_status(ferm)
 
-    if (f1["temp"] > tmin_warning and f1["temp"] < tmax_warning):
-        f1["status"] = 0
-        if(f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1)):
-            f1["alarm"] = 0
-        if (f1["alarm"] == 2 and (f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f1["name"]), f1["label"])
+def check_temperature_status(ferm: Dict[str, Any]) -> None:
+    if (ferm["temp"] > tmin_warning and ferm["temp"] < tmax_warning):
+        ferm["status"] = 0
+        if(ferm["temp"] > (tmin_warning + 1) and ferm["temp"] < (tmax_warning - 1)):
+            ferm["alarm"] = 0
+        if (ferm["alarm"] == 2 and (ferm["temp"] > (tmin_warning + 1) and ferm["temp"] < (tmax_warning - 1))):
+            telegram_bot_sendtext(status0_msg.format(ferm["name"]), ferm["label"])
             print("Temp en estado normal")
-            f1["alarm"] = 0
-        if (f1["alarm"] == -2 and (f1["temp"] > (tmin_warning + 1) and f1["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f1["name"]), f1["label"])
+            ferm["alarm"] = 0
+        if (ferm["alarm"] == -2 and (ferm["temp"] > (tmin_warning + 1) and ferm["temp"] < (tmax_warning - 1))):
+            telegram_bot_sendtext(status0_msg.format(ferm["name"]), ferm["label"])
             print("Temp en estado normal")
-            f1["alarm"] = 0
+            ferm["alarm"] = 0
 
-    elif (f1["temp"] > tmax_warning and f1["temp"] < tmax_critical):
-        f1["status"] = 1
-        if f1["alarm"] == 0:
+    elif (ferm["temp"] > tmax_warning and ferm["temp"] < tmax_critical):
+        ferm["status"] = 1
+        if ferm["alarm"] == 0:
             telegram_bot_sendtext(status1_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                ferm["name"], ferm["temp"], ferm["label"]), ferm["label"])
             print("Temp llegando al límite superior")
-            f1["alarm"] = 1
+            ferm["alarm"] = 1
 
-    elif (f1["temp"] > tmax_critical):
-        f1["status"] = 2
-        if f1["alarm"] == 1:
+    elif (ferm["temp"] > tmax_critical):
+        ferm["status"] = 2
+        if ferm["alarm"] == 1:
             telegram_bot_sendtext(status2_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                ferm["name"], ferm["temp"], ferm["label"]), ferm["label"])
             print("Temp sobre el límite superior!!")
-            f1["alarm"] = 2
+            ferm["alarm"] = 2
 
-    elif (f1["temp"] < tmin_warning and f1["temp"] > tmin_critical):
-        f1["status"] = -1
-        if f1["alarm"] == 0:
+    elif (ferm["temp"] < tmin_warning and ferm["temp"] > tmin_critical):
+        ferm["status"] = -1
+        if ferm["alarm"] == 0:
             telegram_bot_sendtext(status_1_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                ferm["name"], ferm["temp"], ferm["label"]), ferm["label"])
             print("Temp llegando al límite inferior")
-            f1["alarm"] = -1
+            ferm["alarm"] = -1
 
-    elif (f1["temp"] < tmin_critical):
-        f1["status"] = -2
-        if f1["alarm"] == -1:
+    elif (ferm["temp"] < tmin_critical):
+        ferm["status"] = -2
+        if ferm["alarm"] == -1:
             telegram_bot_sendtext(status_2_msg.format(
-                f1["name"], f1["temp"], f1["label"]), f1["label"])
+                ferm["name"], ferm["temp"], ferm["label"]), ferm["label"])
             print("Temp debajo del límite inferior!!")
-            f1["alarm"] = -2
+            ferm["alarm"] = -2
 
-    # Ferm 2:
-    # if (data_json['t2'] != 'null'): f2["temp"] = data_json['t2']
-    if data_json['t2'] != 'null':
-        f2["temp"] = data_json['t2'] 
-    else:
-        f2["temp"] = -999
-    
-    f2["label"] = settings_json['label2']
-
-    if (f2["temp"] > tmin_warning and f2["temp"] < tmax_warning):
-        f2["status"] = 0
-        if(f2["temp"] > (tmin_warning + 1) and f2["temp"] < (tmax_warning - 1)):
-            f2["alarm"] = 0
-        if (f2["alarm"] == 2 and (f2["temp"] > (tmin_warning + 1) and f2["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f2["name"]), f2["label"])
-            print("Temp en estado normal")
-            f2["alarm"] = 0
-        if (f2["alarm"] == -2 and (f2["temp"] > (tmin_warning + 1) and f2["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f2["name"]), f2["label"])
-            print("Temp en estado normal")
-            f2["alarm"] = 0
-
-    elif (f2["temp"] > tmax_warning and f2["temp"] < tmax_critical):
-        f2["status"] = 1
-        if f2["alarm"] == 0:
-            telegram_bot_sendtext(status1_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
-            print("Temp llegando al límite superior")
-            f2["alarm"] = 1
-
-    elif (f2["temp"] > tmax_critical):
-        f2["status"] = 2
-        if f2["alarm"] == 1:
-            telegram_bot_sendtext(status2_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
-            print("Temp sobre el límite superior!!")
-            f2["alarm"] = 2
-
-    elif (f2["temp"] < tmin_warning and f2["temp"] > tmin_critical):
-        f2["status"] = -1
-        if f2["alarm"] == 0:
-            telegram_bot_sendtext(status_1_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
-            print("Temp llegando al límite inferior")
-            f2["alarm"] = -1
-
-    elif (f2["temp"] < tmin_critical):
-        f2["status"] = -2
-        if f2["alarm"] == -1:
-            telegram_bot_sendtext(status_2_msg.format(
-                f2["name"], f2["temp"], f2["label"]), f2["label"])
-            print("Temp debajo del límite inferior!!")
-            f2["alarm"] = -2
-
-    # Ferm 3:
-    # if (data_json['t3'] != 'null'): f3["temp"] = data_json['t3']
-    
-    if data_json['t3'] != 'null':
-        f3["temp"] = data_json['t3'] 
-    else:
-        f3["temp"] = -999
-    
-    f3["label"] = settings_json['label3']
-
-    if (f3["temp"] > tmin_warning and f3["temp"] < tmax_warning):
-        f3["status"] = 0
-        if(f3["temp"] > (tmin_warning + 1) and f3["temp"] < (tmax_warning - 1)):
-            f3["alarm"] = 0
-        if (f3["alarm"] == 2 and (f3["temp"] > (tmin_warning + 1) and f3["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f3["name"]), f3["label"])
-            print("Temp en estado normal")
-            f3["alarm"] = 0
-        if (f3["alarm"] == -2 and (f3["temp"] > (tmin_warning + 1) and f3["temp"] < (tmax_warning - 1))):
-            telegram_bot_sendtext(status0_msg.format(f3["name"]), f3["label"])
-            print("Temp en estado normal")
-            f3["alarm"] = 0
-
-    elif (f3["temp"] > tmax_warning and f3["temp"] < tmax_critical):
-        f3["status"] = 1
-        if f3["alarm"] == 0:
-            telegram_bot_sendtext(status1_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
-            print("Temp llegando al límite superior")
-            f3["alarm"] = 1
-
-    elif (f3["temp"] > tmax_critical):
-        f3["status"] = 2
-        if f3["alarm"] == 1:
-            telegram_bot_sendtext(status2_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
-            print("Temp sobre el límite superior!!")
-            f3["alarm"] = 2
-
-    elif (f3["temp"] < tmin_warning and f3["temp"] > tmin_critical):
-        f3["status"] = -1
-        if f3["alarm"] == 0:
-            telegram_bot_sendtext(status_1_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
-            print("Temp llegando al límite inferior")
-            f3["alarm"] = -1
-
-    elif (f3["temp"] < tmin_critical):
-        f3["status"] = -2
-        if f3["alarm"] == -1:
-            telegram_bot_sendtext(status_2_msg.format(
-                f3["name"], f3["temp"], f3["label"]), f3["label"])
-            print("Temp debajo del límite inferior!!")
-            f3["alarm"] = -2
-
-
-checkTemps()
+check_temps()
 
 def main() -> None:
     """Start the bot."""

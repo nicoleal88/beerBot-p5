@@ -1,0 +1,11 @@
+{
+  "TOKEN": "702769891:AAGSam3pp8ZYIPD-fTVSqALS8Jam06nvCDc",
+  "CHAT_ID": "746817825",
+  "tmin_critical": 15,
+  "tmin_warning": 18,
+  "tmax_warning": 22,
+  "tmax_critical": 25,
+  "refresh_time": 300,
+  "api_base_url": "http://localhost:3001",
+  "blacklist": ["vacio", "vacío"]
+}
